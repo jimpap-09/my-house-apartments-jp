@@ -6,14 +6,27 @@ export type Apartment = {
   id: string
   name: string
   location: LocalizedText
+  area: LocalizedText
   rating: string
+  ratingText: LocalizedText
+  reviews: LocalizedText
+  reviewHighlight: LocalizedText
+  reviewer: string
+  staffRating: string
+  distanceFromCenter: LocalizedText
+  propertyType: LocalizedText
   price: LocalizedText
+  originalPrice?: LocalizedText
   shortDescription: LocalizedText
   description: LocalizedText
   image: string
   gallery: string[]
   highlights: LocalizedText[]
   amenities: LocalizedText[]
+  map: {
+    address: LocalizedText
+    query: string
+  }
   details: {
     guests: LocalizedText
     bedrooms: LocalizedText
@@ -36,15 +49,45 @@ const jp2Images = Array.from(
 export const apartments: Apartment[] = [
   {
     id: 'jp1',
-    name: 'JP1',
+    name: 'My house apartment JP1',
     location: {
-      en: 'Vatopediou 11, Ampelokipoi, Greece',
-      el: 'Βατοπεδίου 11, Αμπελόκηποι',
+      en: 'Vatopediou 11, Athens 115 23, Greece',
+      el: 'Βατοπεδίου 11, Αθήνα 115 23, Ελλάδα',
     },
-    rating: '9.6',
+    area: {
+      en: 'Ampelokipoi, Athens',
+      el: 'Αμπελόκηποι, Αθήνα',
+    },
+    rating: '9.5',
+    ratingText: {
+      en: 'Exceptional',
+      el: 'Εξαιρετικό',
+    },
+    reviews: {
+      en: '99 reviews',
+      el: '99 σχόλια',
+    },
+    reviewHighlight: {
+      en: 'The apartment is exactly as shown in the pictures. It is very clean, modern and equipped with all the necessary amenities.',
+      el: 'Το διαμέρισμα είναι όπως φαίνεται στις φωτογραφίες, πολύ καθαρό, μοντέρνο και με όλες τις απαραίτητες παροχές.',
+    },
+    reviewer: 'Konstantinos',
+    staffRating: '9.8',
+    distanceFromCenter: {
+      en: '2.8 km from centre',
+      el: '2,8 χλμ. από το κέντρο',
+    },
+    propertyType: {
+      en: 'Apartment',
+      el: 'Διαμέρισμα',
+    },
     price: {
-      en: 'from EUR 74 / night',
-      el: 'από 74 EUR / βραδιά',
+      en: 'EUR 74',
+      el: '74 EUR',
+    },
+    originalPrice: {
+      en: 'EUR 96',
+      el: '96 EUR',
     },
     shortDescription: {
       en: 'Modern one-bedroom apartment with private entrance, kitchen, washing machine, and quiet street view.',
@@ -71,6 +114,13 @@ export const apartments: Apartment[] = [
       { en: 'Coffee maker', el: 'Καφετιέρα' },
       { en: 'Heating', el: 'Θέρμανση' },
     ],
+    map: {
+      address: {
+        en: 'Vatopediou 11, Athens 115 23, Greece',
+        el: 'Βατοπεδίου 11, Αθήνα 115 23, Ελλάδα',
+      },
+      query: 'Vatopediou 11, Athens 115 23, Greece',
+    },
     details: {
       guests: { en: '4 guests', el: '4 επισκέπτες' },
       bedrooms: { en: '1 bedroom', el: '1 υπνοδωμάτιο' },
@@ -81,15 +131,41 @@ export const apartments: Apartment[] = [
   },
   {
     id: 'jp2',
-    name: 'JP2',
+    name: 'My house apartment JP2',
     location: {
-      en: 'Ampelokipoi, Greece',
-      el: 'Αμπελόκηποι',
+      en: 'Vatopediou 11, Athens 115 23, Greece',
+      el: 'Βατοπεδίου 11, Αθήνα 115 23, Ελλάδα',
+    },
+    area: {
+      en: 'Ampelokipoi, Athens',
+      el: 'Αμπελόκηποι, Αθήνα',
     },
     rating: '9.4',
+    ratingText: {
+      en: 'Wonderful',
+      el: 'Υπέροχο',
+    },
+    reviews: {
+      en: 'Guest reviews',
+      el: 'Σχόλια επισκεπτών',
+    },
+    reviewHighlight: {
+      en: 'Fresh apartment with a practical layout, comfortable sleeping area and a well-equipped kitchen for city stays.',
+      el: 'Φρέσκο διαμέρισμα με πρακτική διάταξη, άνετο χώρο ύπνου και καλά εξοπλισμένη κουζίνα για διαμονή στην πόλη.',
+    },
+    reviewer: 'Guest',
+    staffRating: '9.6',
+    distanceFromCenter: {
+      en: '2.8 km from centre',
+      el: '2,8 χλμ. από το κέντρο',
+    },
+    propertyType: {
+      en: 'Apartment',
+      el: 'Διαμέρισμα',
+    },
     price: {
-      en: 'from EUR 82 / night',
-      el: 'από 82 EUR / βραδιά',
+      en: 'EUR 82',
+      el: '82 EUR',
     },
     shortDescription: {
       en: 'Fresh apartment with a large kitchen, comfortable bedroom, workspace, walk-in shower, and smart living area.',
@@ -116,6 +192,13 @@ export const apartments: Apartment[] = [
       { en: 'Coffee maker', el: 'Καφετιέρα' },
       { en: 'Private bathroom', el: 'Ιδιωτικό μπάνιο' },
     ],
+    map: {
+      address: {
+        en: 'Vatopediou 11, Athens 115 23, Greece',
+        el: 'Βατοπεδίου 11, Αθήνα 115 23, Ελλάδα',
+      },
+      query: 'Vatopediou 11, Athens 115 23, Greece',
+    },
     details: {
       guests: { en: '4 guests', el: '4 επισκέπτες' },
       bedrooms: { en: '1 bedroom', el: '1 υπνοδωμάτιο' },

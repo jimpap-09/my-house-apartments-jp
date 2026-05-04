@@ -20,19 +20,34 @@ export function ApartmentsListPage() {
             <div className="apartment-card-content">
               <div className="card-title-row">
                 <div>
+                  <p className="property-type">{apartment.propertyType[language]}</p>
                   <h2>{apartment.name}</h2>
-                  <p>{apartment.location[language]}</p>
+                  <p>{apartment.area[language]}</p>
                 </div>
+                <span className="favorite-button" aria-hidden="true">
+                  ♡
+                </span>
+              </div>
+
+              <div className="listing-rating-row">
                 <strong className="rating">{apartment.rating}</strong>
+                <div>
+                  <span>{apartment.ratingText[language]}</span>
+                  <small>{apartment.reviews[language]}</small>
+                </div>
               </div>
-              <p>{apartment.shortDescription[language]}</p>
-              <div className="highlight-list">
-                {apartment.highlights.map((highlight) => (
-                  <span key={highlight.en}>{highlight[language]}</span>
-                ))}
+
+              <div className="distance-row">
+                <span aria-hidden="true">⌖</span>
+                <p>{apartment.distanceFromCenter[language]}</p>
               </div>
+
               <div className="card-actions">
-                <strong>{apartment.price[language]}</strong>
+                <span className="starting-price">
+                  <small>{t('startingFrom')}</small>
+                  {apartment.originalPrice && <del>{apartment.originalPrice[language]}</del>}
+                  <strong>{apartment.price[language]}</strong>
+                </span>
                 <span className="primary-action">{t('viewDetails')}</span>
               </div>
             </div>
