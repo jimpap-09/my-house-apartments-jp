@@ -1,16 +1,17 @@
 import { Link } from 'react-router-dom'
+import { MapPin, Star } from 'lucide-react'
 import { apartments } from '../data/apartments'
-import { useI18n } from '../i18n'
+import { useI18n } from '../i18n/LanguageContext'
 
 export function ApartmentsListPage() {
   const { language, t } = useI18n()
 
   return (
     <section className="list-page">
-      <div className="page-intro">
-        <p className="eyebrow">{t('availableStays')}</p>
-        <h1>{t('introTitle')}</h1>
-        <p>{t('introText')}</p>
+      <div className="page-intro home-list-intro">
+        <p className="eyebrow">{t.app.availableStays}</p>
+        <h2>{t.app.introTitle}</h2>
+        <p>{t.app.introText}</p>
       </div>
 
       <div className="apartment-list">
@@ -29,26 +30,29 @@ export function ApartmentsListPage() {
                 </span>
               </div>
 
-              <div className="listing-rating-row">
-                <strong className="rating">{apartment.rating}</strong>
-                <div>
-                  <span>{apartment.ratingText[language]}</span>
-                  <small>{apartment.reviews[language]}</small>
-                </div>
+              <div className="distance-row">
+                <MapPin size={18} />
+                <p>{apartment.distanceFromCenter[language]}</p>
               </div>
 
-              <div className="distance-row">
-                <span aria-hidden="true">⌖</span>
-                <p>{apartment.distanceFromCenter[language]}</p>
+              <div className="highlight-list">
+                {apartment.highlights.map((highlight, index) => (
+                  <span key={highlight.en}>
+                    <i aria-hidden="true">{index === 0 ? '⌂' : index === 1 ? '✦' : '✓'}</i>
+                    {highlight[language]}
+                  </span>
+                ))}
               </div>
 
               <div className="card-actions">
                 <span className="starting-price">
-                  <small>{t('startingFrom')}</small>
                   {apartment.originalPrice && <del>{apartment.originalPrice[language]}</del>}
                   <strong>{apartment.price[language]}</strong>
                 </span>
-                <span className="primary-action">{t('viewDetails')}</span>
+                <div className="listing-rating-row">
+                  <Star className="listing-rating-icon" size={18} />
+                  <strong>{apartment.rating}</strong>
+                </div>
               </div>
             </div>
           </Link>

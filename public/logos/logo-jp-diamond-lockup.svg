@@ -1,0 +1,21 @@
+<svg width="360" height="88" viewBox="0 0 360 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M44 12L76 44L44 76L12 44L44 12Z" fill="#C38A2E"/>
+  <path d="M44 17L71 44L44 71L17 44L44 17Z" stroke="#102A43" stroke-width="2.2"/>
+  <text
+    x="44"
+    y="53"
+    text-anchor="middle"
+    fill="#102A43"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="25"
+    font-weight="700"
+  >
+    JP
+  </text>
+  <text x="98" y="39" fill="#102A43" font-family="Georgia, 'Times New Roman', serif" font-size="28">
+    My House
+  </text>
+  <text x="98" y="63" fill="#102A43" font-family="Arial, Helvetica, sans-serif" font-size="16" letter-spacing="2.6">
+    APARTMENTS
+  </text>
+</svg>

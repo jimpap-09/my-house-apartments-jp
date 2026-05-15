@@ -26,6 +26,12 @@ export type Apartment = {
   map: {
     address: LocalizedText
     query: string
+    embedUrl: string
+    mapsUrl: string
+  }
+  presentation: {
+    aboutPhotoIndex: number
+    galleryPreviewIndexes: number[]
   }
   details: {
     guests: LocalizedText
@@ -45,6 +51,16 @@ const jp2Images = Array.from(
   { length: 11 },
   (_, index) => `/apartments/jp2/jp2-ss${index + 1}.jpg`,
 )
+
+function buildMapLinks(query: string) {
+  const encodedQuery = encodeURIComponent(query)
+
+  return {
+    query,
+    embedUrl: `https://www.google.com/maps?q=${encodedQuery}&z=16&output=embed`,
+    mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodedQuery}`,
+  }
+}
 
 export const apartments: Apartment[] = [
   {
@@ -82,12 +98,12 @@ export const apartments: Apartment[] = [
       el: 'Διαμέρισμα',
     },
     price: {
-      en: 'EUR 74',
-      el: '74 EUR',
+      en: '€74',
+      el: '74€',
     },
     originalPrice: {
-      en: 'EUR 96',
-      el: '96 EUR',
+      en: '€96',
+      el: '96€',
     },
     shortDescription: {
       en: 'Modern one-bedroom apartment with private entrance, kitchen, washing machine, and quiet street view.',
@@ -119,7 +135,11 @@ export const apartments: Apartment[] = [
         en: 'Vatopediou 11, Athens 115 23, Greece',
         el: 'Βατοπεδίου 11, Αθήνα 115 23, Ελλάδα',
       },
-      query: 'Vatopediou 11, Athens 115 23, Greece',
+      ...buildMapLinks('Vatopediou 11, Athens 115 23, Greece'),
+    },
+    presentation: {
+      aboutPhotoIndex: 1,
+      galleryPreviewIndexes: [0, 11, 1, 2, 7],
     },
     details: {
       guests: { en: '4 guests', el: '4 επισκέπτες' },
@@ -164,8 +184,8 @@ export const apartments: Apartment[] = [
       el: 'Διαμέρισμα',
     },
     price: {
-      en: 'EUR 82',
-      el: '82 EUR',
+      en: '€82',
+      el: '82€',
     },
     shortDescription: {
       en: 'Fresh apartment with a large kitchen, comfortable bedroom, workspace, walk-in shower, and smart living area.',
@@ -197,7 +217,11 @@ export const apartments: Apartment[] = [
         en: 'Vatopediou 11, Athens 115 23, Greece',
         el: 'Βατοπεδίου 11, Αθήνα 115 23, Ελλάδα',
       },
-      query: 'Vatopediou 11, Athens 115 23, Greece',
+      ...buildMapLinks('Vatopediou 11, Athens 115 23, Greece'),
+    },
+    presentation: {
+      aboutPhotoIndex: 1,
+      galleryPreviewIndexes: [0, 6, 1, 3, 5],
     },
     details: {
       guests: { en: '4 guests', el: '4 επισκέπτες' },

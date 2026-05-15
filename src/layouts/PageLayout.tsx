@@ -1,62 +1,74 @@
-import { useEffect, useRef, useState } from 'react'
+import { Menu, X } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
-import { useI18n } from '../i18n'
+import { useI18n } from '../i18n/LanguageContext'
 
 export function PageLayout() {
   const { language, setLanguage, t } = useI18n()
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
-  const settingsMenuRef = useRef<HTMLDivElement>(null)
+  const [scrolled, setScrolled] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
-    const closeSettingsMenu = (event: MouseEvent) => {
-      if (!settingsMenuRef.current?.contains(event.target as Node)) {
-        setIsSettingsOpen(false)
-      }
-    }
+    const onScroll = () => setScrolled(window.scrollY > 24)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
 
-    document.addEventListener('mousedown', closeSettingsMenu)
-    return () => document.removeEventListener('mousedown', closeSettingsMenu)
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return (
     <div className="site-shell">
-      <header className="site-header">
-        <Link className="brand" to="/">
-          {t('brand')}
-        </Link>
-        <div className="header-center">
-          <nav className="site-nav" aria-label="Main navigation">
-            <Link to="/">{t('apartments')}</Link>
-            <a href="mailto:hello@myhouseapartments.example">{t('contact')}</a>
+      <header className={`site-header lovable-header ${scrolled ? 'is-scrolled' : ''}`}>
+        <div className="lovable-header-inner">
+          <Link className="brand" to="/">
+            <img src="/logos/logo-jp-diamond-lockup.svg" alt="My House Apartments" />
+          </Link>
+
+          <nav className="site-nav desktop-nav" aria-label="Main navigation">
+            <Link to="/">{t.app.apartments}</Link>
+            <a href="mailto:hello@myhouseapartments.example">{t.app.contact}</a>
           </nav>
-          <label className="language-switcher" aria-label={t('language')}>
-            <select
-              value={language}
-              onChange={(event) => setLanguage(event.target.value as typeof language)}
-            >
-              <option value="en">EN</option>
-              <option value="el">EL</option>
-            </select>
-          </label>
-        </div>
-        <div className="settings-menu" ref={settingsMenuRef}>
-          <button
-            className="settings-trigger"
-            type="button"
-            aria-label={t('settings')}
-            aria-expanded={isSettingsOpen}
-            onClick={() => setIsSettingsOpen((isOpen) => !isOpen)}
-          >
-            <span className="hamburger-icon" aria-hidden="true"></span>
-          </button>
-          {isSettingsOpen && (
-            <div className="settings-dropdown">
-              <button type="button">{t('account')}</button>
-              <button type="button">{t('reservations')}</button>
-              <button type="button">{t('adminPanel')}</button>
+
+          <div className="header-actions">
+            <div className="language-pills" aria-label={t.app.language}>
+              <button
+                type="button"
+                className={language === 'el' ? 'active' : ''}
+                onClick={() => setLanguage('el')}
+              >
+                EL
+              </button>
+              <button
+                type="button"
+                className={language === 'en' ? 'active' : ''}
+                onClick={() => setLanguage('en')}
+              >
+                EN
+              </button>
             </div>
-          )}
+
+            <button
+              className="mobile-menu-trigger"
+              type="button"
+              aria-label="Toggle menu"
+              aria-expanded={isMenuOpen}
+              onClick={() => setIsMenuOpen((open) => !open)}
+            >
+              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </div>
+
+        {isMenuOpen && (
+          <div className="mobile-nav">
+            <Link to="/" onClick={() => setIsMenuOpen(false)}>
+              {t.app.apartments}
+            </Link>
+            <a href="mailto:hello@myhouseapartments.example" onClick={() => setIsMenuOpen(false)}>
+              {t.app.contact}
+            </a>
+          </div>
+        )}
       </header>
 
       <main className="page-main">
@@ -65,7 +77,7 @@ export function PageLayout() {
 
       <footer className="site-footer">
         <span>My House Apartments JP</span>
-        <span>{t('footerLocation')}</span>
+        <span>{t.app.footerLocation}</span>
       </footer>
     </div>
   )

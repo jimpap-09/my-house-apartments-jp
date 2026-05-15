@@ -1,0 +1,15 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M60 8L112 60L60 112L8 60L60 8Z" fill="#C38A2E"/>
+  <path d="M60 16L104 60L60 104L16 60L60 16Z" stroke="#102A43" stroke-width="3"/>
+  <text
+    x="60"
+    y="72"
+    text-anchor="middle"
+    fill="#102A43"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="42"
+    font-weight="700"
+  >
+    JP
+  </text>
+</svg>

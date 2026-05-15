@@ -1,73 +1,74 @@
-# React + TypeScript + Vite
+# My House Apartments JP
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript + Vite site for the **My House Apartments JP** listings.
 
-Currently, two official plugins are available:
+## Current app structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The public site is intentionally simple:
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```txt
+/                         -> apartments list
+/apartments/:apartmentId  -> apartment detail page
+/not-found                -> fallback page
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+There is also one non-public preview route for logo experiments:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```txt
+/preview/logos
 ```
+
+## Main folders
+
+```txt
+src/
+├── components/
+│   └── apartment-details/   reusable sections for the apartment detail template
+├── data/
+│   ├── apartments.ts        apartment content and metadata
+│   └── apartment-details.ts detail-page section ids and shared apartment-section types
+├── i18n/
+│   ├── dictionaries.ts      all UI copy for `el` and `en`
+│   └── LanguageContext.tsx  active language state and persistence
+├── layouts/
+│   └── PageLayout.tsx       shared public shell
+└── pages/
+    ├── ApartmentsListPage.tsx
+    ├── ApartmentDetailsPage.tsx
+    └── NotFoundPage.tsx
+```
+
+## Data model
+
+Apartment content lives in `src/data/apartments.ts`.
+
+Each apartment object contains:
+
+- localized copy
+- pricing and rating data
+- hero and gallery images
+- amenities and highlights
+- map metadata
+- presentation settings used by the detail template
+
+The detail-page section registry lives in `src/data/apartment-details.ts`, so the route page and section components share one source of truth for section ids.
+
+## Internationalization
+
+The app uses one translation system:
+
+- `src/i18n/dictionaries.ts` stores translated UI text
+- `src/i18n/LanguageContext.tsx` exposes the active language and dictionary globally
+
+The selected language is persisted in `localStorage`, and apartment content is localized directly inside the apartment data objects.
+
+## Development
+
+```bash
+npm install
+npm run dev
+npm run build
+npm run lint
+```
+
+For a deeper explanation of the architecture, see `docs/architecture.md`.

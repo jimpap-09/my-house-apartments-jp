@@ -4,6 +4,8 @@ import { dictionaries, type Dictionary, type Locale } from "./dictionaries";
 type Ctx = {
   locale: Locale;
   setLocale: (l: Locale) => void;
+  language: Locale;
+  setLanguage: (l: Locale) => void;
   t: Dictionary;
 };
 
@@ -29,7 +31,16 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     try { localStorage.setItem(STORAGE_KEY, l); } catch { /* ignore */ }
   };
 
-  const value = useMemo<Ctx>(() => ({ locale, setLocale, t: dictionaries[locale] }), [locale]);
+  const value = useMemo<Ctx>(
+    () => ({
+      locale,
+      setLocale,
+      language: locale,
+      setLanguage: setLocale,
+      t: dictionaries[locale],
+    }),
+    [locale],
+  );
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }
