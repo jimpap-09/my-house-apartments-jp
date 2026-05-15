@@ -1,20 +1,22 @@
-import { Route, Routes } from 'react-router-dom'
-import { PageLayout } from './layouts/PageLayout'
-import { ApartmentDetailsPage } from './pages/ApartmentDetailsPage'
-import { ApartmentsListPage } from './pages/ApartmentsListPage'
-import { NotFoundPage } from './pages/NotFoundPage'
-import './App.css'
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { LanguageProvider } from "@/i18n/LanguageContext";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Index from "./pages/Index.tsx";
+import NotFound from "./pages/NotFoundPage.tsx";
 
-function App() {
-  return (
-    <Routes>
-      <Route element={<PageLayout />}>
-        <Route index element={<ApartmentsListPage />} />
-        <Route path="apartments/:apartmentId" element={<ApartmentDetailsPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Route>
-    </Routes>
-  )
-}
+const App = () => (
+  <LanguageProvider>
+    <TooltipProvider>
+      <Toaster />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </TooltipProvider>
+  </LanguageProvider>
+);
 
-export default App
+export default App;
