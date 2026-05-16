@@ -1,5 +1,5 @@
-import type { Dictionary } from '@/i18n/dictionaries'
 import { apartmentSectionIds, type ApartmentSectionId } from '@/data/apartment-details'
+import type { Dictionary } from '@/i18n/dictionaries'
 
 type ApartmentSubnavProps = {
   activeSection: ApartmentSectionId

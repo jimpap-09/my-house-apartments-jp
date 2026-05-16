@@ -224,11 +224,11 @@
 
 .apartment-subnav a.active,
 .apartment-subnav a:hover {
-  color: #102a43;
+  color: #0071c2;
 }
 
 .apartment-subnav a.active::after {
-  background: #102a43;
+  background: #0071c2;
 }
 
 .apartment-hero {
