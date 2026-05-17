@@ -6,21 +6,7 @@
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg,
-      var(--color-white) 0%,
-      lch(98% 3 173) 22%,
-      lch(94% 9 173) 56%,
-      var(--color-brand-soft) 82%,
-      var(--color-brand-mid) 100%);
-  background:
-    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.95), transparent 32%),
-    radial-gradient(circle at 85% 75%, rgba(123, 211, 196, 0.28), transparent 28%),
-    linear-gradient(180deg,
-      var(--color-white) 0%,
-      lch(98% 3 173) 22%,
-      lch(94% 9 173) 56%,
-      var(--color-brand-soft) 82%,
-      var(--color-brand-mid) 100%);
+  background: var(--color-white);
 }
 
 .site-shell h1,
@@ -47,7 +33,7 @@
 
 .site-header-bar {
   padding: 20px 0;
-  background: rgba(247, 253, 252, 0.82);
+  background: rgba(255, 255, 255, 0.92);
   border-bottom: 1px solid var(--border-brand-soft);
   backdrop-filter: blur(16px);
   transition:
@@ -56,7 +42,7 @@
 }
 
 .site-header-bar.is-scrolled {
-  background: rgba(240, 250, 248, 0.9);
+  background: rgba(255, 255, 255, 0.96);
   box-shadow: 0 8px 24px rgba(16, 42, 67, 0.08);
 }
 
@@ -198,14 +184,20 @@
   top: 108px;
   z-index: 8;
   display: flex;
-  justify-content: center;
-  gap: 30px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
   overflow-x: auto;
   min-height: 58px;
-  padding: 0 20px;
-  background: rgba(247, 253, 252, 0.92);
+  padding: 0 max(24px, calc((100vw - 1180px) / 2));
+  background: rgba(255, 255, 255, 0.96);
   border-bottom: 1px solid var(--border-brand-soft);
   backdrop-filter: blur(14px);
+}
+
+.apartment-subnav-links {
+  display: flex;
+  gap: 30px;
 }
 
 .apartment-subnav a {
@@ -217,6 +209,20 @@
   font-weight: 600;
   text-decoration: none;
   white-space: nowrap;
+}
+
+.apartment-subnav-booking-summary {
+  min-height: 40px;
+  padding: 0 16px;
+  color: var(--color-white) !important;
+  font-size: 14px;
+  font-weight: 700;
+  background: var(--color-link);
+  border-radius: 999px;
+}
+
+.apartment-subnav-booking-summary::after {
+  display: none;
 }
 
 .apartment-subnav a::after {
@@ -363,7 +369,9 @@
 
 .apartment-trust-strip {
   color: var(--color-ink);
-  background: var(--color-brand-soft);
+  background: var(--color-white);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .apartment-trust-strip span {
@@ -375,6 +383,11 @@
   width: min(1180px, calc(100% - 48px));
   margin: 0 auto;
   padding: 88px 0;
+}
+
+.apartment-detail-main>.apartment-section,
+.apartment-detail-lower>.apartment-section {
+  border-top: 1px solid var(--color-border);
 }
 
 .apartment-about {
@@ -452,6 +465,279 @@
 .apartment-amenities-section,
 .apartment-reviews-section {
   gap: 34px;
+}
+
+.apartment-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  align-items: stretch;
+  gap: 48px;
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.apartment-detail-main {
+  min-width: 0;
+}
+
+.apartment-detail-main .apartment-section {
+  width: 100%;
+}
+
+.apartment-detail-lower {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.apartment-detail-aside {
+  position: sticky;
+  top: 132px;
+  align-self: start;
+  padding-top: 40px;
+}
+
+.apartment-overview {
+  display: grid;
+  gap: 24px;
+  padding: 44px 0 28px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.apartment-overview>div:first-child {
+  display: grid;
+  gap: 8px;
+}
+
+.apartment-overview p,
+.apartment-overview h1,
+.apartment-overview span {
+  margin: 0;
+}
+
+.apartment-overview p {
+  color: var(--color-muted);
+}
+
+.apartment-overview h1 {
+  font-size: clamp(30px, 3vw, 40px);
+}
+
+.apartment-overview-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.apartment-overview-cards a {
+  display: grid;
+  gap: 4px;
+  padding: 18px;
+  color: inherit;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--border-brand-soft);
+  border-radius: 18px;
+}
+
+.apartment-overview-cards i {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  font-style: normal;
+  font-weight: 700;
+  background: #f4f4f5;
+  border-radius: 999px;
+}
+
+.apartment-overview-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.apartment-overview-highlights span {
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--border-brand-soft);
+  border-radius: 999px;
+}
+
+.reservation-card {
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.1);
+}
+
+.reservation-card h2 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.reservation-card h2 span {
+  color: var(--color-text-soft);
+  font-family: inherit;
+  font-size: 16px;
+}
+
+.reservation-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  overflow: hidden;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 14px;
+}
+
+.reservation-fields a,
+.reservation-fields label {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.reservation-fields a:first-child {
+  border-right: 1px solid var(--color-border);
+}
+
+.reservation-fields label {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--color-border);
+}
+
+.reservation-fields span {
+  color: var(--color-muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.reservation-fields select {
+  padding: 0;
+  color: var(--color-ink);
+  font: inherit;
+  background: transparent;
+  border: 0;
+}
+
+.reservation-card>button {
+  min-height: 50px;
+  color: var(--color-white);
+  font-weight: 700;
+  background: var(--color-link);
+  border: 0;
+  border-radius: 999px;
+}
+
+.reservation-card>button:disabled {
+  opacity: 0.55;
+}
+
+.reservation-card p {
+  margin: 0;
+  color: var(--color-text-soft);
+  text-align: center;
+}
+
+.reservation-card dl {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.reservation-card dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.reservation-card dl div:last-child {
+  padding-top: 12px;
+  font-weight: 700;
+  border-top: 1px solid var(--color-border);
+}
+
+.apartment-booking-calendar {
+  gap: 30px;
+  padding-top: 112px;
+}
+
+.apartment-booking-heading {
+  display: grid;
+  justify-items: center;
+}
+
+.booking-calendar-months {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.booking-calendar-month {
+  display: grid;
+  gap: 16px;
+}
+
+.booking-calendar-month h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.booking-calendar-weekdays,
+.booking-calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  text-align: center;
+}
+
+.booking-calendar-weekdays {
+  color: var(--color-muted);
+  font-size: 12px;
+}
+
+.booking-calendar-days button,
+.booking-calendar-days span {
+  min-height: 40px;
+}
+
+.booking-calendar-days button {
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.booking-calendar-days button:disabled {
+  color: #b8bec7;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+.booking-calendar-days button.in-range {
+  background: rgba(123, 211, 196, 0.28);
+}
+
+.booking-calendar-days button.selected {
+  color: var(--color-white);
+  background: var(--color-ink);
+}
+
+.booking-calendar-clear {
+  justify-self: start;
+  min-height: 38px;
+  padding: 0 14px;
+  color: var(--color-link);
+  font-weight: 650;
+  background: #f4f4f5;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  cursor: pointer;
 }
 
 .apartment-section-heading {
@@ -639,43 +925,105 @@
   display: grid;
   place-items: center;
   padding: 24px;
-  background: #181818;
+  background: #000;
 }
 
 .apartment-gallery-close {
   position: absolute;
   top: 24px;
-  right: 24px;
+  left: 24px;
   min-height: 40px;
   padding: 0 14px;
-  border: 0;
+  color: var(--color-white);
+  font-weight: 650;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 999px;
   cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.apartment-gallery-close:hover {
+  background: rgba(255, 255, 255, 0.24);
+  border-color: rgba(255, 255, 255, 0.72);
+}
+
+.apartment-gallery-counter {
+  position: absolute;
+  top: 32px;
+  left: 50%;
+  color: var(--color-white);
+  font-weight: 650;
+  transform: translateX(-50%);
 }
 
 .apartment-gallery-viewer {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 132px;
   gap: 16px;
-  width: min(1240px, 100%);
+  width: min(1240px, calc(100% - 160px));
   height: min(780px, calc(100svh - 96px));
   min-height: 0;
 }
 
 .apartment-gallery-stage {
+  position: relative;
   display: grid;
   min-width: 0;
   min-height: 0;
   place-items: center;
   overflow: hidden;
-  background: rgba(15, 23, 42, 0.72);
+  background: #000;
   border-radius: 20px;
 }
 
 .apartment-gallery-stage img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+}
+
+.apartment-gallery-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  display: flex;
+  width: 52px;
+  height: 52px;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  background: rgba(0, 0, 0, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.54);
+  border-radius: 999px;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    transform 0.2s;
+}
+
+.apartment-gallery-nav span {
+  display: block;
+  font-size: 38px;
+  line-height: 1;
+  transform: translateY(-2px);
+}
+
+.apartment-gallery-nav:hover {
+  background: rgba(0, 0, 0, 0.7);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+.apartment-gallery-nav-previous {
+  left: 32px;
+}
+
+.apartment-gallery-nav-next {
+  right: 32px;
 }
 
 .apartment-gallery-thumbnails {
@@ -956,15 +1304,20 @@
 }
 
 .apartment-section-kicker {
-  margin: 0 0 8px;
-  color: var(--color-link);
-  font-size: 13px;
-  font-weight: 600;
+  margin: 0 0 10px;
+  color: var(--color-muted);
+  font-size: 12px;
+  font-weight: 700;
   line-height: 1.2;
-  letter-spacing: 0;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   align-self: center;
   text-align: center;
+}
+
+.apartment-detail-main .apartment-section-kicker {
+  justify-self: start;
+  text-align: left;
 }
 
 .page-intro h1,
@@ -2020,7 +2373,20 @@
 
   .apartment-subnav {
     top: 104px;
-    justify-content: flex-start;
+    align-items: stretch;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .apartment-subnav-links {
+    overflow-x: auto;
+  }
+
+  .apartment-subnav-booking-summary {
+    width: fit-content;
   }
 
   .apartment-hero {
@@ -2030,6 +2396,26 @@
   .apartment-about,
   .apartment-location-section,
   .apartment-reviews-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .apartment-detail-layout {
+    grid-template-columns: 1fr;
+    width: min(100% - 32px, 1180px);
+  }
+
+  .apartment-detail-lower {
+    width: min(100% - 32px, 1180px);
+  }
+
+  .apartment-detail-aside {
+    position: static;
+    order: -1;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  .booking-calendar-months {
     grid-template-columns: 1fr;
   }
 
@@ -2051,6 +2437,7 @@
   .apartment-gallery-viewer {
     grid-template-columns: 1fr;
     grid-template-rows: minmax(0, 1fr) 96px;
+    width: min(100%, calc(100% - 96px));
     height: min(760px, calc(100svh - 96px));
   }
 
@@ -2175,6 +2562,10 @@
     grid-template-columns: 1fr;
   }
 
+  .apartment-overview-cards {
+    grid-template-columns: 1fr;
+  }
+
   .apartment-gallery-grid {
     grid-template-columns: 1fr;
     grid-template-rows: 240px 160px 160px;
@@ -2182,6 +2573,23 @@
 
   .apartment-gallery-grid button.featured {
     grid-column: auto;
+  }
+
+  .apartment-gallery-nav {
+    width: 44px;
+    height: 44px;
+  }
+
+  .apartment-gallery-nav span {
+    font-size: 32px;
+  }
+
+  .apartment-gallery-nav-previous {
+    left: 12px;
+  }
+
+  .apartment-gallery-nav-next {
+    right: 12px;
   }
 
   .apartment-gallery-grid button:nth-of-type(n + 4) {

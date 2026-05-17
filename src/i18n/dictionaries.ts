@@ -31,6 +31,19 @@ export type Dict = {
     whatsIncluded: string
     whatGuestsSay: string
     readyToPlan: string
+    hostedBy: string
+    reviewPreview: string
+    checkIn: string
+    checkOut: string
+    selectDates: string
+    nights: string
+    cleaningFee: string
+    serviceFee: string
+    total: string
+    reserve: string
+    noChargeYet: string
+    guestsLabel: string
+    clearDates: string
   }
 }
 
@@ -68,6 +81,19 @@ const el: Dict = {
     whatsIncluded: 'Τι περιλαμβάνεται',
     whatGuestsSay: 'Τι λένε οι επισκέπτες',
     readyToPlan: 'Έτοιμοι να οργανώσετε τη διαμονή σας;',
+    hostedBy: 'Οικοδεσπότης',
+    reviewPreview: 'Δες τι λένε οι επισκέπτες',
+    checkIn: 'Άφιξη',
+    checkOut: 'Αναχώρηση',
+    selectDates: 'Επιλογή ημερομηνιών',
+    nights: 'διανυκτερεύσεις',
+    cleaningFee: 'Κόστος καθαρισμού',
+    serviceFee: 'Κόστος υπηρεσίας',
+    total: 'Σύνολο',
+    reserve: 'Κράτηση',
+    noChargeYet: 'Δεν θα χρεωθείτε ακόμα',
+    guestsLabel: 'Επισκέπτες',
+    clearDates: 'Καθαρισμός ημερομηνιών',
   },
 }
 
@@ -105,6 +131,19 @@ const en: Dict = {
     whatsIncluded: "What's included",
     whatGuestsSay: 'What guests say',
     readyToPlan: 'Ready to plan your stay?',
+    hostedBy: 'Hosted by',
+    reviewPreview: 'See what guests say',
+    checkIn: 'Check-in',
+    checkOut: 'Check-out',
+    selectDates: 'Select dates',
+    nights: 'nights',
+    cleaningFee: 'Cleaning fee',
+    serviceFee: 'Service fee',
+    total: 'Total',
+    reserve: 'Reserve',
+    noChargeYet: "You won't be charged yet",
+    guestsLabel: 'Guests',
+    clearDates: 'Clear dates',
   },
 }
 

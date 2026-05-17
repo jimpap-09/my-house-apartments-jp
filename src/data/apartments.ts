@@ -40,6 +40,17 @@ export type Apartment = {
     bathrooms: LocalizedText
     size: string
   }
+  booking: {
+    nightlyRate: number
+    cleaningFee: number
+    serviceFee: number
+    maxGuests: number
+    blockedDates: string[]
+  }
+  host: {
+    name: string
+    role: LocalizedText
+  }
 }
 
 const jp1Images = Array.from(
@@ -142,11 +153,22 @@ export const apartments: Apartment[] = [
       galleryPreviewIndexes: [0, 11, 1, 2, 7],
     },
     details: {
-      guests: { en: '4 guests', el: '4 επισκέπτες' },
-      bedrooms: { en: '1 bedroom', el: '1 υπνοδωμάτιο' },
-      beds: { en: '2 beds', el: '2 κρεβάτια' },
-      bathrooms: { en: '1 bathroom', el: '1 μπάνιο' },
+      guests: { en: '4 guests', el: '4 guests' },
+      bedrooms: { en: '1 bedroom', el: '1 bedroom' },
+      beds: { en: '2 beds', el: '2 beds' },
+      bathrooms: { en: '1 bathroom', el: '1 bathroom' },
       size: '48 m²',
+    },
+    booking: {
+      nightlyRate: 74,
+      cleaningFee: 25,
+      serviceFee: 18,
+      maxGuests: 4,
+      blockedDates: ['2026-05-22', '2026-05-23', '2026-05-24', '2026-06-04', '2026-06-05', '2026-06-11'],
+    },
+    host: {
+      name: 'John',
+      role: { en: 'Hosted by John', el: 'Hosted by John' },
     },
   },
   {
@@ -224,11 +246,24 @@ export const apartments: Apartment[] = [
       galleryPreviewIndexes: [0, 6, 1, 3, 5],
     },
     details: {
-      guests: { en: '4 guests', el: '4 επισκέπτες' },
-      bedrooms: { en: '1 bedroom', el: '1 υπνοδωμάτιο' },
-      beds: { en: '2 beds', el: '2 κρεβάτια' },
-      bathrooms: { en: '1 bathroom', el: '1 μπάνιο' },
+      guests: { en: '4 guests', el: '4 guests' },
+      bedrooms: { en: '1 bedroom', el: '1 bedroom' },
+      beds: { en: '2 beds', el: '2 beds' },
+      bathrooms: { en: '1 bathroom', el: '1 bathroom' },
       size: '52 m²',
+    },
+
+    booking: {
+      nightlyRate: 82,
+      cleaningFee: 28,
+      serviceFee: 20,
+      maxGuests: 4,
+      blockedDates: ['2026-05-19', '2026-05-20', '2026-05-28', '2026-05-29', '2026-06-07', '2026-06-08'],
+    },
+    host: {
+      name: 'John',
+      role: { en: 'Hosted by John', el: 'Hosted by John' },
     },
   },
 ]
+

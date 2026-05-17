@@ -22,6 +22,9 @@ There is also one non-public preview route for logo experiments:
 
 ```txt
 src/
+├── styles/
+│   ├── globals.css         global design tokens, resets, Tailwind layers
+│   └── app.css             application and page styling
 ├── components/
 │   └── apartment-details/   reusable sections for the apartment detail template
 ├── data/
@@ -72,3 +75,5 @@ npm run lint
 ```
 
 For a deeper explanation of the architecture, see `docs/architecture.md`.
+
+For the practical “where do I edit what?” guide, see `docs/project-map.md`.

@@ -1,12 +1,14 @@
 import { ApartmentAbout } from '@/components/apartment-details/ApartmentAbout'
 import { ApartmentAmenities } from '@/components/apartment-details/ApartmentAmenities'
-import { ApartmentBookingSection } from '@/components/apartment-details/ApartmentBookingSection'
+import { ApartmentBookingCalendar } from '@/components/apartment-details/ApartmentBookingCalendar'
 import { ApartmentGallery } from '@/components/apartment-details/ApartmentGallery'
 import { ApartmentHero } from '@/components/apartment-details/ApartmentHero'
 import { ApartmentLocation } from '@/components/apartment-details/ApartmentLocation'
+import { ApartmentOverview } from '@/components/apartment-details/ApartmentOverview'
 import { ApartmentReviews } from '@/components/apartment-details/ApartmentReviews'
 import { ApartmentSubnav } from '@/components/apartment-details/ApartmentSubnav'
 import { ApartmentTrustStrip } from '@/components/apartment-details/ApartmentTrustStrip'
+import { ReservationCard } from '@/components/apartment-details/ReservationCard'
 import { apartmentSectionIds, type ApartmentSectionId } from '@/data/apartment-details'
 import { apartments } from '@/data/apartments'
 import { useI18n } from '@/i18n/LanguageContext'
@@ -20,6 +22,9 @@ export function ApartmentDetailsPage() {
   const [activeSection, setActiveSection] = useState<ApartmentSectionId>('overview')
   const isProgrammaticScroll = useRef(false)
   const [activePhoto, setActivePhoto] = useState<number | null>(null)
+  const [checkIn, setCheckIn] = useState<Date | null>(null)
+  const [checkOut, setCheckOut] = useState<Date | null>(null)
+  const [guests, setGuests] = useState(1)
   const activeThumbnailRef = useRef<HTMLButtonElement | null>(null)
 
   const photos = useMemo(() => (apartment ? [apartment.image, ...apartment.gallery] : []), [apartment])
@@ -79,11 +84,46 @@ export function ApartmentDetailsPage() {
     })
   }
 
+  const handleSelectDate = (date: Date) => {
+    if (!checkIn || checkOut || date <= checkIn) {
+      setCheckIn(date)
+      setCheckOut(null)
+      return
+    }
+
+    setCheckOut(date)
+  }
+
+  const clearDates = () => {
+    setCheckIn(null)
+    setCheckOut(null)
+  }
+
+  const nights =
+    checkIn && checkOut ? Math.round((checkOut.getTime() - checkIn.getTime()) / 86_400_000) : 0
+  const total =
+    apartment && nights > 0
+      ? apartment.booking.nightlyRate * nights + apartment.booking.cleaningFee + apartment.booking.serviceFee
+      : 0
+  const reservationSummary =
+    checkIn && checkOut && nights > 0 && ['reviews', 'location'].includes(activeSection)
+      ? `${nights} ${t.app.nights} · ${guests} ${t.app.guestsLabel} · €${total}`
+      : undefined
+
+  const showPreviousPhoto = () => {
+    setActivePhoto((current) =>
+      current === null ? current : (current - 1 + photos.length) % photos.length,
+    )
+  }
+
+  const showNextPhoto = () => {
+    setActivePhoto((current) => (current === null ? current : (current + 1) % photos.length))
+  }
+
   useEffect(() => {
     if (activePhoto === null) return
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setActivePhoto(null)
       if (event.key === 'ArrowRight') {
         setActivePhoto((current) => (current === null ? current : (current + 1) % photos.length))
       }
@@ -121,27 +161,57 @@ export function ApartmentDetailsPage() {
         activeSection={activeSection}
         labels={t.app}
         onSectionSelect={handleSectionSelect}
+        reservationSummary={reservationSummary}
       />
       <ApartmentHero apartment={apartment} language={language} labels={t.app} />
       <ApartmentTrustStrip apartment={apartment} language={language} />
-      <ApartmentAbout apartment={apartment} language={language} photos={photos} labels={t.app} />
       <ApartmentGallery
         photos={photos}
         previewPhotos={previewPhotos}
         labels={t.app}
         onOpenPhoto={setActivePhoto}
       />
-      <ApartmentAmenities apartment={apartment} language={language} labels={t.app} />
-      <ApartmentReviews apartment={apartment} language={language} labels={t.app} />
-      <ApartmentLocation apartment={apartment} language={language} labels={t.app} />
-      <ApartmentBookingSection apartment={apartment} language={language} labels={t.app} />
+
+      <div className="apartment-detail-layout">
+        <div className="apartment-detail-main">
+          <ApartmentOverview apartment={apartment} language={language} labels={t.app} />
+          <ApartmentAbout apartment={apartment} language={language} photos={photos} labels={t.app} />
+          <ApartmentAmenities apartment={apartment} language={language} labels={t.app} />
+          <ApartmentBookingCalendar
+            apartment={apartment}
+            language={language}
+            labels={t.app}
+            checkIn={checkIn}
+            checkOut={checkOut}
+            onSelectDate={handleSelectDate}
+            onClearDates={clearDates}
+          />
+        </div>
+
+        <div className="apartment-detail-aside">
+          <ReservationCard
+            apartment={apartment}
+            labels={t.app}
+            checkIn={checkIn}
+            checkOut={checkOut}
+            guests={guests}
+            nights={nights}
+            total={total}
+            onGuestsChange={setGuests}
+          />
+        </div>
+      </div>
+
+      <div className="apartment-detail-lower">
+        <ApartmentReviews apartment={apartment} language={language} labels={t.app} />
+        <ApartmentLocation apartment={apartment} language={language} labels={t.app} />
+      </div>
 
       {activePhoto !== null && (
         <div
           className="apartment-gallery-modal"
           role="dialog"
           aria-modal="true"
-          onClick={() => setActivePhoto(null)}
         >
           <button
             className="apartment-gallery-close"
@@ -149,6 +219,25 @@ export function ApartmentDetailsPage() {
             onClick={() => setActivePhoto(null)}
           >
             {t.app.closeGallery}
+          </button>
+          <div className="apartment-gallery-counter">
+            {activePhoto + 1} / {photos.length}
+          </div>
+          <button
+            className="apartment-gallery-nav apartment-gallery-nav-previous"
+            type="button"
+            onClick={showPreviousPhoto}
+            aria-label="Previous photo"
+          >
+            <span aria-hidden="true">‹</span>
+          </button>
+          <button
+            className="apartment-gallery-nav apartment-gallery-nav-next"
+            type="button"
+            onClick={showNextPhoto}
+            aria-label="Next photo"
+          >
+            <span aria-hidden="true">›</span>
           </button>
           <div className="apartment-gallery-viewer" onClick={(event) => event.stopPropagation()}>
             <div className="apartment-gallery-stage">

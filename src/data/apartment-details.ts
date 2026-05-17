@@ -3,12 +3,12 @@ import type { Apartment } from './apartments'
 
 export const apartmentSectionIds = [
   'overview',
-  'about',
   'gallery',
+  'about',
   'amenities',
+  'booking',
   'reviews',
   'location',
-  'booking',
 ] as const
 
 export type ApartmentSectionId = (typeof apartmentSectionIds)[number]

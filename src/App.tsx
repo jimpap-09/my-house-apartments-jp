@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
+import "./styles/app.css";
 import { LanguageProvider } from "./i18n/LanguageContext.tsx";
 import { PageLayout } from "./layouts/PageLayout.tsx";
 import { ApartmentDetailsPage } from "./pages/ApartmentDetailsPage.tsx";

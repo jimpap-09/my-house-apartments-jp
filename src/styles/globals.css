@@ -11,21 +11,21 @@
   :root {
     /* App semantic colors */
     --color-white: #ffffff;
-    --color-ink: #102a43;
-    --color-text: #334155;
+    --color-ink: #0d2946;
+    --color-text: #0000004f;
     --color-text-soft: #526173;
     --color-muted: #64748b;
-    --color-link: #0071c2;
-    --color-link-hover: #005fa3;
+    --color-link: #111111f3;
+    --color-link-hover: #000000;
     --color-border: #dce2ea;
     --color-border-strong: #cbd5e1;
-    --color-brand-soft: lch(89% 16 173);
-    --color-brand-mid: lch(83.57% 24.08 173.05);
+    --color-brand-soft: #ffffff;
+    --color-brand-mid: #ffffff;
 
     /* App translucent surfaces */
     --surface-glass: rgba(255, 255, 255, 0.74);
     --surface-glass-strong: rgba(255, 255, 255, 0.92);
-    --border-brand-soft: rgba(133, 189, 182, 0.28);
+    --border-brand-soft: rgba(15, 23, 42, 0.12);
 
     /* Surfaces */
     --background: 0 0% 100%;
@@ -36,16 +36,16 @@
     --card: 0 0% 100%;
     --card-foreground: 0 0% 9%;
 
-    /* Primary = deep blue */
-    --primary: 221 83% 53%;
+    /* Primary = charcoal */
+    --primary: 0 0% 7%;
     --primary-foreground: 0 0% 100%;
 
     /* Secondary = light gray */
     --secondary: 0 0% 96%;
     --secondary-foreground: 0 0% 9%;
 
-    /* Accent = light blue */
-    --accent: 199 89% 48%;
+    /* Accent = charcoal */
+    --accent: 0 0% 7%;
     --accent-foreground: 0 0% 100%;
 
     --muted: 0 0% 96%;
@@ -56,7 +56,7 @@
 
     --border: 0 0% 90%;
     --input: 0 0% 90%;
-    --ring: 199 89% 48%;
+    --ring: 0 0% 7%;
 
     --radius: 0.75rem;
 
@@ -65,8 +65,8 @@
     --beige: 36 32% 88%;
     --sand: 34 28% 78%;
     --charcoal: 0 0% 9%;
-    --brass: 199 89% 48%;
-    --brass-soft: 199 89% 70%;
+    --brass: 0 0% 7%;
+    --brass-soft: 0 0% 35%;
 
     --gradient-warm: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(0 0% 96%) 100%);
     --gradient-overlay: linear-gradient(180deg, hsl(0 0% 9% / 0.05) 0%, hsl(0 0% 9% / 0.7) 100%);
