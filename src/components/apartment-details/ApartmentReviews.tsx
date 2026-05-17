@@ -9,17 +9,22 @@ export function ApartmentReviews({ apartment, language, labels }: ApartmentRevie
   return (
     <section className="apartment-section apartment-reviews-section" id="reviews">
       <div className="apartment-section-heading">
-        <p className="eyebrow">{labels.reviews}</p>
+        <p className="apartment-section-kicker">{labels.reviews}</p>
         <h2>{labels.whatGuestsSay}</h2>
       </div>
-      <div className="apartment-review-card">
-        <div>
+      <div className="apartment-reviews-layout">
+        <div className="apartment-review-summary">
           <strong>{apartment.rating}</strong>
           <span>{apartment.ratingText[language]}</span>
+          <small>{apartment.reviews[language]}</small>
         </div>
-        <p>{apartment.reviewHighlight[language]}</p>
-        <small>{apartment.reviewer}</small>
+
+        <div className="apartment-review-card">
+          <p>{apartment.reviewHighlight[language]}</p>
+          <small>{apartment.reviewer}</small>
+        </div>
       </div>
     </section>
   )
 }
+

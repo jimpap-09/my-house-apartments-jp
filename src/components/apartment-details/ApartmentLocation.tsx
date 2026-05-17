@@ -8,8 +8,8 @@ type ApartmentLocationProps = ApartmentSectionProps & {
 export function ApartmentLocation({ apartment, language, labels }: ApartmentLocationProps) {
   return (
     <section className="apartment-section apartment-location-section" id="location">
-      <div className="apartment-section-copy">
-        <p className="eyebrow">{labels.location}</p>
+      <div className="apartment-section-content apartment-location-content">
+        <p className="apartment-section-kicker">{labels.location}</p>
         <h2>{apartment.map.address[language]}</h2>
         <p>{apartment.distanceFromCenter[language]}</p>
         <a href={apartment.map.mapsUrl} target="_blank" rel="noreferrer">
@@ -25,3 +25,4 @@ export function ApartmentLocation({ apartment, language, labels }: ApartmentLoca
     </section>
   )
 }
+

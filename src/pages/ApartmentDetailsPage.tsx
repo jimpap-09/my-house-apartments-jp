@@ -1,8 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
-import { Navigate, useParams } from 'react-router-dom'
 import { ApartmentAbout } from '@/components/apartment-details/ApartmentAbout'
 import { ApartmentAmenities } from '@/components/apartment-details/ApartmentAmenities'
-import { ApartmentBookingBand } from '@/components/apartment-details/ApartmentBookingBand'
+import { ApartmentBookingSection } from '@/components/apartment-details/ApartmentBookingSection'
 import { ApartmentGallery } from '@/components/apartment-details/ApartmentGallery'
 import { ApartmentHero } from '@/components/apartment-details/ApartmentHero'
 import { ApartmentLocation } from '@/components/apartment-details/ApartmentLocation'
@@ -12,42 +10,74 @@ import { ApartmentTrustStrip } from '@/components/apartment-details/ApartmentTru
 import { apartmentSectionIds, type ApartmentSectionId } from '@/data/apartment-details'
 import { apartments } from '@/data/apartments'
 import { useI18n } from '@/i18n/LanguageContext'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Navigate, useParams } from 'react-router-dom'
 
 export function ApartmentDetailsPage() {
   const { apartmentId } = useParams()
   const { language, t } = useI18n()
   const apartment = apartments.find((item) => item.id === apartmentId)
   const [activeSection, setActiveSection] = useState<ApartmentSectionId>('overview')
+  const isProgrammaticScroll = useRef(false)
   const [activePhoto, setActivePhoto] = useState<number | null>(null)
+  const activeThumbnailRef = useRef<HTMLButtonElement | null>(null)
 
   const photos = useMemo(() => (apartment ? [apartment.image, ...apartment.gallery] : []), [apartment])
   const previewPhotos = apartment
     ? apartment.presentation.galleryPreviewIndexes
-        .map((index) => ({ index, src: photos[index] }))
-        .filter((photo): photo is { index: number; src: string } => Boolean(photo.src))
+      .map((index) => ({ index, src: photos[index] }))
+      .filter((photo): photo is { index: number; src: string } => Boolean(photo.src))
     : []
 
   useEffect(() => {
-    const sections = apartmentSectionIds
-      .map((id) => document.getElementById(id))
-      .filter((section): section is HTMLElement => Boolean(section))
+    setActiveSection('overview')
+    window.scrollTo({ top: 0, behavior: 'auto' })
+  }, [apartmentId])
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleEntry = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+  useEffect(() => {
+    const getCurrentSection = () => {
+      const sections = apartmentSectionIds
+        .map((id) => document.getElementById(id))
+        .filter((section): section is HTMLElement => Boolean(section))
 
-        if (visibleEntry) {
-          setActiveSection(visibleEntry.target.id as ApartmentSectionId)
-        }
-      },
-      { rootMargin: '-170px 0px -55% 0px', threshold: [0.1, 0.35, 0.6] },
-    )
+      const scrollCheckpoint = window.scrollY + 190
+      const isAtPageBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2
+      const currentSection =
+        isAtPageBottom
+          ? sections.at(-1)
+          : [...sections]
+            .reverse()
+            .find((section) => section.offsetTop <= scrollCheckpoint) ?? sections[0]
 
-    sections.forEach((section) => observer.observe(section))
-    return () => observer.disconnect()
+      if (currentSection && !isProgrammaticScroll.current) {
+        setActiveSection(currentSection.id as ApartmentSectionId)
+      }
+    }
+
+    let frame = 0
+    const onScroll = () => {
+      window.cancelAnimationFrame(frame)
+      frame = window.requestAnimationFrame(getCurrentSection)
+    }
+
+    getCurrentSection()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+
+    return () => {
+      window.cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
   }, [apartmentId, language])
+
+  const handleSectionSelect = (sectionId: ApartmentSectionId) => {
+    document.getElementById(sectionId)?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
+  }
 
   useEffect(() => {
     if (activePhoto === null) return
@@ -71,13 +101,27 @@ export function ApartmentDetailsPage() {
     }
   }, [activePhoto, photos.length])
 
+  useEffect(() => {
+    if (activePhoto === null) return
+
+    activeThumbnailRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'nearest',
+    })
+  }, [activePhoto])
+
   if (!apartment) {
     return <Navigate to="/not-found" replace />
   }
 
   return (
     <article className="apartment-landing">
-      <ApartmentSubnav activeSection={activeSection} labels={t.app} />
+      <ApartmentSubnav
+        activeSection={activeSection}
+        labels={t.app}
+        onSectionSelect={handleSectionSelect}
+      />
       <ApartmentHero apartment={apartment} language={language} labels={t.app} />
       <ApartmentTrustStrip apartment={apartment} language={language} />
       <ApartmentAbout apartment={apartment} language={language} photos={photos} labels={t.app} />
@@ -90,14 +134,43 @@ export function ApartmentDetailsPage() {
       <ApartmentAmenities apartment={apartment} language={language} labels={t.app} />
       <ApartmentReviews apartment={apartment} language={language} labels={t.app} />
       <ApartmentLocation apartment={apartment} language={language} labels={t.app} />
-      <ApartmentBookingBand apartment={apartment} language={language} labels={t.app} />
+      <ApartmentBookingSection apartment={apartment} language={language} labels={t.app} />
 
       {activePhoto !== null && (
-        <div className="apartment-gallery-modal" role="dialog" aria-modal="true">
-          <button type="button" onClick={() => setActivePhoto(null)}>
+        <div
+          className="apartment-gallery-modal"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setActivePhoto(null)}
+        >
+          <button
+            className="apartment-gallery-close"
+            type="button"
+            onClick={() => setActivePhoto(null)}
+          >
             {t.app.closeGallery}
           </button>
-          <img src={photos[activePhoto]} alt={`${apartment.name} gallery ${activePhoto + 1}`} />
+          <div className="apartment-gallery-viewer" onClick={(event) => event.stopPropagation()}>
+            <div className="apartment-gallery-stage">
+              <img src={photos[activePhoto]} alt={`${apartment.name} gallery ${activePhoto + 1}`} />
+            </div>
+
+            <div className="apartment-gallery-thumbnails" aria-label={t.app.gallery}>
+              {photos.map((photo, index) => (
+                <button
+                  className={index === activePhoto ? 'active' : ''}
+                  type="button"
+                  onClick={() => setActivePhoto(index)}
+                  aria-label={`${t.app.gallery} ${index + 1}`}
+                  aria-current={index === activePhoto ? 'true' : undefined}
+                  ref={index === activePhoto ? activeThumbnailRef : null}
+                  key={photo}
+                >
+                  <img src={photo} alt="" />
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </article>

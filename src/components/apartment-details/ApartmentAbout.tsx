@@ -12,8 +12,8 @@ export function ApartmentAbout({ apartment, language, photos, labels }: Apartmen
       <div className="apartment-section-media">
         <img src={photos[apartment.presentation.aboutPhotoIndex] ?? apartment.image} alt={apartment.name} />
       </div>
-      <div className="apartment-section-copy">
-        <p className="eyebrow">{labels.about}</p>
+      <div className="apartment-section-content">
+        <p className="apartment-section-kicker">{labels.about}</p>
         <h2>{labels.theApartment}</h2>
         <p>{apartment.description[language]}</p>
         <dl className="apartment-facts">
@@ -38,3 +38,4 @@ export function ApartmentAbout({ apartment, language, photos, labels }: Apartmen
     </section>
   )
 }
+

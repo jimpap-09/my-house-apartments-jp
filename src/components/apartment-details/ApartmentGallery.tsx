@@ -16,7 +16,7 @@ export function ApartmentGallery({
   return (
     <section className="apartment-section apartment-gallery-section" id="gallery">
       <div className="apartment-section-heading">
-        <p className="eyebrow">{labels.gallery}</p>
+        <p className="apartment-section-kicker">{labels.gallery}</p>
         <h2>{labels.exploreApartment}</h2>
       </div>
       <div className="apartment-gallery-grid">
@@ -39,3 +39,4 @@ export function ApartmentGallery({
     </section>
   )
 }
+

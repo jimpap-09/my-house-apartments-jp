@@ -9,6 +9,24 @@
 
 @layer base {
   :root {
+    /* App semantic colors */
+    --color-white: #ffffff;
+    --color-ink: #102a43;
+    --color-text: #334155;
+    --color-text-soft: #526173;
+    --color-muted: #64748b;
+    --color-link: #0071c2;
+    --color-link-hover: #005fa3;
+    --color-border: #dce2ea;
+    --color-border-strong: #cbd5e1;
+    --color-brand-soft: lch(89% 16 173);
+    --color-brand-mid: lch(83.57% 24.08 173.05);
+
+    /* App translucent surfaces */
+    --surface-glass: rgba(255, 255, 255, 0.74);
+    --surface-glass-strong: rgba(255, 255, 255, 0.92);
+    --border-brand-soft: rgba(133, 189, 182, 0.28);
+
     /* Surfaces */
     --background: 0 0% 100%;
     /* pure white */

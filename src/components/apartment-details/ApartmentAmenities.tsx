@@ -9,7 +9,7 @@ export function ApartmentAmenities({ apartment, language, labels }: ApartmentAme
   return (
     <section className="apartment-section apartment-amenities-section" id="amenities">
       <div className="apartment-section-heading">
-        <p className="eyebrow">{labels.amenities}</p>
+        <p className="apartment-section-kicker">{labels.amenities}</p>
         <h2>{labels.whatsIncluded}</h2>
       </div>
       <div className="apartment-amenities-grid">
@@ -20,3 +20,4 @@ export function ApartmentAmenities({ apartment, language, labels }: ApartmentAme
     </section>
   )
 }
+
