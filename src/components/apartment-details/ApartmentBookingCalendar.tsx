@@ -1,5 +1,6 @@
 import type { ApartmentSectionProps } from '@/data/apartment-details'
 import type { Dictionary } from '@/i18n/dictionaries'
+import { useState } from 'react'
 
 type ApartmentBookingCalendarProps = ApartmentSectionProps & {
   labels: Dictionary['app']
@@ -36,12 +37,30 @@ export function ApartmentBookingCalendar({
   onClearDates,
 }: ApartmentBookingCalendarProps) {
   const blockedDates = new Set(apartment.booking.blockedDates)
-  const months = [buildMonth(0), buildMonth(1)]
+  const [monthOffset, setMonthOffset] = useState(0)
+  const months = [buildMonth(monthOffset), buildMonth(monthOffset + 1)]
 
   return (
     <section className="apartment-section apartment-booking-calendar" id="booking">
       <div className="apartment-booking-heading">
         <p className="apartment-section-kicker">{labels.booking}</p>
+      </div>
+      <div className="booking-calendar-navigation" aria-label="Calendar navigation">
+        <button
+          type="button"
+          onClick={() => setMonthOffset((current) => Math.max(0, current - 1))}
+          disabled={monthOffset === 0}
+          aria-label="Previous months"
+        >
+          ←
+        </button>
+        <button
+          type="button"
+          onClick={() => setMonthOffset((current) => current + 1)}
+          aria-label="Next months"
+        >
+          →
+        </button>
       </div>
       <div className="booking-calendar-months">
         {months.map(({ firstDay, leadingDays, days }) => (
