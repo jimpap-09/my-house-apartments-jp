@@ -1,0 +1,21 @@
+{
+  "name": "my-house-apartments-jp",
+  "version": "1.0.0",
+  "description": "Modern full-stack apartment booking platform for showcasing and managing apartment reservations, reviews, amenities, and apartment information.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jimpap-09/my-house-apartments-jp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jimpap-09/my-house-apartments-jp/issues"
+  },
+  "homepage": "https://github.com/jimpap-09/my-house-apartments-jp#readme"
+}

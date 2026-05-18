@@ -1,4 +1,3 @@
-import { Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '@/i18n/LanguageContext'
@@ -6,7 +5,6 @@ import { useI18n } from '@/i18n/LanguageContext'
 export function SiteHeader() {
   const { language, setLanguage, t } = useI18n()
   const [scrolled, setScrolled] = useState(false)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -45,29 +43,8 @@ export function SiteHeader() {
               EN
             </button>
           </div>
-
-          <button
-            className="mobile-menu-trigger"
-            type="button"
-            aria-label="Toggle menu"
-            aria-expanded={isMenuOpen}
-            onClick={() => setIsMenuOpen((open) => !open)}
-          >
-            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
         </div>
       </div>
-
-      {isMenuOpen && (
-        <div className="mobile-nav">
-          <Link to="/" onClick={() => setIsMenuOpen(false)}>
-            {t.app.apartments}
-          </Link>
-          <a href="mailto:johnpap26@gmail.com" onClick={() => setIsMenuOpen(false)}>
-            {t.app.contact}
-          </a>
-        </div>
-      )}
     </header>
   )
 }

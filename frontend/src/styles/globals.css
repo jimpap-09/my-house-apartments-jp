@@ -8,73 +8,41 @@
    ============================================================ */
 
 @layer base {
-  :root {
-    /* App semantic colors */
-    --color-white: #ffffff;
-    --color-ink: #0d2946;
-    --color-text: #0000004f;
-    --color-text-soft: #526173;
-    --color-muted: #64748b;
-    --color-link: #111111f3;
-    --color-link-hover: #000000;
-    --color-border: #dce2ea;
-    --color-border-strong: #cbd5e1;
-    --color-brand-soft: #ffffff;
-    --color-brand-mid: #ffffff;
+:root {
+  --background: 42 33% 97%;
+  --foreground: 210 15% 15%;
 
-    /* App translucent surfaces */
-    --surface-glass: rgba(255, 255, 255, 0.74);
-    --surface-glass-strong: rgba(255, 255, 255, 0.92);
-    --border-brand-soft: rgba(15, 23, 42, 0.12);
+  --card: 0 0% 100%;
+  --card-foreground: 210 15% 15%;
 
-    /* Surfaces */
-    --background: 0 0% 100%;
-    /* pure white */
-    --foreground: 0 0% 9%;
-    /* near black */
+  --primary: 191 45% 38%;
+  --primary-foreground: 0 0% 100%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 9%;
+  --secondary: 40 30% 90%;
+  --secondary-foreground: 210 15% 20%;
 
-    /* Primary = charcoal */
-    --primary: 0 0% 7%;
-    --primary-foreground: 0 0% 100%;
+  --accent: 36 55% 62%;
+  --accent-foreground: 210 15% 15%;
 
-    /* Secondary = light gray */
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 9%;
+  --muted: 40 20% 92%;
+  --muted-foreground: 210 10% 40%;
 
-    /* Accent = charcoal */
-    --accent: 0 0% 7%;
-    --accent-foreground: 0 0% 100%;
+  --destructive: 0 72% 55%;
+  --destructive-foreground: 0 0% 100%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+  --border: 40 18% 84%;
+  --input: 40 18% 84%;
+  --ring: 191 45% 38%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+  --ivory: 42 35% 96%;
+  --beige: 36 28% 84%;
+  --sand: 38 42% 72%;
+  --charcoal: 210 12% 18%;
+  --brass: 38 45% 55%;
+  --brass-soft: 38 35% 68%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 7%;
-
-    --radius: 0.75rem;
-
-    /* Brand-specific tokens */
-    --ivory: 40 38% 96%;
-    --beige: 36 32% 88%;
-    --sand: 34 28% 78%;
-    --charcoal: 0 0% 9%;
-    --brass: 0 0% 7%;
-    --brass-soft: 0 0% 35%;
-
-    --gradient-warm: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(0 0% 96%) 100%);
-    --gradient-overlay: linear-gradient(180deg, hsl(0 0% 9% / 0.05) 0%, hsl(0 0% 9% / 0.7) 100%);
-
-    /* Typography */
-    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-    --font-serif: 'Playfair Display', serif;
-  }
+  --radius: 1rem;
+}
 }
 
 @layer base {

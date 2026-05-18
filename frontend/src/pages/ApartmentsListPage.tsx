@@ -16,7 +16,7 @@ export function ApartmentsListPage() {
 
       <div className="apartment-list">
         {apartments.map((apartment) => (
-          <Link className="apartment-card" to={`/apartments/${apartment.id}`} key={apartment.id}>
+          <Link className="apartment-card ken-burns" to={`/apartments/${apartment.id}`} key={apartment.id}>
             <img src={apartment.image} alt={apartment.name} />
             <div className="apartment-card-content">
               <div className="card-title-row">
