@@ -46,7 +46,7 @@ export function ReservationCard(props: ReservationCardProps) {
           </select>
         </label>
       </div>
-      <button type="button" disabled={!checkIn || !checkOut}>
+      <button className="reservation-card-button" type="button" disabled={!checkIn || !checkOut}>
         {labels.reserve}
       </button>
       <p>{labels.noChargeYet}</p>

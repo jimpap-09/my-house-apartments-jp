@@ -494,6 +494,7 @@
   top: 132px;
   align-self: start;
   padding-top: 40px;
+  padding-bottom: 88px;
 }
 
 .apartment-overview {
@@ -625,7 +626,7 @@
   border: 0;
 }
 
-.reservation-card>button {
+.reservation-card-button {
   min-height: 50px;
   color: var(--color-white);
   font-weight: 700;
@@ -634,7 +635,11 @@
   border-radius: 999px;
 }
 
-.reservation-card>button:disabled {
+.reservation-card-button:hover {
+  background: var(--color-link-hover);
+}
+
+.reservation-card-button:disabled {
   opacity: 0.55;
 }
 
@@ -669,7 +674,117 @@
 
 .apartment-booking-heading {
   display: grid;
-  justify-items: center;
+}
+
+.booking-calendar-months {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.booking-calendar-month {
+  display: grid;
+  gap: 16px;
+}
+
+.booking-calendar-month-title {
+  margin: 0;
+  font-size: 20px;
+  text-align: center;
+  align-self: center;
+}
+
+.booking-calendar-weekdays,
+.booking-calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  text-align: center;
+}
+
+.booking-calendar-days {
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+}
+
+.booking-calendar-weekdays {
+  color: var(--color-muted);
+  font-size: 12px;
+}
+
+.booking-calendar-cell {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  justify-self: center;
+  min-height: 40px;
+}
+
+.booking-calendar-cell-button {
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.booking-calendar-cell-button:hover:not(:disabled) {
+  background: rgba(123, 211, 196, 0.28);
+}
+
+.booking-calendar-cell-button:disabled {
+  color: #b8bec7;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+.booking-calendar-cell-button.selected {
+  color: var(--color-white);
+  background: var(--color-ink);
+  border-radius: 999px;
+}
+
+.booking-calendar-cell-button.in-range {
+  background: rgba(123, 211, 196, 0.28);
+  border-radius: 999px;
+}
+
+.apartment-booking-lower {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.booking-calendar-clear {
+  justify-self: start;
+  min-height: 38px;
+  padding: 0 14px;
+  color: var(--color-link);
+  font-weight: 650;
+  background: #f4f4f5;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.booking-calendar-clear {
+  color: var(--color-ink);
+  font-size: 20px;
+  font-weight: 250;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.booking-calendar-clear:hover {
+  background: #f4f4f5;
+  border-color: var(--color-border-strong);
+  color: var(--color-muted);
 }
 
 .booking-calendar-navigation {
@@ -678,7 +793,7 @@
   gap: 10px;
 }
 
-.booking-calendar-navigation button {
+.booking-calendar-navigation-button {
   display: inline-grid;
   width: 42px;
   height: 42px;
@@ -695,82 +810,14 @@
     color 0.2s;
 }
 
-.booking-calendar-navigation button:hover:not(:disabled) {
+.booking-calendar-navigation-button:hover:not(:disabled) {
   background: #f4f4f5;
   border-color: var(--color-border-strong);
 }
 
-.booking-calendar-navigation button:disabled {
+.booking-calendar-navigation-button:disabled {
   color: #b8bec7;
   cursor: not-allowed;
-}
-
-.booking-calendar-months {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 28px;
-}
-
-.booking-calendar-month {
-  display: grid;
-  gap: 16px;
-}
-
-.booking-calendar-month h3 {
-  margin: 0;
-  font-size: 20px;
-}
-
-.booking-calendar-weekdays,
-.booking-calendar-days {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 8px;
-  text-align: center;
-}
-
-.booking-calendar-weekdays {
-  color: var(--color-muted);
-  font-size: 12px;
-}
-
-.booking-calendar-days button,
-.booking-calendar-days span {
-  min-height: 40px;
-}
-
-.booking-calendar-days button {
-  background: transparent;
-  border: 0;
-  border-radius: 999px;
-  cursor: pointer;
-}
-
-.booking-calendar-days button:disabled {
-  color: #b8bec7;
-  text-decoration: line-through;
-  cursor: not-allowed;
-}
-
-.booking-calendar-days button.in-range {
-  background: rgba(123, 211, 196, 0.28);
-}
-
-.booking-calendar-days button.selected {
-  color: var(--color-white);
-  background: var(--color-ink);
-}
-
-.booking-calendar-clear {
-  justify-self: start;
-  min-height: 38px;
-  padding: 0 14px;
-  color: var(--color-link);
-  font-weight: 650;
-  background: #f4f4f5;
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-  cursor: pointer;
 }
 
 .apartment-section-heading {
@@ -1349,8 +1396,8 @@
 }
 
 .apartment-detail-main .apartment-section-kicker {
-  justify-self: start;
-  text-align: left;
+  justify-self: center;
+  text-align: center;
 }
 
 .page-intro h1,
