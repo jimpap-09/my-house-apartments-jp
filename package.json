@@ -1,6 +1,7 @@
 {
   "name": "my-house-apartments-jp",
   "version": "1.0.0",
+<<<<<<< HEAD
   "description": "Enjoy my 2 house apartments",
   "keywords": [
     "jp"
@@ -8,11 +9,18 @@
   "homepage": "https://github.com/jimpap-09/my-house-apartments-jp#readme",
   "bugs": {
     "url": "https://github.com/jimpap-09/my-house-apartments-jp/issues"
+=======
+  "description": "Modern full-stack apartment booking platform for showcasing and managing apartment reservations, reviews, amenities, and apartment information.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+>>>>>>> f2cc1cbfd6ee9f643ca3289d38de6b8f5fddfac3
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jimpap-09/my-house-apartments-jp.git"
   },
+<<<<<<< HEAD
   "license": "ISC",
   "author": "JP",
   "type": "commonjs",
@@ -43,4 +51,14 @@
   "devDependencies": {
     "concurrently": "^9.2.1"
   }
+=======
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jimpap-09/my-house-apartments-jp/issues"
+  },
+  "homepage": "https://github.com/jimpap-09/my-house-apartments-jp#readme"
+>>>>>>> f2cc1cbfd6ee9f643ca3289d38de6b8f5fddfac3
 }
