@@ -1,0 +1,9 @@
+cd backend
+
+npx sequelize-cli db:migrate
+
+npx sequelize-cli seed:generate --name real-apartments
+
+npx sequelize-cli db:seed --seed FILE_NAME.js
+
+npx sequelize-cli db:seed:all
