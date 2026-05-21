@@ -1,11 +1,17 @@
 #!/bin/bash
 
+# 📍 Find the absolute directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# 🔍 Define the path for the .env file in the parent directory (one level up)
+ENV_FILE="$(dirname "$SCRIPT_DIR")/.env"
+
 # Check if .env file exists
-if [ -f .env ]; then
+if [ -f "$ENV_FILE" ]; then
     # Read .env, ignore comments/whitespace, and export DATABASE_URL
-    export $(grep -v '^#' .env | grep 'DATABASE_URL' | xargs)
+    export $(grep -v '^#' "$ENV_FILE" | grep 'DATABASE_URL' | xargs)
 else
-    echo "❌ Error: .env file not found in the current directory."
+    echo "❌ Error: .env file not found at: $ENV_FILE"
     exit 1
 fi
 

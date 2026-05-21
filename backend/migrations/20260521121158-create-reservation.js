@@ -10,15 +10,23 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       apartmentId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      userId: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       guestName: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       checkIn: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       checkOut: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       createdAt: {
