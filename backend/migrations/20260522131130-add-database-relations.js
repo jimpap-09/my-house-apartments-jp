@@ -2,7 +2,6 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // Apartment Constraints
     await queryInterface.addConstraint('Reviews', {
       fields: ['apartmentId'],
       type: 'foreign key',
@@ -21,7 +20,6 @@ module.exports = {
       onUpdate: 'CASCADE'
     });
 
-    // User Constraints
     await queryInterface.addConstraint('Reviews', {
       fields: ['userId'],
       type: 'foreign key',
