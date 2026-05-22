@@ -53,6 +53,10 @@ module.exports = {
 };
 EOF
 
+echo "Updating models/index.js to use config.js..."
+sed -i "s|../config/config.json|../config/config.js|g" models/index.js
+sed -i "s|/../config/config.json|/../config/config.js|g" models/index.js
+
 echo "Generating models & migrations..."
 npx sequelize-cli model:generate --name Apartment --attributes title:string,description:text,pricePerNight:float,location:string
 npx sequelize-cli model:generate --name User --attributes username:string,password:string,firstName:string,lastName:string,email:string,phone:string,role:string
