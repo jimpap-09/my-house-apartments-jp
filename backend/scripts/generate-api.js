@@ -19,35 +19,31 @@ fs.mkdirSync(frontendRoutesDir, { recursive: true })
 fs.mkdirSync(frontendServicesDir, { recursive: true })
 fs.mkdirSync(frontendConfigDir, { recursive: true })
 
-// axios config
 fs.writeFileSync(
   path.join(frontendConfigDir, 'axios.js'),
   `import axios from 'axios'
 
-    const api = axios.create({
-        baseURL: 'http://localhost:3002',
-        headers: {
-        'Content-Type': 'application/json'
-        }
-    })
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'
+
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
 
 export default api
 `
 )
 
-// backend routes/index.js
-let backendIndex =
-`
-const express = require('express')
+let backendIndex = `const express = require('express')
 const router = express.Router()
+
 `
 
 for (const entity of config.entities) {
-  const routeVar = `${entity.name}Routes`
-  backendIndex += `const ${routeVar} = require('./${entity.name}Routes.js')\n`
+  backendIndex += `const ${entity.name}Routes = require('./${entity.name}Routes.js')\n`
 }
-
-backendIndex += '\n'
 
 backendIndex += `
 router.get('/', (req, res) => {
@@ -62,7 +58,9 @@ for (const entity of config.entities) {
   backendIndex += `router.use('/${entity.plural}', ${entity.name}Routes)\n`
 }
 
-backendIndex += `module.exports = router`
+backendIndex += `
+module.exports = router
+`
 
 fs.writeFileSync(path.join(backendRoutesDir, 'index.js'), backendIndex)
 
@@ -71,7 +69,6 @@ for (const entity of config.entities) {
   const PLURAL = entity.plural.toUpperCase()
   const MODEL = entity.model
 
-  // backend controller
   fs.writeFileSync(
     path.join(backendControllersDir, `${entity.name}Controller.js`),
     `const { ${MODEL} } = require('../models')
@@ -106,21 +103,19 @@ module.exports = {
 `
   )
 
-  // backend routes
   fs.writeFileSync(
     path.join(backendRoutesDir, `${entity.name}Routes.js`),
-    
-   `const express = require('express')
-    const router = express.Router()
-    const ${entity.name}Controller = require('../controllers/${entity.name}Controller.js')
+    `const express = require('express')
+const router = express.Router()
+const ${entity.name}Controller = require('../controllers/${entity.name}Controller.js')
 
-    router.get('/getAll${Name}s', ${entity.name}Controller.getAll${Name}s)
-    router.get('/get${Name}ById/:id', ${entity.name}Controller.get${Name}ById)
+router.get('/getAll${Name}s', ${entity.name}Controller.getAll${Name}s)
+router.get('/get${Name}ById/:id', ${entity.name}Controller.get${Name}ById)
 
-    module.exports = router`
+module.exports = router
+`
   )
 
-  // frontend routes
   fs.writeFileSync(
     path.join(frontendRoutesDir, `${entity.name}Routes.js`),
     `export const ${PLURAL}_ROUTES = {
@@ -130,7 +125,6 @@ module.exports = {
 `
   )
 
-  // frontend service
   fs.writeFileSync(
     path.join(frontendServicesDir, `${entity.name}Service.js`),
     `import api from '../config/axios'

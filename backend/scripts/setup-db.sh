@@ -1,13 +1,17 @@
 #!/bin/bash
 set -e
 
+export NODE_ENV=${NODE_ENV:-development}
+echo "NODE_ENV=$NODE_ENV"
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE}")" && pwd)"
 cd "$SCRIPT_DIR/.."
 
 echo "Current directory is now: $(pwd)"
 
 echo "Cleaning existing Sequelize files..."
-rm -rf models migrations config seeders .sequelizerc
+rm -rf models migrations conf/config* seeders .sequelizerc
+rm -f config/config.json config/config.js
 
 echo "Installing packages..."
 npm install sequelize pg pg-hstore dotenv
@@ -17,25 +21,25 @@ echo "Initializing sequelize..."
 npx sequelize-cli init --force
 
 echo "Replacing config.json with config.js..."
-rm config/config.json
+rm -f config/config.json
 
 cat << 'EOF' > config/config.js
-require('dotenv').config();
+require('./env')
 
 module.exports = {
   development: {
     use_env_variable: 'DATABASE_URL',
-    dialect: 'postgres',
+    dialect: process.env.DB_DIALECT || 'postgres',
     dialectOptions: { ssl: { require: true, rejectUnauthorized: false } }
   },
   test: {
     use_env_variable: 'DATABASE_URL',
-    dialect: 'postgres',
+    dialect: process.env.DB_DIALECT || 'postgres',
     dialectOptions: { ssl: { require: true, rejectUnauthorized: false } }
   },
   production: {
     use_env_variable: 'DATABASE_URL',
-    dialect: 'postgres',
+    dialect: process.env.DB_DIALECT || 'postgres',
     dialectOptions: { ssl: { require: true, rejectUnauthorized: false } }
   }
 };

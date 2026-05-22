@@ -10,7 +10,7 @@ const routes = require('./routes/index.js')
 app.use('/api', routes)
 
 // load .env file
-require('dotenv').config()
+require('./config/env')
 const PORT = process.env.PORT || 3001
 app.listen(PORT, async () => {
   console.log(`Server running on http://localhost:${PORT}`)

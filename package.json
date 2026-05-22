@@ -19,11 +19,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
-    "generate:db": "bash backend/scripts/setup-db.sh",
+    "generate:db": "NODE_ENV=development bash backend/scripts/setup-db.sh",
     "generate:api": "node backend/scripts/generate-api.js",
-    "test": "test",
     "test:db": "bash backend/scripts/db-connect.sh",
-    "test:api": "curl http://localhost:3002/api"
+    "test:api": "npm test --prefix backend"
   },
   "dependencies": {
     "chalk": "^4.1.2",

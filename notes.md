@@ -44,3 +44,8 @@ cd backend
   ```bash
   npx sequelize-cli db:seed --seed FILE_NAME.js
   ```
+### Searching methods
+grep -R "dotenv" backend --exclude-dir=node_modules
+
+### Debugging methods -- Console Out something specific
+NODE_ENV=development node -e "require('./config/env'); console.log(process.env.DB_DIALECT)"
