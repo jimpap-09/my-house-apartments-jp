@@ -20,7 +20,8 @@ app.listen(PORT, async () => {
   try {
     const res = await pool.query("SELECT NOW()");
     console.log("✅ Database connected successfully! Server time:", res.rows[0].now);
-  } catch (err) {
+    console.log(`🌍 Environment: ${process.env.NODE_ENV}`)
+    console.log(`🔗 DB Host: ${process.env.DB_HOST}`)  } catch (err) {
     console.error("❌ Database connection error:", err.message);
   }
 })

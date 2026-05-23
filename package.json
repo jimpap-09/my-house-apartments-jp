@@ -18,13 +18,18 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
+    "start": "concurrently \"npm start --prefix frontend\" \"npm start --prefix backend\"",
     "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
     "generate:db": "NODE_ENV=development bash backend/scripts/setup-db.sh",
     "generate:api": "node backend/scripts/generate-api.js",
-    "test:db": "bash backend/scripts/db-connect.sh",
-    "test:api": "npm test --prefix backend"
+    "test:db": "node backend/scripts/connect-db.js",
+    "test:env": "NODE_ENV=development node -e \"console.log(process.env.NODE_ENV)\"",
+    "test:api": "npm run test --prefix backend",
+    "db:shell": "bash backend/scripts/shell-db.sh",
+    "db:status": "bash backend/scripts/status-db.sh"
   },
   "dependencies": {
+    "axios": "^1.16.1",
     "chalk": "^4.1.2",
     "color-convert": "^2.0.1",
     "color-name": "^1.1.4",
@@ -36,7 +41,6 @@
     "is-fullwidth-code-point": "^3.0.0",
     "pg": "^8.21.0",
     "pg-hstore": "^2.3.4",
-    "psql": "^0.0.1",
     "require-directory": "^2.1.1",
     "rxjs": "^7.8.2",
     "sequelize": "^6.37.8",
