@@ -59,3 +59,5 @@ which psql -> /usr/bin/psql
 
 SELECT * FROM "Apartments";
 \d "Reservations"
+
+sudo apt install tmux

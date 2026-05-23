@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { MapPin, Star } from 'lucide-react'
+import type { Apartment } from '@/api/types/apartment'
 import { getAllApartments } from '@/api/services/apartmentService'
 
 export function ApartmentsListPage() {
-  const [apartments, setApartments] = useState([])
+  const [apartments, setApartments] = useState<Apartment[]>([])
 
   useEffect(() => {
     const fetchApartments = async () => {
       try {
         const data = await getAllApartments()
         setApartments(data)
+        console.log('APARTMENTS', data)
       } catch (err) {
         console.error(err)
       }
@@ -20,48 +22,72 @@ export function ApartmentsListPage() {
   }, [])
 
   return (
-    <section className="list-page">
-      <div className="page-intro home-list-intro">
-        <p className="eyebrow">{app.availableStays}</p>
-        <h2>{app.introTitle}</h2>
-        <p>{app.introText}</p>
-      </div>
+  <section className="grid gap-10 px-6 py-10">
+    <div className="mx-auto grid w-full max-w-[760px] gap-3 text-center">
+      <p className="eyebrow">διάλεξε διαμέρισμα</p>
 
-      <div className="apartment-list">
-        {apartments.map((apartment) => (
-          <Link className="apartment-card ken-burns" to={`/apartments/${apartment.id}`} key={apartment.id}>
-            <div className="apartment-card-content">
-              <div className="card-title-row">
-                <div>
-                  <p className="property-type">Apartment</p>
-                  <h2>{apartment.title}</h2>
-                  <p>{apartment.location}</p>
-                </div>
+      <h2 className="text-4xl font-serif text-charcoal sm:text-5xl">
+        Τα διαμερίσματα του JP
+      </h2>
 
-                <span className="favorite-button" aria-hidden="true">
-                  ♡
-                </span>
+      <p className="text-muted-foreground">
+        Διάλεξε το διαμέρισμά σου
+      </p>
+    </div>
+
+    <div className="mx-auto grid w-full max-w-5xl gap-6">
+      {apartments.map((apartment) => (
+        <Link
+          key={apartment.id}
+          to={`/apartments/${apartment.id}`}
+          className="group grid overflow-hidden rounded-2xl border border-border bg-card text-card-foreground no-underline shadow-soft transition duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-elegant md:grid-cols-[280px_1fr]"
+        >
+          <div className="hidden bg-gradient-warm md:block" />
+
+          <div className="grid gap-5 p-6 sm:p-8">
+            <div className="flex items-start justify-between gap-5">
+              <div className="grid gap-2">
+                <p className="eyebrow">Διαμέρισμα</p>
+
+                <h2 className="text-2xl font-serif text-charcoal sm:text-3xl">
+                  {apartment.title}
+                </h2>
+
+                <p className="max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
+                  {apartment.description}
+                </p>
               </div>
 
-              <div className="distance-row">
-                <MapPin size={18} />
-                <p>{apartment.location}</p>
-              </div>
+              <span
+                className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border bg-white text-2xl text-charcoal transition group-hover:scale-110 group-hover:border-primary/40"
+                aria-hidden="true"
+              >
+                ♡
+              </span>
+            </div>
 
-              <div className="card-actions">
-                <span className="starting-price">
-                  <strong>€{apartment.pricePerNight}</strong>
-                </span>
+            <div className="flex items-center gap-2 text-sm font-medium text-charcoal">
+              <MapPin size={18} />
+              <p>Ιδανική τοποθεσία</p>
+            </div>
 
-                <div className="listing-rating-row">
-                  <Star className="listing-rating-icon" size={18} />
-                  <strong>5.0</strong>
-                </div>
+            <div className="flex items-end justify-between gap-4 border-t border-border pt-5">
+              <span className="text-muted-foreground">
+                από{' '}
+                <strong className="text-xl font-semibold text-charcoal">
+                  €{apartment.pricePerNight}
+                </strong>
+              </span>
+
+              <div className="flex items-center gap-2 font-semibold text-charcoal">
+                <Star size={18} className="fill-current" />
+                <strong>5.0</strong>
               </div>
             </div>
-          </Link>
-        ))}
-      </div>
-    </section>
-  )
+          </div>
+        </Link>
+      ))}
+    </div>
+  </section>
+)
 }

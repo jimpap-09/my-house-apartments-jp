@@ -25,5 +25,5 @@ const getApartmentById = async (req, res) => {
 
 module.exports = {
   getAllApartments,
-  getApartmentById
+  getApartmentById,
 }

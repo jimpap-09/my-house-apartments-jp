@@ -8,7 +8,7 @@ const reservationRoutes = require('./reservationRoutes.js')
 
 router.get('/', (req, res) => {
   res.json({
-    message: 'API is running'
+    message: 'API is running',
   })
 })
 

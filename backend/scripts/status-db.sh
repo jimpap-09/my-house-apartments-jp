@@ -1,15 +1,18 @@
 #!/bin/bash
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BACKEND_DIR="$(dirname "$SCRIPT_DIR")"
+
 export NODE_ENV=${NODE_ENV:-development}
 
-ENV_FILE=".env.dev"
+ENV_FILE="$BACKEND_DIR/.env.dev"
 
 if [ "$NODE_ENV" = "production" ]; then
-  ENV_FILE=".env.prod"
+  ENV_FILE="$BACKEND_DIR/.env.prod"
 fi
 
-export $(grep -v '^#' "backend/$ENV_FILE" | xargs)
+export $(grep -v '^#' "$ENV_FILE" | xargs)
 
 echo "====================================="
 echo " Database Status - $NODE_ENV"
@@ -66,17 +69,5 @@ UNION ALL
 SELECT 'Reservations', COUNT(*) FROM "Reservations"
 UNION ALL
 SELECT 'Users', COUNT(*) FROM "Users";
-
--- 7. Apartments data
-SELECT * FROM "Apartments";
-
--- 8. Reviews data
-SELECT * FROM "Reviews";
-
--- 9. Reservations data
-SELECT * FROM "Reservations";
-
--- 10. Users data
-SELECT * FROM "Users";
 
 EOF

@@ -7,29 +7,34 @@ const root = path.resolve(__dirname, '../..')
 
 const backendRoutesDir = path.join(root, 'backend/routes')
 const backendControllersDir = path.join(root, 'backend/controllers')
+const backendScriptsDir = path.join(root, 'backend/scripts')
 
 const frontendApiDir = path.join(root, 'frontend/src/api')
+const frontendConfigDir = path.join(frontendApiDir, 'config')
 const frontendRoutesDir = path.join(frontendApiDir, 'routes')
 const frontendServicesDir = path.join(frontendApiDir, 'services')
-const frontendConfigDir = path.join(frontendApiDir, 'config')
+const frontendTypesDir = path.join(frontendApiDir, 'types')
 
 fs.mkdirSync(backendRoutesDir, { recursive: true })
 fs.mkdirSync(backendControllersDir, { recursive: true })
+fs.mkdirSync(backendScriptsDir, { recursive: true })
+
+fs.mkdirSync(frontendConfigDir, { recursive: true })
 fs.mkdirSync(frontendRoutesDir, { recursive: true })
 fs.mkdirSync(frontendServicesDir, { recursive: true })
-fs.mkdirSync(frontendConfigDir, { recursive: true })
+fs.mkdirSync(frontendTypesDir, { recursive: true })
+
+const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1)
 
 fs.writeFileSync(
-  path.join(frontendConfigDir, 'axios.js'),
+  path.join(frontendConfigDir, 'axios.ts'),
   `import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'
-
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: '',
   headers: {
-    'Content-Type': 'application/json'
-  }
+    'Content-Type': 'application/json',
+  },
 })
 
 export default api
@@ -48,7 +53,7 @@ for (const entity of config.entities) {
 backendIndex += `
 router.get('/', (req, res) => {
   res.json({
-    message: 'API is running'
+    message: 'API is running',
   })
 })
 
@@ -65,7 +70,7 @@ module.exports = router
 fs.writeFileSync(path.join(backendRoutesDir, 'index.js'), backendIndex)
 
 for (const entity of config.entities) {
-  const Name = entity.name.charAt(0).toUpperCase() + entity.name.slice(1)
+  const Name = capitalize(entity.name)
   const PLURAL = entity.plural.toUpperCase()
   const MODEL = entity.model
 
@@ -98,7 +103,7 @@ const get${Name}ById = async (req, res) => {
 
 module.exports = {
   getAll${Name}s,
-  get${Name}ById
+  get${Name}ById,
 }
 `
   )
@@ -117,30 +122,80 @@ module.exports = router
   )
 
   fs.writeFileSync(
-    path.join(frontendRoutesDir, `${entity.name}Routes.js`),
+    path.join(frontendRoutesDir, `${entity.name}Routes.ts`),
     `export const ${PLURAL}_ROUTES = {
   GET_ALL: '/api/${entity.plural}/getAll${Name}s',
-  GET_BY_ID: (id) => \`/api/${entity.plural}/get${Name}ById/\${id}\`
+  GET_BY_ID: (id: number | string) => \`/api/${entity.plural}/get${Name}ById/\${id}\`,
 }
 `
   )
 
   fs.writeFileSync(
-    path.join(frontendServicesDir, `${entity.name}Service.js`),
+    path.join(frontendTypesDir, `${entity.name}.ts`),
+    `export interface ${Name} {
+  id: number
+  createdAt: string
+  updatedAt: string
+  [key: string]: unknown
+}
+`
+  )
+
+  fs.writeFileSync(
+    path.join(frontendServicesDir, `${entity.name}Service.ts`),
     `import api from '../config/axios'
 import { ${PLURAL}_ROUTES } from '../routes/${entity.name}Routes'
+import type { ${Name} } from '../types/${entity.name}'
 
-export const getAll${Name}s = async () => {
-  const response = await api.get(${PLURAL}_ROUTES.GET_ALL)
+export const getAll${Name}s = async (): Promise<${Name}[]> => {
+  const response = await api.get<${Name}[]>(${PLURAL}_ROUTES.GET_ALL)
   return response.data
 }
 
-export const get${Name}ById = async (id) => {
-  const response = await api.get(${PLURAL}_ROUTES.GET_BY_ID(id))
+export const get${Name}ById = async (id: number | string): Promise<${Name}> => {
+  const response = await api.get<${Name}>(${PLURAL}_ROUTES.GET_BY_ID(id))
   return response.data
 }
 `
   )
 }
+
+const apiTestScript = `#!/bin/bash
+
+BASE_URL="http://localhost:3002"
+
+case "$1" in
+  api)
+    curl -s "$BASE_URL/api" | jq
+    ;;
+
+${config.entities
+  .map((entity) => {
+    const Name = capitalize(entity.name)
+
+    return `  ${entity.plural})
+    curl -s "$BASE_URL/api/${entity.plural}/getAll${Name}s" | jq
+    ;;
+
+  ${entity.name})
+    curl -s "$BASE_URL/api/${entity.plural}/get${Name}ById/$2" | jq
+    ;;`
+  })
+  .join('\n\n')}
+
+  *)
+    echo "Usage:"
+    echo "  npm run test:api api"
+${config.entities
+  .map(
+    (entity) => `    echo "  npm run test:api ${entity.plural}"
+    echo "  npm run test:api ${entity.name} 1"`
+  )
+  .join('\n')}
+    ;;
+esac
+`
+
+fs.writeFileSync(path.join(backendScriptsDir, 'api-test.sh'), apiTestScript)
 
 console.log('✅ API files generated successfully.')

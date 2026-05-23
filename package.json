@@ -19,7 +19,8 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"npm start --prefix frontend\" \"npm start --prefix backend\"",
-    "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
+    "dev": "concurrently -n FRONTEND,BACKEND \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
+    "dev-session": "bash backend/scripts/dev-session.sh",
     "generate:db": "NODE_ENV=development bash backend/scripts/setup-db.sh",
     "generate:api": "node backend/scripts/generate-api.js",
     "test:db": "node backend/scripts/connect-db.js",

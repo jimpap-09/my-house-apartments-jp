@@ -25,5 +25,5 @@ const getReservationById = async (req, res) => {
 
 module.exports = {
   getAllReservations,
-  getReservationById
+  getReservationById,
 }
