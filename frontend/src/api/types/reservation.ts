@@ -1,7 +1,7 @@
 export interface Reservation {
   id: number
-  apartmentId?: number
-  userId?: number
+  apartmentId: number
+  userId: number
   guestName: string
   checkIn: string
   checkOut: string

@@ -2,13 +2,13 @@ const fs = require('fs')
 const path = require('path')
 
 const config = require('./routes-config.json')
-const db = require('../models')
 
 const root = path.resolve(__dirname, '../..')
 
 const backendRoutesDir = path.join(root, 'backend/routes')
 const backendControllersDir = path.join(root, 'backend/controllers')
 const backendScriptsDir = path.join(root, 'backend/scripts')
+const backendMigrationsDir = path.join(root, 'backend/migrations')
 
 const frontendApiDir = path.join(root, 'frontend/src/api')
 const frontendConfigDir = path.join(frontendApiDir, 'config')
@@ -27,19 +27,119 @@ fs.mkdirSync(frontendTypesDir, { recursive: true })
 
 const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1)
 
-const sequelizeToTs = (attribute) => {
-  const type = attribute.type.constructor.name
+const pluralizeModel = (modelName) => `${modelName}s`
 
-  if (['STRING', 'TEXT', 'UUID', 'DATEONLY'].includes(type)) return 'string'
-  if (['INTEGER', 'BIGINT', 'FLOAT', 'DOUBLE', 'DECIMAL'].includes(type)) return 'number'
-  if (type === 'BOOLEAN') return 'boolean'
-  if (type === 'DATE') return 'string'
+const sequelizeToTs = (sequelizeType) => {
+  const type = sequelizeType.toUpperCase()
+
+  if (
+    type.includes('STRING') ||
+    type.includes('TEXT') ||
+    type.includes('UUID') ||
+    type.includes('DATEONLY')
+  ) {
+    return 'string'
+  }
+
+  if (
+    type.includes('INTEGER') ||
+    type.includes('BIGINT') ||
+    type.includes('FLOAT') ||
+    type.includes('DOUBLE') ||
+    type.includes('DECIMAL')
+  ) {
+    return 'number'
+  }
+
+  if (type.includes('BOOLEAN')) return 'boolean'
+  if (type.includes('DATE')) return 'string'
 
   return 'unknown'
 }
 
-const modelToInterface = (model, interfaceName) => {
-  if (!model) {
+const getCreateTableMigrationContent = (tableName) => {
+  const files = fs
+    .readdirSync(backendMigrationsDir)
+    .filter((file) => file.endsWith('.js'))
+
+  const file = files.find((migrationFile) => {
+    const content = fs.readFileSync(
+      path.join(backendMigrationsDir, migrationFile),
+      'utf8'
+    )
+
+    return (
+      content.includes(`createTable('${tableName}'`) ||
+      content.includes(`createTable("${tableName}"`)
+    )
+  })
+
+  if (!file) return null
+
+  return fs.readFileSync(path.join(backendMigrationsDir, file), 'utf8')
+}
+
+const extractColumnBlock = (content, columnName) => {
+  const startToken = `${columnName}: {`
+  const start = content.indexOf(startToken)
+
+  if (start === -1) return null
+
+  let index = start + startToken.length
+  let depth = 1
+
+  while (index < content.length) {
+    const char = content[index]
+
+    if (char === '{') depth += 1
+    if (char === '}') depth -= 1
+
+    if (depth === 0) {
+      return content.slice(start, index + 1)
+    }
+
+    index += 1
+  }
+
+  return null
+}
+
+const parseMigrationColumns = (content) => {
+  const columnRegex = /^\s{6,}([a-zA-Z0-9_]+):\s*\{/gm
+  const columns = []
+  let match
+
+  while ((match = columnRegex.exec(content)) !== null) {
+    const columnName = match[1]
+    const block = extractColumnBlock(content, columnName)
+
+    if (!block) continue
+
+    const typeMatch = block.match(/type:\s*Sequelize\.([A-Z0-9_]+)/)
+    const allowNullFalse = block.includes('allowNull: false')
+    const allowNullTrue = block.includes('allowNull: true')
+
+    const isRequired =
+      allowNullFalse ||
+      columnName === 'id' ||
+      columnName === 'createdAt' ||
+      columnName === 'updatedAt'
+
+    columns.push({
+      name: columnName,
+      tsType: sequelizeToTs(typeMatch?.[1] || 'unknown'),
+      optional: allowNullTrue ? true : !isRequired,
+    })
+  }
+
+  return columns
+}
+
+const migrationToInterface = (entity, interfaceName) => {
+  const tableName = pluralizeModel(entity.model)
+  const content = getCreateTableMigrationContent(tableName)
+
+  if (!content) {
     return `export interface ${interfaceName} {
   id: number
   createdAt: string
@@ -48,10 +148,12 @@ const modelToInterface = (model, interfaceName) => {
 `
   }
 
-  const fields = Object.entries(model.rawAttributes)
-    .map(([fieldName, attribute]) => {
-      const optional = attribute.allowNull ? '?' : ''
-      return `  ${fieldName}${optional}: ${sequelizeToTs(attribute)}`
+  const columns = parseMigrationColumns(content)
+
+  const fields = columns
+    .map((column) => {
+      const optional = column.optional ? '?' : ''
+      return `  ${column.name}${optional}: ${column.tsType}`
     })
     .join('\n')
 
@@ -107,16 +209,14 @@ fs.writeFileSync(path.join(backendRoutesDir, 'index.js'), backendIndex)
 for (const entity of config.entities) {
   const Name = capitalize(entity.name)
   const PLURAL = entity.plural.toUpperCase()
-  const MODEL = entity.model
-  const sequelizeModel = db[MODEL]
 
   fs.writeFileSync(
     path.join(backendControllersDir, `${entity.name}Controller.js`),
-    `const { ${MODEL} } = require('../models')
+    `const { ${entity.model} } = require('../models')
 
 const getAll${Name}s = async (req, res) => {
   try {
-    const data = await ${MODEL}.findAll()
+    const data = await ${entity.model}.findAll()
     res.json(data)
   } catch (err) {
     res.status(500).json({ error: err.message })
@@ -125,7 +225,7 @@ const getAll${Name}s = async (req, res) => {
 
 const get${Name}ById = async (req, res) => {
   try {
-    const data = await ${MODEL}.findByPk(req.params.id)
+    const data = await ${entity.model}.findByPk(req.params.id)
 
     if (!data) {
       return res.status(404).json({ error: '${Name} not found' })
@@ -168,7 +268,7 @@ module.exports = router
 
   fs.writeFileSync(
     path.join(frontendTypesDir, `${entity.name}.ts`),
-    modelToInterface(sequelizeModel, Name)
+    migrationToInterface(entity, Name)
   )
 
   fs.writeFileSync(

@@ -2,6 +2,15 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
+    await queryInterface.addConstraint('ApartmentImages', {
+      fields: ['apartmentId'],
+      type: 'foreign key',
+      name: 'fkey_apartment_images_apartment',
+      references: { table: 'Apartments', field: 'id' },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
+
     await queryInterface.addConstraint('Reviews', {
       fields: ['apartmentId'],
       type: 'foreign key',
@@ -40,6 +49,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
+    await queryInterface.removeConstraint('ApartmentImages', 'fkey_apartment_images_apartment');
     await queryInterface.removeConstraint('Reviews', 'fkey_reviews_apartment');
     await queryInterface.removeConstraint('Reservations', 'fkey_reservations_apartment');
     await queryInterface.removeConstraint('Reviews', 'fkey_reviews_user');

@@ -6,14 +6,33 @@ set -e
 export NODE_ENV=${NODE_ENV:-development}
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE}")" && pwd)"
-cd "$SCRIPT_DIR/.."
+BACKEND_DIR="$(dirname "$SCRIPT_DIR")"
 
+echo "my current directory is: $(pwd)"
 
 echo "====================================="
 echo " Database Status - $NODE_ENV"
 echo "====================================="
 
-docker exec -i jp-postgres psql -U jp -d postgres << 'EOF'
+if [ "$NODE_ENV" = "development" ]; then
+    ENV_FILE="$BACKEND_DIR/.env.dev"
+else
+    ENV_FILE="$BACKEND_DIR/.env.prod"
+fi
+
+if [ ! -f "$ENV_FILE" ]; then
+  echo "Missing $ENV_FILE"
+  exit 1
+fi
+
+set -a
+source "$ENV_FILE"
+set +a
+
+echo "DB_USER=$DB_USER"
+echo "DB_NAME=$DB_NAME"
+
+docker exec -i jp-postgres psql -U $DB_USER -d $DB_NAME << 'EOF'
 
 \echo ''
 \echo '========== SCHEMAS =========='
@@ -107,4 +126,10 @@ SELECT * FROM "Reviews";
 \echo ''
 
 SELECT * FROM "Reservations";
+
+\echo ''
+\echo '========== APARTMENT IMAGES =========='
+\echo ''
+
+SELECT * FROM "ApartmentImages"
 EOF

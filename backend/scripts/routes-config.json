@@ -3,22 +3,32 @@
     {
       "name": "apartment",
       "plural": "apartments",
-      "model": "Apartment"
+      "model": "Apartment",
+      "migration": "create-apartments"
     },
     {
       "name": "user",
       "plural": "users",
-      "model": "User"
+      "model": "User",
+      "migration": "create-users"
     },
     {
       "name": "review",
       "plural": "reviews",
-      "model": "Review"
+      "model": "Review",
+      "migration": "create-reviews"
     },
     {
       "name": "reservation",
       "plural": "reservations",
-      "model": "Reservation"
+      "model": "Reservation",
+      "migration": "create-reservations"
+    },
+    {
+      "name": "apartmentImage",
+      "plural": "apartmentImages",
+      "model": "ApartmentImage",
+      "migration": "create-apartment-images"
     }
   ]
 }

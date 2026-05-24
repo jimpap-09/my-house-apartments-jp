@@ -111,6 +111,29 @@ const run = async () => {
         break
       }
 
+      case 'apartmentImages': {
+        const response = await axios.get(
+          `${BASE_URL}/api/apartmentImages/getAllApartmentImages`
+        )
+
+        console.log(JSON.stringify(response.data, null, 2))
+        break
+      }
+
+      case 'apartmentImage': {
+        if (!id) {
+          console.error('Missing id')
+          process.exit(1)
+        }
+
+        const response = await axios.get(
+          `${BASE_URL}/api/apartmentImages/getApartmentImageById/${id}`
+        )
+
+        console.log(JSON.stringify(response.data, null, 2))
+        break
+      }
+
       default:
         console.log('Usage:')
         console.log('  npm run test:api api')
@@ -122,6 +145,8 @@ const run = async () => {
         console.log('  npm run test:api review 1')
         console.log('  npm run test:api reservations')
         console.log('  npm run test:api reservation 1')
+        console.log('  npm run test:api apartmentImages')
+        console.log('  npm run test:api apartmentImage 1')
         break
     }
   } catch (err) {
