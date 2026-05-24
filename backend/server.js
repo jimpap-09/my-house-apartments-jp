@@ -11,7 +11,7 @@ app.use('/api', routes)
 
 // load .env file
 require('./config/env')
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 5000
 app.listen(PORT, async () => {
   console.log(`Server running on http://localhost:${PORT}`)
 

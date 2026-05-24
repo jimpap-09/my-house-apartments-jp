@@ -7,7 +7,12 @@ export const getAllReservations = async (): Promise<Reservation[]> => {
   return response.data
 }
 
-export const getReservationById = async (id: number | string): Promise<Reservation> => {
-  const response = await api.get<Reservation>(RESERVATIONS_ROUTES.GET_BY_ID(id))
+export const getReservationById = async (
+  id: number | string
+): Promise<Reservation> => {
+  const response = await api.get<Reservation>(
+    RESERVATIONS_ROUTES.GET_BY_ID(id)
+  )
+
   return response.data
 }

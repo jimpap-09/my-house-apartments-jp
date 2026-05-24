@@ -10,7 +10,7 @@ tmux split-window -h
 tmux send-keys "npm run db:status && npm run db:shell" C-m
 
 tmux split-window -v
-tmux send-keys "npm test:api" C-m
+tmux send-keys "npm run test:api" C-m
 
 tmux select-pane -t 0
 

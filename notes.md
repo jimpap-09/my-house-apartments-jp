@@ -60,4 +60,53 @@ which psql -> /usr/bin/psql
 SELECT * FROM "Apartments";
 \d "Reservations"
 
-sudo apt install tmux
+  sudo apt install tmux
+//convert json to better form json
+  sudo apt install jq -y
+
+//dont forget to convert CRLF to LF
+.gitattributes
+* text=auto eol=lf
+
+*.sh text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.json text eol=lf
+
+git add --renormalize .
+
+//add to vscode files (open user settings json)
+"files.eol": "\n"
+
+//docker for local db and network
+  download docker desktop
+  https://www.docker.com/products/docker-desktop/
+
+//enable wsl integration in docker desktop settings
+
+//see dockers by using command ps
+  docker ps
+
+//create permanent (volume) docker data folder
+  docker volume inspect jp_pgdata
+
+  docker volume inspect jp_pgdata
+//create postgres container from postgres image downloaded from dd
+docker run --name jp-postgres \
+  -e POSTGRES_USER=jp \
+  -e POSTGRES_PASSWORD=pass \
+  -e POSTGRES_DB=postgres \
+  -p 5432:5432 \
+  -v jp_pgdata:/var/lib/postgresql \
+  -d postgres:latest
+
+docker exec -it jp-postgres psql -U jp -d postgres
+\l
+
+ls /var/lib/postgresql/18/docker
+
+find /usr -name psql 2>/dev/null
+
+echo 'export PATH=$PATH:/usr/lib/postgresql/16/bin' >> ~/.bashrc
+source ~/.bashrc

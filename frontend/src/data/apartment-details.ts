@@ -1,5 +1,4 @@
-import type { Locale } from '@/i18n/dictionaries'
-import type { Apartment } from './apartments'
+import type { Apartment } from '@/api/types/apartment'
 
 export const apartmentSectionIds = [
   'overview',
@@ -15,5 +14,5 @@ export type ApartmentSectionId = (typeof apartmentSectionIds)[number]
 
 export type ApartmentSectionProps = {
   apartment: Apartment
-  language: Locale
+  
 }

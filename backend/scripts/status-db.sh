@@ -1,37 +1,41 @@
 #!/bin/bash
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-BACKEND_DIR="$(dirname "$SCRIPT_DIR")"
+
 
 export NODE_ENV=${NODE_ENV:-development}
 
-ENV_FILE="$BACKEND_DIR/.env.dev"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE}")" && pwd)"
+cd "$SCRIPT_DIR/.."
 
-if [ "$NODE_ENV" = "production" ]; then
-  ENV_FILE="$BACKEND_DIR/.env.prod"
-fi
-
-export $(grep -v '^#' "$ENV_FILE" | xargs)
 
 echo "====================================="
 echo " Database Status - $NODE_ENV"
 echo "====================================="
 
-psql "$DATABASE_URL" << 'EOF'
+docker exec -i jp-postgres psql -U jp -d postgres << 'EOF'
 
--- 1. All schemas
+\echo ''
+\echo '========== SCHEMAS =========='
+\echo ''
+
 SELECT schema_name
 FROM information_schema.schemata
 ORDER BY schema_name;
 
--- 2. All tables in public schema
+\echo ''
+\echo '========== TABLES =========='
+\echo ''
+
 SELECT table_name
 FROM information_schema.tables
 WHERE table_schema = 'public'
 ORDER BY table_name;
 
--- 3. All tables with their columns in one row
+\echo ''
+\echo '========== TABLE COLUMNS =========='
+\echo ''
+
 SELECT 
     table_name,
     string_agg(column_name, ', ' ORDER BY ordinal_position) AS columns
@@ -40,7 +44,10 @@ WHERE table_schema = 'public'
 GROUP BY table_name
 ORDER BY table_name;
 
--- 4. Full column details for all tables
+\echo ''
+\echo '========== COLUMN DETAILS =========='
+\echo ''
+
 SELECT 
     table_name,
     ordinal_position,
@@ -52,8 +59,12 @@ FROM information_schema.columns
 WHERE table_schema = 'public'
 ORDER BY table_name, ordinal_position;
 
--- 5. Primary keys / foreign keys / unique constraints
+\echo ''
+\echo '========== CONSTRAINTS =========='
+\echo ''
+
 SELECT 
+\echo ''
     table_name,
     constraint_name,
     constraint_type
@@ -61,7 +72,10 @@ FROM information_schema.table_constraints
 WHERE table_schema = 'public'
 ORDER BY table_name, constraint_type;
 
--- 6. Row count per table
+\echo ''
+\echo '========== ROW COUNTS =========='
+\echo ''
+
 SELECT 'Apartments' AS table_name, COUNT(*) AS rows FROM "Apartments"
 UNION ALL
 SELECT 'Reviews', COUNT(*) FROM "Reviews"
@@ -70,4 +84,27 @@ SELECT 'Reservations', COUNT(*) FROM "Reservations"
 UNION ALL
 SELECT 'Users', COUNT(*) FROM "Users";
 
+\echo ''
+\echo '========== APARTMENTS =========='
+\echo ''
+
+SELECT * FROM "Apartments";
+
+\echo ''
+\echo '========== USERS =========='
+\echo ''
+
+SELECT * FROM "Users";
+
+\echo ''
+\echo '========== REVIEWS =========='
+\echo ''
+
+SELECT * FROM "Reviews";
+
+\echo ''
+\echo '========== RESERVATIONS =========='
+\echo ''
+
+SELECT * FROM "Reservations";
 EOF

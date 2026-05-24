@@ -2,18 +2,37 @@ require('./env')
 
 module.exports = {
   development: {
-    use_env_variable: 'DATABASE_URL',
+    username: process.env.DB_USER,
+    password: String(process.env.DB_PASSWORD),
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT || 5432),
     dialect: process.env.DB_DIALECT || 'postgres',
-    dialectOptions: { ssl: { require: true, rejectUnauthorized: false } }
+    dialectOptions: {
+      ssl: false,
+    },
   },
+
   test: {
-    use_env_variable: 'DATABASE_URL',
+    username: process.env.DB_USER,
+    password: String(process.env.DB_PASSWORD),
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT || 5432),
     dialect: process.env.DB_DIALECT || 'postgres',
-    dialectOptions: { ssl: { require: true, rejectUnauthorized: false } }
+    dialectOptions: {
+      ssl: false,
+    },
   },
+
   production: {
-    use_env_variable: 'DATABASE_URL',
+    url: process.env.DATABASE_URL,
     dialect: process.env.DB_DIALECT || 'postgres',
-    dialectOptions: { ssl: { require: true, rejectUnauthorized: false } }
-  }
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+  },
 };

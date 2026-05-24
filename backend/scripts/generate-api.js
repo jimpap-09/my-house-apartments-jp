@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 
 const config = require('./routes-config.json')
+const db = require('../models')
 
 const root = path.resolve(__dirname, '../..')
 
@@ -25,6 +26,40 @@ fs.mkdirSync(frontendServicesDir, { recursive: true })
 fs.mkdirSync(frontendTypesDir, { recursive: true })
 
 const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1)
+
+const sequelizeToTs = (attribute) => {
+  const type = attribute.type.constructor.name
+
+  if (['STRING', 'TEXT', 'UUID', 'DATEONLY'].includes(type)) return 'string'
+  if (['INTEGER', 'BIGINT', 'FLOAT', 'DOUBLE', 'DECIMAL'].includes(type)) return 'number'
+  if (type === 'BOOLEAN') return 'boolean'
+  if (type === 'DATE') return 'string'
+
+  return 'unknown'
+}
+
+const modelToInterface = (model, interfaceName) => {
+  if (!model) {
+    return `export interface ${interfaceName} {
+  id: number
+  createdAt: string
+  updatedAt: string
+}
+`
+  }
+
+  const fields = Object.entries(model.rawAttributes)
+    .map(([fieldName, attribute]) => {
+      const optional = attribute.allowNull ? '?' : ''
+      return `  ${fieldName}${optional}: ${sequelizeToTs(attribute)}`
+    })
+    .join('\n')
+
+  return `export interface ${interfaceName} {
+${fields}
+}
+`
+}
 
 fs.writeFileSync(
   path.join(frontendConfigDir, 'axios.ts'),
@@ -73,6 +108,7 @@ for (const entity of config.entities) {
   const Name = capitalize(entity.name)
   const PLURAL = entity.plural.toUpperCase()
   const MODEL = entity.model
+  const sequelizeModel = db[MODEL]
 
   fs.writeFileSync(
     path.join(backendControllersDir, `${entity.name}Controller.js`),
@@ -132,13 +168,7 @@ module.exports = router
 
   fs.writeFileSync(
     path.join(frontendTypesDir, `${entity.name}.ts`),
-    `export interface ${Name} {
-  id: number
-  createdAt: string
-  updatedAt: string
-  [key: string]: unknown
-}
-`
+    modelToInterface(sequelizeModel, Name)
   )
 
   fs.writeFileSync(
@@ -152,50 +182,104 @@ export const getAll${Name}s = async (): Promise<${Name}[]> => {
   return response.data
 }
 
-export const get${Name}ById = async (id: number | string): Promise<${Name}> => {
-  const response = await api.get<${Name}>(${PLURAL}_ROUTES.GET_BY_ID(id))
+export const get${Name}ById = async (
+  id: number | string
+): Promise<${Name}> => {
+  const response = await api.get<${Name}>(
+    ${PLURAL}_ROUTES.GET_BY_ID(id)
+  )
+
   return response.data
 }
 `
   )
 }
 
-const apiTestScript = `#!/bin/bash
-
-BASE_URL="http://localhost:3002"
-
-case "$1" in
-  api)
-    curl -s "$BASE_URL/api" | jq
-    ;;
-
-${config.entities
+const apiTestCases = config.entities
   .map((entity) => {
     const Name = capitalize(entity.name)
 
-    return `  ${entity.plural})
-    curl -s "$BASE_URL/api/${entity.plural}/getAll${Name}s" | jq
-    ;;
+    return `      case '${entity.plural}': {
+        const response = await axios.get(
+          \`\${BASE_URL}/api/${entity.plural}/getAll${Name}s\`
+        )
 
-  ${entity.name})
-    curl -s "$BASE_URL/api/${entity.plural}/get${Name}ById/$2" | jq
-    ;;`
+        console.log(JSON.stringify(response.data, null, 2))
+        break
+      }
+
+      case '${entity.name}': {
+        if (!id) {
+          console.error('Missing id')
+          process.exit(1)
+        }
+
+        const response = await axios.get(
+          \`\${BASE_URL}/api/${entity.plural}/get${Name}ById/\${id}\`
+        )
+
+        console.log(JSON.stringify(response.data, null, 2))
+        break
+      }`
   })
-  .join('\n\n')}
+  .join('\n\n')
 
-  *)
-    echo "Usage:"
-    echo "  npm run test:api api"
-${config.entities
+const apiTestUsage = config.entities
   .map(
-    (entity) => `    echo "  npm run test:api ${entity.plural}"
-    echo "  npm run test:api ${entity.name} 1"`
+    (entity) => `        console.log('  npm run test:api ${entity.plural}')
+        console.log('  npm run test:api ${entity.name} 1')`
   )
-  .join('\n')}
-    ;;
-esac
+  .join('\n')
+
+const apiTestScript = `require('../config/env')
+
+const axios = require('axios')
+
+const BASE_URL =
+  process.env.BASE_URL ||
+  \`http://localhost:\${process.env.PORT || 5000}\`
+
+const command = process.argv[2]
+const id = process.argv[3]
+
+const run = async () => {
+  try {
+    switch (command) {
+      case 'api': {
+        const response = await axios.get(\`\${BASE_URL}/api\`)
+
+        console.log(JSON.stringify(response.data, null, 2))
+        break
+      }
+
+${apiTestCases}
+
+      default:
+        console.log('Usage:')
+        console.log('  npm run test:api api')
+${apiTestUsage}
+        break
+    }
+  } catch (err) {
+    if (err.response) {
+      console.error(
+        JSON.stringify(err.response.data, null, 2)
+      )
+
+      process.exit(err.response.status || 1)
+    }
+
+    console.error(err.message)
+    process.exit(1)
+  }
+}
+
+run()
 `
 
-fs.writeFileSync(path.join(backendScriptsDir, 'api-test.sh'), apiTestScript)
+fs.writeFileSync(
+  path.join(backendScriptsDir, 'api-test.js'),
+  apiTestScript
+)
 
 console.log('✅ API files generated successfully.')

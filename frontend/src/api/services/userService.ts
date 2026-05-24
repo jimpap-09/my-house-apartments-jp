@@ -7,7 +7,12 @@ export const getAllUsers = async (): Promise<User[]> => {
   return response.data
 }
 
-export const getUserById = async (id: number | string): Promise<User> => {
-  const response = await api.get<User>(USERS_ROUTES.GET_BY_ID(id))
+export const getUserById = async (
+  id: number | string
+): Promise<User> => {
+  const response = await api.get<User>(
+    USERS_ROUTES.GET_BY_ID(id)
+  )
+
   return response.data
 }

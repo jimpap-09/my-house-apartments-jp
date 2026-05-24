@@ -24,7 +24,7 @@ export function ApartmentsListPage() {
   return (
   <section className="grid gap-10 px-6 py-10">
     <div className="mx-auto grid w-full max-w-[760px] gap-3 text-center">
-      <p className="eyebrow">διάλεξε διαμέρισμα</p>
+      <p className="eyebrow">Διάλεξε Διαμέρισμα</p>
 
       <h2 className="text-4xl font-serif text-charcoal sm:text-5xl">
         Τα διαμερίσματα του JP
@@ -40,6 +40,7 @@ export function ApartmentsListPage() {
         <Link
           key={apartment.id}
           to={`/apartments/${apartment.id}`}
+          state={{ apartment }}
           className="group grid overflow-hidden rounded-2xl border border-border bg-card text-card-foreground no-underline shadow-soft transition duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-elegant md:grid-cols-[280px_1fr]"
         >
           <div className="hidden bg-gradient-warm md:block" />
@@ -47,7 +48,7 @@ export function ApartmentsListPage() {
           <div className="grid gap-5 p-6 sm:p-8">
             <div className="flex items-start justify-between gap-5">
               <div className="grid gap-2">
-                <p className="eyebrow">Διαμέρισμα</p>
+                <p className="eyebrow">Apartment</p>
 
                 <h2 className="text-2xl font-serif text-charcoal sm:text-3xl">
                   {apartment.title}
@@ -68,12 +69,11 @@ export function ApartmentsListPage() {
 
             <div className="flex items-center gap-2 text-sm font-medium text-charcoal">
               <MapPin size={18} />
-              <p>Ιδανική τοποθεσία</p>
+              <p>Ideal Location</p>
             </div>
 
             <div className="flex items-end justify-between gap-4 border-t border-border pt-5">
               <span className="text-muted-foreground">
-                από{' '}
                 <strong className="text-xl font-semibold text-charcoal">
                   €{apartment.pricePerNight}
                 </strong>

@@ -7,7 +7,12 @@ export const getAllReviews = async (): Promise<Review[]> => {
   return response.data
 }
 
-export const getReviewById = async (id: number | string): Promise<Review> => {
-  const response = await api.get<Review>(REVIEWS_ROUTES.GET_BY_ID(id))
+export const getReviewById = async (
+  id: number | string
+): Promise<Review> => {
+  const response = await api.get<Review>(
+    REVIEWS_ROUTES.GET_BY_ID(id)
+  )
+
   return response.data
 }

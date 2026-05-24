@@ -10,15 +10,47 @@ import { ApartmentSubnav } from '@/components/apartment-details/ApartmentSubnav'
 import { ApartmentTrustStrip } from '@/components/apartment-details/ApartmentTrustStrip'
 import { ReservationCard } from '@/components/apartment-details/ReservationCard'
 import { apartmentSectionIds, type ApartmentSectionId } from '@/data/apartment-details'
-import { apartments } from '@/data/apartments'
-import { useI18n } from '@/i18n/LanguageContext'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Navigate, useParams } from 'react-router-dom'
+import { Navigate, useParams, useLocation } from 'react-router-dom'
+import { getApartmentById } from '@/api/services/apartmentService'
+import type { Apartment } from '@/api/types/apartment'
 
 export function ApartmentDetailsPage() {
   const { apartmentId } = useParams()
-  const { language, t } = useI18n()
-  const apartment = apartments.find((item) => item.id === apartmentId)
+  const location = useLocation()
+
+  const apartmentFromState = location.state?.apartment as Apartment | undefined
+
+  const [apartment, setApartment] = useState<Apartment | null>(
+    apartmentFromState ?? null
+  )
+
+  const [loading, setLoading] = useState(!apartmentFromState)
+
+  useEffect(() => {
+    if (apartmentFromState || !apartmentId) return
+
+    const fetchApartment = async () => {
+      try {
+        const data = await getApartmentById(apartmentId)
+        setApartment(data)
+      } catch (err) {
+        console.error(err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchApartment()
+  }, [apartmentId, apartmentFromState])
+
+  if (loading) {
+    return <p>Loading...</p>
+  }
+
+  if (!apartment) {
+    return <Navigate to="/not-found" replace />
+  }
   const [activeSection, setActiveSection] = useState<ApartmentSectionId>('overview')
   const isProgrammaticScroll = useRef(false)
   const [activePhoto, setActivePhoto] = useState<number | null>(null)
