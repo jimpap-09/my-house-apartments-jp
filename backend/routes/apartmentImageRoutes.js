@@ -4,5 +4,6 @@ const apartmentImageController = require('../controllers/apartmentImageControlle
 
 router.get('/getAllApartmentImages', apartmentImageController.getAllApartmentImages)
 router.get('/getApartmentImageById/:id', apartmentImageController.getApartmentImageById)
+router.get('/getGalleryById/:apartmentId', apartmentImageController.getGalleryById)
 
 module.exports = router

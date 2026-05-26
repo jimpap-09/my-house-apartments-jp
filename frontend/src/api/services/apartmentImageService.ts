@@ -16,3 +16,12 @@ export const getApartmentImageById = async (
 
   return response.data
 }
+
+export const getGalleryById = async (
+  apartmentId: number | string
+): Promise<ApartmentImage[]> => {
+  const response = await api.get<ApartmentImage[]>(
+    APARTMENTIMAGES_ROUTES.GET_BY_APARTMENT_ID(apartmentId)
+  )
+  return response.data
+}
