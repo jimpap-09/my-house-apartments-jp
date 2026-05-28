@@ -110,3 +110,10 @@ find /usr -name psql 2>/dev/null
 
 echo 'export PATH=$PATH:/usr/lib/postgresql/16/bin' >> ~/.bashrc
 source ~/.bashrc
+
+// restore old files (env) from old commits
+git show 57638c2:backend
+git diff 57638c2 -- name-only backend/*env
+git diff 57638c2 -- backend
+git diff 57638c2 -- name-only backend/*env
+git restore --source COMMIT_HASH backend/.env

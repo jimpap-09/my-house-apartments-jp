@@ -2,15 +2,13 @@ require('./env')
 
 module.exports = {
   development: {
-    username: process.env.DB_USER,
-    password: String(process.env.DB_PASSWORD),
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT || 5432),
     dialect: process.env.DB_DIALECT || 'postgres',
     dialectOptions: {
-      ssl: false,
-    },
+      ssl: {
+        require:true,
+        rejectUnauthorized:false,
+      },
+    }
   },
 
   test: {

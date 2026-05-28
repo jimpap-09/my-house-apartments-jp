@@ -8,6 +8,13 @@ erDiagram
         text description
         float pricePerNight
         string location
+        string imageUrl
+    }
+    IMAGES {
+        int id PK
+        int apartment FK
+        string url
+        string alt
     }
     USERS {
         int id PK
@@ -36,6 +43,7 @@ erDiagram
 
     APARTMENTS ||--o{ REVIEWS : "has many"
     APARTMENTS ||--o{ RESERVATIONS : "has many"
+    APARTMENTS ||--o{ IMAGES : "has many"
     USERS ||--o{ REVIEWS : "writes many"
     USERS ||--o{ RESERVATIONS : "makes many"
 ```
