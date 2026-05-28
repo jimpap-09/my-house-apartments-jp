@@ -8,7 +8,7 @@ export const getAllApartmentImages = async (): Promise<ApartmentImage[]> => {
 }
 
 export const getApartmentImageById = async (
-  id: number | string
+  id: number | string,
 ): Promise<ApartmentImage> => {
   const response = await api.get<ApartmentImage>(
     APARTMENTIMAGES_ROUTES.GET_BY_ID(id)

@@ -127,3 +127,11 @@ environment =
 
 backend/config/env.js
   NODE_ENV(something) = env.smth
+
+  npm install -g cloudinary-cli
+  export CLOUDINARY_URL=cloudinary://API_KEY:API_SECRET@CLOUD_NAME
+  CLOUDINARY_CLOUD_NAME=dlwmf6upk
+CLOUDINARY_API_KEY=xxxxx
+CLOUDINARY_API_SECRET=xxxxx
+cld uploader upload ./photo.jpg
+cld uploader upload ./photo.jpg --folder apartments/jp-1

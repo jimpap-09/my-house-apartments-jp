@@ -8,6 +8,7 @@ module.exports = {
         description: 'Modern apartment in Athens.',
         pricePerNight: 74,
         location: 'Ampelokoipoi, Athens, Greece',
+        urlCover: 'https://res.cloudinary.com/dzj8q4qtf/image/upload/v1703489205/my-house-apartments-jp/ampelokoipoi-1.jpg',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -16,6 +17,7 @@ module.exports = {
         description: 'Comfortable apartment in Athens.',
         pricePerNight: 82,
         location: 'Ampelokoipoi, Athens, Greece',
+        urlCover: 'https://res.cloudinary.com/dzj8q4qtf/image/upload/v1703489205/my-house-apartments-jp/ampelokoipoi-2.jpg',
         createdAt: new Date(),
         updatedAt: new Date()
       }

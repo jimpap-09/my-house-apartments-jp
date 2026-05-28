@@ -1,0 +1,191 @@
+[
+  {
+    "apartmentId": 1,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005236/apartments/jp-1/cover-living-room.webp",
+    "alt": "jp-1 cover-living-room",
+    "sortOrder": 1,
+    "isCover": true
+  },
+  {
+    "apartmentId": 1,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005237/apartments/jp-1/balcony-1.webp",
+    "alt": "jp-1 balcony-1",
+    "sortOrder": 2,
+    "isCover": false
+  },
+  {
+    "apartmentId": 1,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005238/apartments/jp-1/balcony-2.webp",
+    "alt": "jp-1 balcony-2",
+    "sortOrder": 3,
+    "isCover": false
+  },
+  {
+    "apartmentId": 1,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005239/apartments/jp-1/bathroom-1.webp",
+    "alt": "jp-1 bathroom-1",
+    "sortOrder": 4,
+    "isCover": false
+  },
+  {
+    "apartmentId": 1,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005240/apartments/jp-1/bathroom-2.webp",
+    "alt": "jp-1 bathroom-2",
+    "sortOrder": 5,
+    "isCover": false
+  },
+  {
+    "apartmentId": 1,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005241/apartments/jp-1/bedroom-1.webp",
+    "alt": "jp-1 bedroom-1",
+    "sortOrder": 6,
+    "isCover": false
+  },
+  {
+    "apartmentId": 1,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005242/apartments/jp-1/bedroom-2.webp",
+    "alt": "jp-1 bedroom-2",
+    "sortOrder": 7,
+    "isCover": false
+  },
+  {
+    "apartmentId": 1,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005243/apartments/jp-1/detail-1.webp",
+    "alt": "jp-1 detail-1",
+    "sortOrder": 8,
+    "isCover": false
+  },
+  {
+    "apartmentId": 1,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005244/apartments/jp-1/detail-2.webp",
+    "alt": "jp-1 detail-2",
+    "sortOrder": 9,
+    "isCover": false
+  },
+  {
+    "apartmentId": 1,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005245/apartments/jp-1/entrance.webp",
+    "alt": "jp-1 entrance",
+    "sortOrder": 10,
+    "isCover": false
+  },
+  {
+    "apartmentId": 1,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005246/apartments/jp-1/extra-1.webp",
+    "alt": "jp-1 extra-1",
+    "sortOrder": 11,
+    "isCover": false
+  },
+  {
+    "apartmentId": 1,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005247/apartments/jp-1/extra-2.webp",
+    "alt": "jp-1 extra-2",
+    "sortOrder": 12,
+    "isCover": false
+  },
+  {
+    "apartmentId": 1,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005249/apartments/jp-1/hallway.webp",
+    "alt": "jp-1 hallway",
+    "sortOrder": 13,
+    "isCover": false
+  },
+  {
+    "apartmentId": 1,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005250/apartments/jp-1/kitchen-1.webp",
+    "alt": "jp-1 kitchen-1",
+    "sortOrder": 14,
+    "isCover": false
+  },
+  {
+    "apartmentId": 1,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005251/apartments/jp-1/kitchen-2.webp",
+    "alt": "jp-1 kitchen-2",
+    "sortOrder": 15,
+    "isCover": false
+  },
+  {
+    "apartmentId": 1,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005252/apartments/jp-1/living-room-2.webp",
+    "alt": "jp-1 living-room-2",
+    "sortOrder": 16,
+    "isCover": false
+  },
+  {
+    "apartmentId": 2,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005254/apartments/jp-2/cover-living-room.jpg",
+    "alt": "jp-2 cover-living-room",
+    "sortOrder": 1,
+    "isCover": true
+  },
+  {
+    "apartmentId": 2,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005255/apartments/jp-2/balcony.jpg",
+    "alt": "jp-2 balcony",
+    "sortOrder": 2,
+    "isCover": false
+  },
+  {
+    "apartmentId": 2,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005258/apartments/jp-2/bathroom-1.jpg",
+    "alt": "jp-2 bathroom-1",
+    "sortOrder": 3,
+    "isCover": false
+  },
+  {
+    "apartmentId": 2,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005259/apartments/jp-2/bathroom-2.jpg",
+    "alt": "jp-2 bathroom-2",
+    "sortOrder": 4,
+    "isCover": false
+  },
+  {
+    "apartmentId": 2,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005261/apartments/jp-2/bedroom-1.jpg",
+    "alt": "jp-2 bedroom-1",
+    "sortOrder": 5,
+    "isCover": false
+  },
+  {
+    "apartmentId": 2,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005262/apartments/jp-2/bedroom-2.jpg",
+    "alt": "jp-2 bedroom-2",
+    "sortOrder": 6,
+    "isCover": false
+  },
+  {
+    "apartmentId": 2,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005264/apartments/jp-2/detail.jpg",
+    "alt": "jp-2 detail",
+    "sortOrder": 7,
+    "isCover": false
+  },
+  {
+    "apartmentId": 2,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005266/apartments/jp-2/extra.jpg",
+    "alt": "jp-2 extra",
+    "sortOrder": 8,
+    "isCover": false
+  },
+  {
+    "apartmentId": 2,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005267/apartments/jp-2/kitchen-1.jpg",
+    "alt": "jp-2 kitchen-1",
+    "sortOrder": 9,
+    "isCover": false
+  },
+  {
+    "apartmentId": 2,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005269/apartments/jp-2/kitchen-2.jpg",
+    "alt": "jp-2 kitchen-2",
+    "sortOrder": 10,
+    "isCover": false
+  },
+  {
+    "apartmentId": 2,
+    "url": "https://res.cloudinary.com/dlwmf6upk/image/upload/v1780005271/apartments/jp-2/living-room-2.jpg",
+    "alt": "jp-2 living-room-2",
+    "sortOrder": 11,
+    "isCover": false
+  }
+]

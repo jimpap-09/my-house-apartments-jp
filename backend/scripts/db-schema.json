@@ -1,0 +1,234 @@
+{
+    "models": [
+        {
+            "name": "Apartment",
+            "attributes": {
+                "title": {
+                    "type": "string",
+                    "allowNull": false
+                },
+                "description": {
+                    "type": "string",
+                    "allowNull": true
+                },
+                "pricePerNight": {
+                    "type": "float",
+                    "allowNull": false,
+                    "defaultValue": 0
+                },
+                "location": {
+                    "type": "string",
+                    "allowNull": false
+                },
+                "urlCover": {
+                    "type": "string",
+                    "allowNull": false
+                }
+            }
+        },
+        {
+            "name": "ApartmentImage",
+            "attributes": {
+                "apartmentId": {
+                    "type": "integer",
+                    "allowNull": false,
+                    "references": {
+                        "model": "Apartment",
+                        "key": "id"
+                    },
+                    "onUpdate": "CASCADE",
+                    "onDelete": "CASCADE"
+                },
+                "url": {
+                    "type": "string",
+                    "allowNull": false
+                },
+                "alt": {
+                    "type": "string",
+                    "allowNull": false
+                },
+                "sortOrder": {
+                    "type": "integer",
+                    "allowNull": false,
+                    "defaultValue": 0
+                },
+                "isCover": {
+                    "type": "boolean",
+                    "allowNull": false,
+                    "defaultValue": false
+                }
+            }
+        },
+        {
+            "name": "User",
+            "attributes": {
+                "username": {
+                    "type": "string",
+                    "allowNull": true
+                },
+                "password": {
+                    "type": "string",
+                    "allowNull": true
+                },
+                "firstName": {
+                    "type": "string",
+                    "allowNull": true
+                },
+                "lastName": {
+                    "type": "string",
+                    "allowNull": true
+                },
+                "email": {
+                    "type": "string",
+                    "allowNull": false,
+                    "unique": true
+                },
+                "role": {
+                    "type": "string",
+                    "allowNull": false,
+                    "defaultValue": "user",
+                    "validate": {
+                        "isIn": [
+                            [
+                                "user",
+                                "admin"
+                            ]
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "name": "Review",
+            "attributes": {
+                "rating": {
+                    "type": "integer",
+                    "allowNull": false,
+                    "validate": {
+                        "min": 1,
+                        "max": 5
+                    }
+                },
+                "comment": {
+                    "type": "string",
+                    "allowNull": true
+                },
+                "userId": {
+                    "type": "integer",
+                    "allowNull": false,
+                    "references": {
+                        "model": "User",
+                        "key": "id"
+                    },
+                    "onUpdate": "CASCADE",
+                    "onDelete": "CASCADE"
+                },
+                "apartmentId": {
+                    "type": "integer",
+                    "allowNull": false,
+                    "references": {
+                        "model": "Apartment",
+                        "key": "id"
+                    },
+                    "onUpdate": "CASCADE",
+                    "onDelete": "CASCADE"
+                }
+            }
+        },
+        {
+            "name": "Reservation",
+            "attributes": {
+                "checkIn": {
+                    "type": "date",
+                    "allowNull": false
+                },
+                "checkOut": {
+                    "type": "date",
+                    "allowNull": false
+                },
+                "userId": {
+                    "type": "integer",
+                    "allowNull": false,
+                    "references": {
+                        "model": "User",
+                        "key": "id"
+                    },
+                    "onUpdate": "CASCADE",
+                    "onDelete": "CASCADE"
+                },
+                "apartmentId": {
+                    "type": "integer",
+                    "allowNull": false,
+                    "references": {
+                        "model": "Apartment",
+                        "key": "id"
+                    },
+                    "onUpdate": "CASCADE",
+                    "onDelete": "CASCADE"
+                }
+            }
+        }
+    ],
+    "relations": [
+        {
+            "source": "Apartment",
+            "target": "ApartmentImage",
+            "type": "hasMany",
+            "foreignKey": "apartmentId"
+        },
+        {
+            "source": "ApartmentImage",
+            "target": "Apartment",
+            "type": "belongsTo",
+            "foreignKey": "apartmentId"
+        },
+        {
+            "source": "User",
+            "target": "Review",
+            "type": "hasMany",
+            "foreignKey": "userId"
+        },
+        {
+            "source": "Review",
+            "target": "User",
+            "type": "belongsTo",
+            "foreignKey": "userId"
+        },
+        {
+            "source": "Apartment",
+            "target": "Review",
+            "type": "hasMany",
+            "foreignKey": "apartmentId"
+        },
+        {
+            "source": "Review",
+            "target": "Apartment",
+            "type": "belongsTo",
+            "foreignKey": "apartmentId"
+        },
+        {
+            "source": "User",
+            "target": "Reservation",
+            "type": "hasMany",
+            "foreignKey": "userId"
+        },
+        {
+            "source": "Reservation",
+            "target": "User",
+            "type": "belongsTo",
+            "foreignKey": "userId"
+        },
+        {
+            "source": "Apartment",
+            "target": "Reservation",
+            "type": "hasMany",
+            "foreignKey": "apartmentId"
+        },
+        {
+            "source": "Reservation",
+            "target": "Apartment",
+            "type": "belongsTo",
+            "foreignKey": "apartmentId"
+        }
+    ]
+}

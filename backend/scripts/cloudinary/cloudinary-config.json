@@ -1,0 +1,12 @@
+{
+    "apartments": [
+        {
+            "id": 1,
+            "folder": "jp-1"
+        },
+        {
+            "id": 2,
+            "folder": "jp-2"
+        }
+    ]
+}
