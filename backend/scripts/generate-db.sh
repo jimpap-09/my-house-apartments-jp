@@ -13,6 +13,7 @@ BACKEND_DIR="$(cd "$(dirname "$SCRIPT_DIR")" && pwd)"
 echo "SCRIPT_DIR=$SCRIPT_DIR"
 echo "BACKEND_DIR=$BACKEND_DIR"
 echo "Current directory is: $(pwd)"
+
 # go to backend folder
 cd "$BACKEND_DIR"
 echo "Changed directory to BACKEND_DIR: $(pwd)"
@@ -38,40 +39,50 @@ rm -f config/config.json
 cat > config/config.js <<'EOF'
 require('./env')
 
+const useSSL =
+  process.env.NODE_ENV === 'development' ||
+  process.env.NODE_ENV === 'production'
+
+const sslOptions = {
+  ssl: {
+    require: true,
+    rejectUnauthorized: false,
+  },
+}
+
+const baseConfig = {
+  username: process.env.DB_USER,
+  password: String(process.env.DB_PASSWORD),
+  database: process.env.DB_NAME,
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT || 5432),
+  dialect: process.env.DB_DIALECT || 'postgres',
+}
+
 module.exports = {
-  development: {
-    username: process.env.DB_USER,
-    password: String(process.env.DB_PASSWORD),
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT || 5432),
-    dialect: process.env.DB_DIALECT || 'postgres',
+  local: {
+    ...baseConfig,
     dialectOptions: {
       ssl: false,
     },
   },
 
+  development: {
+    ...baseConfig,
+    dialectOptions: useSSL ? sslOptions : {},
+  },
+
   test: {
-    username: process.env.DB_USER,
-    password: String(process.env.DB_PASSWORD),
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT || 5432),
-    dialect: process.env.DB_DIALECT || 'postgres',
+    ...baseConfig,
     dialectOptions: {
       ssl: false,
     },
   },
 
   production: {
-    url: process.env.DATABASE_URL,
-    dialect: process.env.DB_DIALECT || 'postgres',
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
-      },
-    },
+    ...baseConfig,
+    use_env_variable: 'DATABASE_URL',
+    dialectOptions: sslOptions,
   },
 }
 EOF
@@ -81,7 +92,7 @@ cat > .sequelizerc <<'EOF'
 const path = require('path');
 
 module.exports = {
-  config: path.resolve('config', 'config.js'),
+  'config': path.resolve('config', 'config.js'),
   'models-path': path.resolve('models'),
   'seeders-path': path.resolve('seeders'),
   'migrations-path': path.resolve('migrations'),
@@ -93,7 +104,7 @@ sed -i "s|../config/config.json|../config/config.js|g" models/index.js
 sed -i "s|/../config/config.json|/../config/config.js|g" models/index.js
 
 echo "Generating models & migrations..."
-npx sequelize-cli model:generate --name Apartment --attributes title:string,description:text,pricePerNight:float,location:string
+npx sequelize-cli model:generate --name Apartment --attributes title:string,description:text,pricePerNight:float,location:string,urlCover:string
 npx sequelize-cli model:generate --name ApartmentImage --attributes apartmentId:integer,url:string,alt:string,sortOrder:integer,isCover:boolean
 npx sequelize-cli model:generate --name User --attributes username:string,password:string,firstName:string,lastName:string,email:string,phone:string,role:string
 npx sequelize-cli model:generate --name Review --attributes apartmentId:integer,userId:integer,rating:integer,comment:text
@@ -104,6 +115,7 @@ echo "Applying constraints..."
 sed -i 's/title: {/title: {\n        allowNull: false,/g' migrations/*-create-apartment.js
 sed -i 's/location: {/location: {\n        allowNull: false,/g' migrations/*-create-apartment.js
 sed -i 's/pricePerNight: {/pricePerNight: {\n        allowNull: false,\n        defaultValue: 0,/g' migrations/*-create-apartment.js
+sed -i 's/urlCover: {/urlCover: {\n        allowNull: false,/g' migrations/*-create-apartment.js
 
 sed -i 's/apartmentId: {/apartmentId: {\n        allowNull: false,/g' migrations/*-create-apartment-image.js
 sed -i 's/url: {/url: {\n        allowNull: false,/g' migrations/*-create-apartment-image.js

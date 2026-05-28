@@ -21,15 +21,20 @@
     "start": "concurrently \"npm start --prefix frontend\" \"npm start --prefix backend\"",
     "dev": "concurrently -n FRONTEND,BACKEND \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
     "dev-session": "bash backend/scripts/dev-session.sh",
-    "generate:db": "cross-env NODE_ENV=development bash backend/scripts/setup-db.sh",
+
     "generate:api": "node backend/scripts/generate-api.js",
     "generate:erd": "node backend/scripts/generate-erd.js",
-    "test:db": "node backend/scripts/connect-db.js",
-    "test:env": "cross-env NODE_ENV=development node -e \"console.log(process.env.NODE_ENV)\"",
+
     "test:api": "npm run test --prefix backend",
+    "test:env": "cross-env NODE_ENV=development node -e \"console.log(process.env.NODE_ENV)\"",
+
+    "db:generate": "cross-env NODE_ENV=development bash backend/scripts/generate-db.sh",
     "db:shell": "bash backend/scripts/shell-db.sh",
+    "db:test": "node backend/scripts/connect-db.js",
     "db:status": "bash backend/scripts/status-db.sh",
     "db:drop": "bash backend/scripts/drop-shema.sh",
+    "db:setup": "bash backend/scripts/setup-db.sh",
+    
     "reset:all": "npm run db:drop && npm run db:setup && npm run generate:api && npm run generate:erd"
   },
   "dependencies": {

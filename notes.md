@@ -117,3 +117,13 @@ git diff 57638c2 -- name-only backend/*env
 git diff 57638c2 -- backend
 git diff 57638c2 -- name-only backend/*env
 git restore --source COMMIT_HASH backend/.env
+
+
+### environment
+environment =
+| local (frontend + backend + db -> docker)
+| dev ((frontend + backend) -> azure VM + db -> neondb)
+| prod (frontend + backend + db -> neondb) -> docker 
+
+backend/config/env.js
+  NODE_ENV(something) = env.smth
