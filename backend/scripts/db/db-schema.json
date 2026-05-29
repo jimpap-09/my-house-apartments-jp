@@ -2,13 +2,22 @@
     "models": [
         {
             "name": "Apartment",
+            "primaryKey": "id",
+            "options": {
+                "timestamps": true
+            },
             "attributes": {
+                "id": {
+                    "type": "integer",
+                    "primaryKey": true,
+                    "autoIncrement": true
+                },
                 "title": {
                     "type": "string",
                     "allowNull": false
                 },
                 "description": {
-                    "type": "string",
+                    "type": "text",
                     "allowNull": true
                 },
                 "pricePerNight": {
@@ -28,7 +37,16 @@
         },
         {
             "name": "ApartmentImage",
+            "primaryKey": "id",
+            "options": {
+                "timestamps": true
+            },
             "attributes": {
+                "id": {
+                    "type": "integer",
+                    "primaryKey": true,
+                    "autoIncrement": true
+                },
                 "apartmentId": {
                     "type": "integer",
                     "allowNull": false,
@@ -61,7 +79,16 @@
         },
         {
             "name": "User",
+            "primaryKey": "id",
+            "options": {
+                "timestamps": true
+            },
             "attributes": {
+                "id": {
+                    "type": "integer",
+                    "primaryKey": true,
+                    "autoIncrement": true
+                },
                 "username": {
                     "type": "string",
                     "allowNull": true
@@ -100,7 +127,19 @@
         },
         {
             "name": "Review",
+            "uniqueConstraints": [
+                ["userId", "apartmentId"]
+            ],
+            "primaryKey": "id",
+            "options": {
+                "timestamps": true
+            },
             "attributes": {
+                "id": {
+                    "type": "integer",
+                    "primaryKey": true,
+                    "autoIncrement": true
+                },
                 "rating": {
                     "type": "integer",
                     "allowNull": false,
@@ -110,7 +149,7 @@
                     }
                 },
                 "comment": {
-                    "type": "string",
+                    "type": "text",
                     "allowNull": true
                 },
                 "userId": {
@@ -137,7 +176,17 @@
         },
         {
             "name": "Reservation",
+            "indexes": [["apartmentId", "checkIn", "checkOut"]],
+            "primaryKey": "id",
+            "options": {
+                "timestamps": true
+            },
             "attributes": {
+                "id": {
+                    "type": "integer",
+                    "primaryKey": true,
+                    "autoIncrement": true
+                },
                 "checkIn": {
                     "type": "date",
                     "allowNull": false
@@ -169,7 +218,8 @@
             }
         }
     ],
-    "relations": [
+    "relations":
+    [
         {
             "source": "Apartment",
             "target": "ApartmentImage",
