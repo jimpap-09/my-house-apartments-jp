@@ -2,7 +2,11 @@ const { Reservation } = require('../models')
 
 const getAllReservations = async (req, res) => {
   try {
-    const data = await Reservation.findAll()
+    const data = await Reservation.findAll({
+      
+      
+    })
+
     res.json(data)
   } catch (err) {
     res.status(500).json({ error: err.message })

@@ -10,101 +10,78 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 })
 
-console.log('Cloudinary config loaded:')
-console.log('CLOUD NAME:', process.env.CLOUDINARY_CLOUD_NAME)
-console.log('API KEY:', process.env.CLOUDINARY_API_KEY ? 'OK' : 'MISSING')
-console.log('API SECRET:', process.env.CLOUDINARY_API_SECRET ? 'OK' : 'MISSING')
+
 
 const rootDir = path.resolve(__dirname, '../../..')
-
-const imagesRoot = path.join(
-    rootDir,
-    'frontend',
-    'public',
-    'images',
-    'apartments'
-)
-
+const imagesRoot = path.join(rootDir, 'frontend', 'public', 'images', 'apartments')
 const outputFile = path.join(__dirname, 'cloudinary-images.json')
 
 const apartments = [
-    {
-        id: 1,
-        folder: 'jp-1',
-    },
-    {
-        id: 2,
-        folder: 'jp-2',
-    },
+    { id: 1, folder: 'jp-1' },
+    { id: 2, folder: 'jp-2' },
 ]
 
-const isImage = (file) => {
-    const ext = path.extname(file).toLowerCase()
+const isImage = (file) =>
+    ['.jpg', '.jpeg', '.png', '.webp'].includes(path.extname(file).toLowerCase())
 
-    return ['.jpg', '.jpeg', '.png', '.webp'].includes(ext)
-}
+const normalizeCategory = (category) =>
+    category === 'livingroom' ? 'living-room' : category
 
-const isCoverImage = (file) => {
-    return file.startsWith('cover-')
-}
+const isCoverImage = (category, index) =>
+    normalizeCategory(category) === 'living-room' && index === 0
 
-const sortImages = (a, b) => {
-    if (isCoverImage(a)) return -1
-    if (isCoverImage(b)) return 1
+async function uploadApartment(apartment) {
+    const apartmentFolder = path.join(imagesRoot, apartment.folder)
 
-    return a.localeCompare(b, undefined, {
-        numeric: true,
-    })
-}
-
-async function uploadFolder(apartment) {
-    const localFolder = path.join(imagesRoot, apartment.folder)
-
-    console.log('')
-    console.log(`Processing folder: ${localFolder}`)
-
-    if (!fs.existsSync(localFolder)) {
-        throw new Error(`Missing local folder: ${localFolder}`)
+    if (!fs.existsSync(apartmentFolder)) {
+        throw new Error(`Missing folder: ${apartmentFolder}`)
     }
 
-    const files = fs
-        .readdirSync(localFolder)
-        .filter(isImage)
-        .sort(sortImages)
-
-    console.log('Files found:')
-    console.log(files)
-
-    if (files.length === 0) {
-        throw new Error(`No images found in: ${localFolder}`)
-    }
+    const categories = fs
+        .readdirSync(apartmentFolder, { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => entry.name)
+        .sort()
 
     const uploaded = []
+    let globalSortOrder = 1
 
-    for (const [index, file] of files.entries()) {
-        const filePath = path.join(localFolder, file)
-        const fileName = path.parse(file).name
+    for (const category of categories) {
+        const categoryFolder = path.join(apartmentFolder, category)
+        const normalizedCategory = normalizeCategory(category)
 
-        console.log('')
-        console.log(`Uploading: ${filePath}`)
+        const files = fs
+            .readdirSync(categoryFolder)
+            .filter(isImage)
+            .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
 
-        const result = await cloudinary.uploader.upload(filePath, {
-            folder: `apartments/${apartment.folder}`,
-            public_id: fileName,
-            overwrite: true,
-            resource_type: 'image',
-        })
+        for (const [index, file] of files.entries()) {
+            const filePath = path.join(categoryFolder, file)
+            const ext = path.extname(file)
+            const publicName = `${normalizedCategory}-${index + 1}`
 
-        console.log(`Uploaded successfully:`)
-        console.log(result.secure_url)
+            const result = await cloudinary.uploader.upload(filePath, {
+                folder: `apartments/${apartment.folder}`,
+                public_id: publicName,
+                overwrite: true,
+                resource_type: 'image',
+            })
 
-        uploaded.push({
-            apartmentId: apartment.id,
-            url: result.secure_url,
-            alt: `${apartment.folder} ${fileName}`,
-            sortOrder: index + 1,
-            isCover: isCoverImage(file),
-        })
+            uploaded.push({
+                apartmentId: apartment.id,
+                category: normalizedCategory,
+                publicId: result.public_id,
+                url: result.secure_url,
+                alt: publicName,
+                sortOrder: globalSortOrder,
+                isCover: isCoverImage(category, index),
+            })
+
+            globalSortOrder++
+
+            console.log(`Uploaded: ${filePath}`)
+            console.log(`→ ${result.public_id}`)
+        }
     }
 
     return uploaded
@@ -114,20 +91,18 @@ async function main() {
     const allImages = []
 
     for (const apartment of apartments) {
-        const images = await uploadFolder(apartment)
-
+        const images = await uploadApartment(apartment)
         allImages.push(...images)
     }
 
     fs.writeFileSync(outputFile, JSON.stringify(allImages, null, 2))
 
     console.log('')
-    console.log(`Saved image URLs to:`)
-    console.log(outputFile)
+    console.log(`Saved JSON to: ${outputFile}`)
 }
 
 main().catch((err) => {
-    console.error('')
+
     console.error('Upload failed:')
     console.error(err.message)
 

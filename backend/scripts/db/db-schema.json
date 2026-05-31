@@ -128,7 +128,10 @@
         {
             "name": "Review",
             "uniqueConstraints": [
-                ["userId", "apartmentId"]
+                [
+                    "userId",
+                    "apartmentId"
+                ]
             ],
             "primaryKey": "id",
             "options": {
@@ -176,7 +179,13 @@
         },
         {
             "name": "Reservation",
-            "indexes": [["apartmentId", "checkIn", "checkOut"]],
+            "indexes": [
+                [
+                    "apartmentId",
+                    "checkIn",
+                    "checkOut"
+                ]
+            ],
             "primaryKey": "id",
             "options": {
                 "timestamps": true
@@ -218,8 +227,7 @@
             }
         }
     ],
-    "relations":
-    [
+    "relations": [
         {
             "source": "Apartment",
             "target": "ApartmentImage",

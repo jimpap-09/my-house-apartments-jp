@@ -1,0 +1,40 @@
+{
+    "Apartments": [
+        {
+            "id": 1,
+            "title": "My House Apartment JP 1",
+            "description": "Modern apartment in Athens.",
+            "pricePerNight": 74,
+            "location": "Ampelokoipoi, Athens, Greece"
+        },
+        {
+            "id": 2,
+            "title": "My House Apartment JP 2",
+            "description": "Comfortable apartment in Athens.",
+            "pricePerNight": 82,
+            "location": "Ampelokoipoi, Athens, Greece"
+        }
+    ],
+    "Users": [
+        {
+            "id": 1,
+            "username": "johnpap26",
+            "password": "admin",
+            "firstName": "John",
+            "lastName": "Papadimitriou",
+            "email": "johnpap26@gmail.com",
+            "role": "admin"
+        },
+        {
+            "id": 2,
+            "username": "jimpap828",
+            "password": "guest",
+            "firstName": "Jimmy",
+            "lastName": "Papadimitriou",
+            "email": "jimpap828@gmail.com",
+            "role": "user"
+        }
+    ],
+    "Reviews": [],
+    "Reservations": []
+}

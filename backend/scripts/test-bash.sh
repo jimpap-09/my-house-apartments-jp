@@ -1,7 +1,10 @@
 #!/bin/bash
+
 set -e
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKEND_DIR="$(cd "$(dirname "$SCRIPT_DIR")" && pwd)"
+
 echo "SCRIPT_DIR=$SCRIPT_DIR"
 echo "BACKEND_DIR=$BACKEND_DIR"
 echo "Current directory is: $(pwd)"

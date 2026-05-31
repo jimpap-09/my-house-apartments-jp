@@ -1,0 +1,83 @@
+{
+  "resources": [
+    {
+      "name": "apartment",
+      "plural": "apartments",
+      "model": "Apartment",
+      "basePath": "/apartments",
+      "routes": [
+        { "name": "getAllApartments", "method": "get", "path": "/", "action": "findAll", "response": "Apartment[]" },
+        { "name": "getApartmentById", "method": "get", "path": "/:id", "action": "findByPk", "params": ["id"], "response": "Apartment" },
+
+        { "name": "createApartment", "method": "post", "path": "/", "action": "create", "body": ["title", "description", "pricePerNight", "location", "urlCover"], "response": "Apartment" },
+        { "name": "updateApartment", "method": "put", "path": "/:id", "action": "update", "params": ["id"], "body": ["title", "description", "pricePerNight", "location", "urlCover"], "response": "Apartment" },
+        { "name": "deleteApartment", "method": "delete", "path": "/:id", "action": "delete", "params": ["id"], "response": "DeleteResult" },
+
+        { "name": "getApartmentImages", "method": "get", "path": "/:apartmentId/images", "action": "findAll", "model": "ApartmentImage", "where": { "apartmentId": "params.apartmentId" }, "params": ["apartmentId"], "response": "ApartmentImage[]" },
+        { "name": "getApartmentReviews", "method": "get", "path": "/:apartmentId/reviews", "action": "findAll", "model": "Review", "where": { "apartmentId": "params.apartmentId" }, "include": ["User"], "params": ["apartmentId"], "response": "Review[]" },
+        { "name": "getApartmentReservations", "method": "get", "path": "/:apartmentId/reservations", "action": "findAll", "model": "Reservation", "where": { "apartmentId": "params.apartmentId" }, "include": ["User"], "params": ["apartmentId"], "response": "Reservation[]" }
+      ]
+    },
+    {
+      "name": "user",
+      "plural": "users",
+      "model": "User",
+      "basePath": "/users",
+      "routes": [
+        { "name": "getAllUsers", "method": "get", "path": "/", "action": "findAll", "response": "User[]" },
+        { "name": "getUserById", "method": "get", "path": "/:id", "action": "findByPk", "params": ["id"], "response": "User" },
+
+        { "name": "createUser", "method": "post", "path": "/", "action": "create", "body": ["name", "email", "password"], "response": "User" },
+        { "name": "updateUser", "method": "put", "path": "/:id", "action": "update", "params": ["id"], "body": ["name", "email", "password"], "response": "User" },
+        { "name": "deleteUser", "method": "delete", "path": "/:id", "action": "delete", "params": ["id"], "response": "DeleteResult" },
+        
+        { "name": "getUserReviews", "method": "get", "path": "/:userId/reviews", "action": "findAll", "model": "Review", "where": { "userId": "params.userId" }, "include": ["Apartment"], "params": ["userId"], "response": "Review[]" },
+        { "name": "getUserReservations", "method": "get", "path": "/:userId/reservations", "action": "findAll", "model": "Reservation", "where": { "userId": "params.userId" }, "include": ["Apartment"], "params": ["userId"], "response": "Reservation[]" }
+      ]
+    },
+    {
+      "name": "review",
+      "plural": "reviews",
+      "model": "Review",
+      "basePath": "/reviews",
+      "routes": [
+        { "name": "getAllReviews", "method": "get", "path": "/", "action": "findAll", "response": "Review[]" },
+        { "name": "getReviewById", "method": "get", "path": "/:id", "action": "findByPk", "params": ["id"], "response": "Review" },
+
+        { "name": "createReview", "method": "post", "path": "/", "action": "create", "body": ["userId", "apartmentId", "rating", "comment"], "response": "Review" },
+        { "name": "updateReview", "method": "put", "path": "/:id", "action": "update", "params": ["id"], "body": ["userId", "apartmentId", "rating", "comment"], "response": "Review" },
+        { "name": "deleteReview", "method": "delete", "path": "/:id", "action": "delete", "params": ["id"], "response": "DeleteResult" },
+
+        { "name": "getReviewUser", "method": "get", "path": "/:reviewId/user", "action": "findOne", "model": "User", "where": { "id": "params.reviewId" }, "include": ["Review"], "params": ["reviewId"], "response": "User" },
+        { "name": "getReviewApartment", "method": "get", "path": "/:reviewId/apartment", "action": "findOne", "model": "Apartment", "where": { "id": "params.reviewId" }, "include": ["Review"], "params": ["reviewId"], "response": "Apartment" }
+      ]
+    },
+    {
+      "name": "reservation",
+      "plural": "reservations",
+      "model": "Reservation",
+      "basePath": "/reservations",
+      "routes": [
+        { "name": "getAllReservations", "method": "get", "path": "/", "action": "findAll", "response": "Reservation[]" },
+        { "name": "getReservationById", "method": "get", "path": "/:id", "action": "findByPk", "params": ["id"], "response": "Reservation" },
+
+        { "name": "createReservation", "method": "post", "path": "/", "action": "create", "body": ["userId", "apartmentId", "startDate", "endDate"], "response": "Reservation" },
+        { "name": "updateReservation", "method": "put", "path": "/:id", "action": "update", "params": ["id"], "body": ["userId", "apartmentId", "startDate", "endDate"], "response": "Reservation" },
+        { "name": "deleteReservation", "method": "delete", "path": "/:id", "action": "delete", "params": ["id"], "response": "DeleteResult" },
+
+        { "name": "getReservationUser", "method": "get", "path": "/:reservationId/user", "action": "findOne", "model": "User", "where": { "id": "params.reservationId" }, "include": ["Reservation"], "params": ["reservationId"], "response": "User" },
+        { "name": "getReservationApartment", "method": "get", "path": "/:reservationId/apartment", "action": "findOne", "model": "Apartment", "where": { "id": "params.reservationId" }, "include": ["Reservation"], "params": ["reservationId"], "response": "Apartment" }
+      ]
+    },
+    {
+      "name": "apartmentImage",
+      "plural": "apartmentImages",
+      "model": "ApartmentImage",
+      "basePath": "/apartment-images",
+      "routes": [
+        { "name": "getAllApartmentImages", "method": "get", "path": "/", "action": "findAll", "response": "ApartmentImage[]" },
+        { "name": "getApartmentImageById", "method": "get", "path": "/:id", "action": "findByPk", "params": ["id"], "response": "ApartmentImage" }
+      ]
+    }
+  ]
+}

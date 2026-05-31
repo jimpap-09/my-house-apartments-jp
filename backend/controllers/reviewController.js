@@ -2,7 +2,11 @@ const { Review } = require('../models')
 
 const getAllReviews = async (req, res) => {
   try {
-    const data = await Review.findAll()
+    const data = await Review.findAll({
+      
+      
+    })
+
     res.json(data)
   } catch (err) {
     res.status(500).json({ error: err.message })

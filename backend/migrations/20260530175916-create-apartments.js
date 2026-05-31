@@ -1,29 +1,33 @@
-'use strict';
-/** @type {import('sequelize-cli').Migration} */
+'use strict'
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Apartments', {
       id: {
-        allowNull: false,
-        autoIncrement: true,
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        autoIncrement: true,
       },
       title: {
+        type: Sequelize.STRING,
         allowNull: false,
-        type: Sequelize.STRING
       },
       description: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull: true,
       },
       pricePerNight: {
+        type: Sequelize.FLOAT,
         allowNull: false,
         defaultValue: 0,
-        type: Sequelize.FLOAT
       },
       location: {
+        type: Sequelize.STRING,
         allowNull: false,
-        type: Sequelize.STRING
+      },
+      urlCover: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -33,9 +37,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
+
+
   },
+
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Apartments');
+    await queryInterface.dropTable('Apartments')
   }
-};
+}

@@ -1,33 +1,28 @@
-'use strict';
-/** @type {import('sequelize-cli').Migration} */
+'use strict'
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Reservations', {
       id: {
-        allowNull: false,
-        autoIncrement: true,
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      apartmentId: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      userId: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      guestName: {
-        allowNull: false,
-        type: Sequelize.STRING
+        autoIncrement: true,
       },
       checkIn: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
       },
       checkOut: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      apartmentId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -37,9 +32,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
+
+    await queryInterface.addIndex('Reservations', ["apartmentId","checkIn","checkOut"], {
+      name: 'idx_reservations_apartmentId_checkIn_checkOut'
+    })
   },
+
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Reservations');
+    await queryInterface.dropTable('Reservations')
   }
-};
+}

@@ -1,34 +1,34 @@
-'use strict';
-/** @type {import('sequelize-cli').Migration} */
+'use strict'
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('ApartmentImages', {
       id: {
-        allowNull: false,
-        autoIncrement: true,
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        autoIncrement: true,
       },
       apartmentId: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        type: Sequelize.INTEGER
       },
       url: {
+        type: Sequelize.STRING,
         allowNull: false,
-        type: Sequelize.STRING
       },
       alt: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       sortOrder: {
+        type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 0,
-        type: Sequelize.INTEGER
       },
       isCover: {
+        type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: false,
-        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
@@ -38,9 +38,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
+
+
   },
+
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('ApartmentImages');
+    await queryInterface.dropTable('ApartmentImages')
   }
-};
+}
