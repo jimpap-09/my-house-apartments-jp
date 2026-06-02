@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { MapPin, Star } from 'lucide-react'
 
-import { getAllApartments } from '@/api/services/apartmentService'
-import { getGalleryById } from '@/api/services/apartmentImageService'
-import type { Apartment } from '@/api/types/apartment'
-import type { ApartmentImage } from '@/api/types/apartmentImage'
+import { getAllApartments } from '../api/services/apartmentService'
+
+import type { Apartment } from '../api/types/Apartment'
 
 export function ApartmentsListPage() {
   const [apartments, setApartments] = useState<Apartment[]>([])
-  const [image, setImage] = useState<ApartmentImage[]>([])
+
 
   useEffect(() => {
     const fetchApartments = async () => {
@@ -25,23 +24,25 @@ export function ApartmentsListPage() {
     fetchApartments()
   }, [])
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const data = await Promise.all(
-          apartments.map(async (apartment) => {
-            const gallery = await getGalleryById(apartment.id)
-            return { ...apartment, gallery }
-          })
-        )
-        setImage(data)
-      } catch (err) {
-        console.error(err)
-      }
-    }
+console.log('APARTMENTS', apartments)
 
-    fetchImages()
-  }, [apartments])
+  // useEffect(() => {
+  //   const fetchImages = async () => {
+  //     try {
+  //       const data = await Promise.all(
+  //         apartments.map(async (apartment) => {
+  //           const gallery = await getApartmentImages(apartment.id)
+  //           return { ...apartment, gallery }
+  //         })
+  //       )
+  //       setImages(data.map((apartment) => apartment.gallery).flat())
+  //     } catch (err) {
+  //       console.error(err)
+  //     }
+  //   }
+
+  //   fetchImages()
+  // }, [apartments, images])
 
   return (
     <section className="grid gap-10 px-6 py-10">

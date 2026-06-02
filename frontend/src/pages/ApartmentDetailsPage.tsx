@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Navigate, useLocation, useParams } from 'react-router-dom'
 
-import { useI18n } from '@/i18n/LanguageContext'
+
 import { ApartmentAbout } from '@/components/apartment-details/ApartmentAbout'
 import { ApartmentAmenities } from '@/components/apartment-details/ApartmentAmenities'
 import { ApartmentBookingCalendar } from '@/components/apartment-details/ApartmentBookingCalendar'
@@ -14,20 +14,28 @@ import { ApartmentSubnav } from '@/components/apartment-details/ApartmentSubnav'
 import { ApartmentTrustStrip } from '@/components/apartment-details/ApartmentTrustStrip'
 import { ReservationCard } from '@/components/apartment-details/ReservationCard'
 
-import { apartmentSectionIds, type ApartmentSectionId } from '@/data/apartment-details'
+
 
 import { getApartmentById } from '@/api/services/apartmentService'
-import { getGalleryById } from '@/api/services/apartmentImageService'
+import { getAllApartmentImages } from '@/api/services/apartmentImageService'
 
-import type { Apartment } from '@/api/types/apartment'
-import type { ApartmentImage } from '@/api/types/apartmentImage'
+import type { Apartment } from '@/api/types/Apartment'
+import type { ApartmentImage } from '@/api/types/ApartmentImage'
+
+import { apartmentSectionIds, type ApartmentSectionId } from '@/data/apartment-details'
+
+
+
+
+
+
 
 export function ApartmentDetailsPage() {
-  const { t, language } = useI18n()
-  const { apartmentId } = useParams()
-  const location = useLocation()
 
-  const apartmentFromState = location.state?.apartment as Apartment | undefined
+  const { apartmentId } = useParams()
+
+
+  const apartmentFromState = location as Apartment | undefined
 
   const [apartment, setApartment] = useState<Apartment | null>(apartmentFromState ?? null)
   const [photos, setPhotos] = useState<string[]>([])
@@ -70,7 +78,7 @@ export function ApartmentDetailsPage() {
       }
 
       try {
-        const images = await getGalleryById(apartment.id)
+        const images = await getAllApartmentImages()
         setPhotos(images.map((image: ApartmentImage) => image.url))
       } catch (err) {
         console.error('Unable to load apartment gallery', err)
@@ -238,34 +246,34 @@ export function ApartmentDetailsPage() {
   return (
     <article className="grid gap-10 bg-background text-foreground">
       <ApartmentSubnav
-        labels={t.app}
+        labels={app}
         activeSection={activeSection}
         onSectionSelect={handleSectionSelect}
         reservationSummary={reservationSummary}
       />
 
-      <ApartmentHero apartment={apartment} imageUrl={photos[0]} labels={t.app} />
+      <ApartmentHero apartment={apartment} imageUrl={photos[0]} labels={app} />
 
-      <ApartmentTrustStrip apartment={apartment} language={language} labels={t.app} />
+      <ApartmentTrustStrip apartment={apartment} language={language} labels={app} />
 
       <ApartmentGallery
         photos={photos}
         previewPhotos={previewPhotos}
-        labels={t.app}
+        labels={app}
         onOpenPhoto={setActivePhoto}
       />
 
       <div className="container-luxe grid gap-8 xl:grid-cols-[minmax(0,1fr)_360px]">
         <div className="grid gap-8">
-          <ApartmentOverview apartment={apartment} language={language} labels={t.app} />
+          <ApartmentOverview apartment={apartment} language={language} labels={app} />
 
-          <ApartmentAbout apartment={apartment} language={language} photos={photos} labels={t.app} />
+          <ApartmentAbout apartment={apartment} language={language} photos={photos} labels={app} />
 
-          <ApartmentAmenities apartment={apartment} language={language} labels={t.app} />
+          <ApartmentAmenities apartment={apartment} language={language} labels={app} />
 
           <ApartmentBookingCalendar
             apartment={apartment}
-            labels={t.app}
+            labels={app}
             checkIn={checkIn}
             checkOut={checkOut}
             onSelectDate={handleSelectDate}
@@ -278,7 +286,7 @@ export function ApartmentDetailsPage() {
         <div className="sticky top-[132px] self-start">
           <ReservationCard
             apartment={apartment}
-            labels={t.app}
+            labels={app}
             checkIn={checkIn}
             checkOut={checkOut}
             guests={guests}
@@ -305,7 +313,7 @@ export function ApartmentDetailsPage() {
             type="button"
             onClick={() => setActivePhoto(null)}
           >
-            {t.app.closeGallery}
+            {}
           </button>
 
           <div className="grid gap-4 rounded-[28px] bg-slate-950 p-4 shadow-soft max-w-[1240px] w-full">

@@ -30,7 +30,7 @@
         { "name": "createUser", "method": "post", "path": "/", "action": "create", "body": ["name", "email", "password"], "response": "User" },
         { "name": "updateUser", "method": "put", "path": "/:id", "action": "update", "params": ["id"], "body": ["name", "email", "password"], "response": "User" },
         { "name": "deleteUser", "method": "delete", "path": "/:id", "action": "delete", "params": ["id"], "response": "DeleteResult" },
-        
+
         { "name": "getUserReviews", "method": "get", "path": "/:userId/reviews", "action": "findAll", "model": "Review", "where": { "userId": "params.userId" }, "include": ["Apartment"], "params": ["userId"], "response": "Review[]" },
         { "name": "getUserReservations", "method": "get", "path": "/:userId/reservations", "action": "findAll", "model": "Reservation", "where": { "userId": "params.userId" }, "include": ["Apartment"], "params": ["userId"], "response": "Reservation[]" }
       ]
@@ -47,9 +47,9 @@
         { "name": "createReview", "method": "post", "path": "/", "action": "create", "body": ["userId", "apartmentId", "rating", "comment"], "response": "Review" },
         { "name": "updateReview", "method": "put", "path": "/:id", "action": "update", "params": ["id"], "body": ["userId", "apartmentId", "rating", "comment"], "response": "Review" },
         { "name": "deleteReview", "method": "delete", "path": "/:id", "action": "delete", "params": ["id"], "response": "DeleteResult" },
-
-        { "name": "getReviewUser", "method": "get", "path": "/:reviewId/user", "action": "findOne", "model": "User", "where": { "id": "params.reviewId" }, "include": ["Review"], "params": ["reviewId"], "response": "User" },
-        { "name": "getReviewApartment", "method": "get", "path": "/:reviewId/apartment", "action": "findOne", "model": "Apartment", "where": { "id": "params.reviewId" }, "include": ["Review"], "params": ["reviewId"], "response": "Apartment" }
+        
+        { "name": "getReviewUser", "method": "get", "path": "/:reviewId/user", "action": "findOne", "model": "User", "where": { "Review.id": "params.reviewId" }, "include": ["Review"], "params": ["reviewId"], "response": "User" },
+        { "name": "getReviewApartment", "method": "get", "path": "/:reviewId/apartment", "action": "findOne", "model": "Apartment", "where": { "Review.id": "params.reviewId" }, "include": ["Review"], "params": ["reviewId"], "response": "Apartment" }
       ]
     },
     {
@@ -65,8 +65,8 @@
         { "name": "updateReservation", "method": "put", "path": "/:id", "action": "update", "params": ["id"], "body": ["userId", "apartmentId", "startDate", "endDate"], "response": "Reservation" },
         { "name": "deleteReservation", "method": "delete", "path": "/:id", "action": "delete", "params": ["id"], "response": "DeleteResult" },
 
-        { "name": "getReservationUser", "method": "get", "path": "/:reservationId/user", "action": "findOne", "model": "User", "where": { "id": "params.reservationId" }, "include": ["Reservation"], "params": ["reservationId"], "response": "User" },
-        { "name": "getReservationApartment", "method": "get", "path": "/:reservationId/apartment", "action": "findOne", "model": "Apartment", "where": { "id": "params.reservationId" }, "include": ["Reservation"], "params": ["reservationId"], "response": "Apartment" }
+        { "name": "getReservationUser", "method": "get", "path": "/:reservationId/user", "action": "findOne", "model": "User", "where": { "Reservation.id": "params.reservationId" }, "include": ["Reservation"], "params": ["reservationId"], "response": "User" },
+        { "name": "getReservationApartment", "method": "get", "path": "/:reservationId/apartment", "action": "findOne", "model": "Apartment", "where": { "Reservation.id": "params.reservationId" }, "include": ["Reservation"], "params": ["reservationId"], "response": "Apartment" }
       ]
     },
     {

@@ -29,7 +29,14 @@ const getApartmentById = async (req, res) => {
 
 const createApartment = async (req, res) => {
   try {
-    const data = await Apartment.create(req.body)
+    const payload = {
+    title: req.body.title,
+    description: req.body.description,
+    pricePerNight: req.body.pricePerNight,
+    location: req.body.location,
+    urlCover: req.body.urlCover
+  };
+    const data = await Apartment.create(payload)
     res.status(201).json(data)
   } catch (err) {
     res.status(400).json({ error: err.message })
@@ -44,7 +51,14 @@ const updateApartment = async (req, res) => {
       return res.status(404).json({ error: 'Apartment not found' })
     }
 
-    await data.update(req.body)
+    const payload = {
+    title: req.body.title,
+    description: req.body.description,
+    pricePerNight: req.body.pricePerNight,
+    location: req.body.location,
+    urlCover: req.body.urlCover
+  };
+    await data.update(payload)
     res.json(data)
   } catch (err) {
     res.status(400).json({ error: err.message })

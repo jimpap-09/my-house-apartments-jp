@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 
 const apiSchema = require('./api-schema.json')
-const dbSchema = require('@backend/scripts/db/db-schema.json')
+const dbSchema = require('../db/db-schema.json')
 
 const SCRIPT_DIR = __dirname
 const ROOT_DIR = path.resolve(SCRIPT_DIR, '../../..')

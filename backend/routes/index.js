@@ -13,8 +13,6 @@ const reviewRoutes = require('./reviewRoutes.js')
 const reservationRoutes = require('./reservationRoutes.js')
 const apartmentImageRoutes = require('./apartmentImageRoutes.js')
 
-
-
 router.use('/apartments', apartmentRoutes)
 router.use('/users', userRoutes)
 router.use('/reviews', reviewRoutes)
