@@ -28,7 +28,7 @@
     "generate:db": "cross-env NODE_ENV=development bash backend/scripts/db/generate-db.sh",
     "generate:seeders": "node backend/scripts/db/generate-seeders.js",
 
-    "test:api": "npm run test --prefix backend",
+    "test:api": "node backend/scripts/api-test.js",
     "test:env": "cross-env NODE_ENV=development node -e \"console.log(process.env.NODE_ENV)\"",
 
     "db:shell": "bash backend/scripts/shell-db.sh",
