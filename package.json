@@ -19,19 +19,24 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"npm start --prefix frontend\" \"npm start --prefix backend\"",
+
     "dev": "concurrently -n FRONTEND,BACKEND \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
     "dev-session": "bash backend/scripts/dev-session.sh",
+
     "generate:api": "bash backend/scripts/api/generate-api.sh",
-    "generate:erd": "node backend/scripts/api/generate-erd.js",
+    "generate:erd": "node backend/scripts/db/generate-erd.js",
     "generate:db": "cross-env NODE_ENV=development bash backend/scripts/db/generate-db.sh",
     "generate:seeders": "node backend/scripts/db/generate-seeders.js",
+
     "test:api": "npm run test --prefix backend",
     "test:env": "cross-env NODE_ENV=development node -e \"console.log(process.env.NODE_ENV)\"",
+
     "db:shell": "bash backend/scripts/shell-db.sh",
     "db:test": "node backend/scripts/connect-db.js",
     "db:status": "bash backend/scripts/status-db.sh",
     "db:drop": "bash backend/scripts/drop-shema.sh",
     "db:setup": "bash backend/scripts/setup-db.sh",
+
     "upload:images": "node backend/scripts/cloudinary/upload-cloudinary-images.js",
     "rename:image": "node backend/scripts/cloudinary/rename-cloudinary-image.js",
     "reset:all": "npm run db:drop && npm run db:setup && npm run generate:api && npm run generate:erd"

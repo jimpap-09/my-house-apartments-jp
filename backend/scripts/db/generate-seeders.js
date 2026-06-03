@@ -5,7 +5,7 @@ const SCRIPT_DIR = __dirname
 const BACKEND_DIR = path.resolve(SCRIPT_DIR, '../..')
 const SEEDERS_DIR = path.join(BACKEND_DIR, 'seeders')
 
-const seeds = require('./db-seeds.json')
+const seeds = require('./seed-schema.json')
 const images = require('../cloudinary/cloudinary-images.json')
 
 fs.mkdirSync(SEEDERS_DIR, { recursive: true })

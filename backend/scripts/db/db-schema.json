@@ -110,6 +110,11 @@
                     "allowNull": false,
                     "unique": true
                 },
+                "phone": {
+                    "type": "string",
+                    "allowNull": false,
+                    "unique": true
+                },
                 "role": {
                     "type": "string",
                     "allowNull": false,

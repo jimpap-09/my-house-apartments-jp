@@ -23,6 +23,7 @@
             "firstName": "John",
             "lastName": "Papadimitriou",
             "email": "johnpap26@gmail.com",
+            "phone": "6983505842",
             "role": "admin"
         },
         {
@@ -32,9 +33,48 @@
             "firstName": "Jimmy",
             "lastName": "Papadimitriou",
             "email": "jimpap828@gmail.com",
+            "phone": "6937410742",
             "role": "user"
         }
     ],
-    "Reviews": [],
-    "Reservations": []
+    "Reviews": [
+        {
+            "comment": "Εξαιρετική διαμονή, πολύ καθαρό και ήσυχο μέρος!",
+            "rating": 5,
+            "userId": 1,
+            "apartmentId": 1
+        },
+        {
+            "comment": "Πολύ καλή τοποθεσία, αλλά το air condition έκανε λίγο θόρυβο.",
+            "rating": 4,
+            "userId": 2,
+            "apartmentId": 2
+        }
+    ],
+    "Reservations": [
+        {
+            "checkIn": "2024-07-01",
+            "checkOut": "2024-07-10",
+            "userId": 1,
+            "apartmentId": 1
+        },
+        {
+            "checkIn": "2024-07-11",
+            "checkOut": "2024-07-20",
+            "userId": 2,
+            "apartmentId": 1
+        },
+        {
+            "checkIn": "2024-07-15",
+            "checkOut": "2024-07-20",
+            "userId": 1,
+            "apartmentId": 2
+        },
+        {
+            "checkIn": "2024-08-21",
+            "checkOut": "2024-08-30",
+            "userId": 2,
+            "apartmentId": 2
+        }
+    ]
 }
