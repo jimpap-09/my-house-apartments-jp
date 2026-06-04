@@ -66,6 +66,7 @@ SELECT * FROM "Apartments";
 
 //dont forget to convert CRLF to LF
 .gitattributes
+
 * text=auto eol=lf
 
 *.sh text eol=lf
