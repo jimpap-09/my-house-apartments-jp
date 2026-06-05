@@ -13,6 +13,7 @@ export function ApartmentsListPage() {
   useEffect(() => {
     const fetchApartments = async () => {
       try {
+        console.log('FETCHING APARTMENTS...')
         const data = await getAllApartments()
         setApartments(data)
         console.log('APARTMENTS', data)

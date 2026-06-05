@@ -7,7 +7,10 @@ import type { Reservation } from '../types/Reservation'
 import type { DeleteResult } from '../types/common'
 
 export const getAllApartments = async (): Promise<Apartment[]> => {
+  console.log('GETTING ALL APARTMENTS...')
+  console.log('API ENDPOINT', APARTMENTS_ROUTES.GET_ALL_APARTMENTS)
   const response = await api.get<Apartment[]>(APARTMENTS_ROUTES.GET_ALL_APARTMENTS)
+  console.log('RESPONSE', response)
   return response.data
 }
 
