@@ -1,40 +1,50 @@
 require('module-alias/register')
+
+// 1. ΠΡΩΤΑ ΑΠΟ ΟΛΑ: Φορτώνουμε το env αρχείο για να είναι διαθέσιμο παντού
+require('./config/env')
+
 const express = require('express');
-const cors = require('cors'); // 1. Κάνε import το cors
+const cors = require('cors');
 const app = express();
 
-// 2. Ενεργοποίησε το CORS με τις σωστές ρυθμίσεις για Tunnels
+// 2. CORS: Δυναμικό origin που επιτρέπει τα devtunnels μαζί με credentials
 app.use(cors({
-  origin: '*', // Επιτρέπει σε όλα τα ports/tunnels να συνδεθούν
+  origin: function (origin, callback) {
+    if (!origin || origin.indexOf('devtunnels.ms') !== -1 || origin.indexOf('localhost') !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Tunnel-Skip-Anti-Phishing-Page'], // Επιτρέπουμε το ειδικό header
-  credentials: true
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Tunnel-Skip-Anti-Phishing-Page'],
+  credentials: true 
 }));
 
-// ... ο υπόλοιπος κώδικάς σου (routes, db connection κλπ) ...
-app.use(express.json())
+app.use(express.json());
 
-// import routes
+// 3. Middleware για logging ΠΡΙΝ από τα routes για να πιάνει κάθε αίτημα
+app.use((req, res, next) => {
+  console.log(`📡 [BACKEND REQUEST] ${req.method} ${req.url}`)
+  next()
+});
+
+// 4. Φορτώνουμε τα routes
 const routes = require('./routes/index.js')
 console.log('🔗 API routes initialized')
 app.use('/api', routes)
 
-// This middleware logs every incoming request to the backend,
-// which is crucial for debugging
-// and ensuring that requests are reaching the server
-// and being processed by the correct routes.
-app.use((req, res, next) => {
-  console.log(`📡 [BACKEND REQUEST] ${req.method} ${req.url}`)
-  next() // Pass control to the next middleware or route handler
-})
+// 5. Error Handling Middleware για να τυπώνει τα 500 errors στο terminal
+app.use((err, req, res, next) => {
+  console.error("💥 [SERVER ERROR]:", err.stack); 
+  res.status(500).json({ success: false, error: err.message });
+});
 
-// load .env file
-require('./config/env')
 const PORT = process.env.PORT || 5000
 app.listen(PORT, async () => {
   console.log(`Server running on http://localhost:${PORT}`)
 
-  // database connection test
+  // Database connection test
   const pool = require('./pool/index.js')
   try {
     const res = await pool.query("SELECT NOW()")
@@ -45,4 +55,4 @@ app.listen(PORT, async () => {
   } catch (err) {
     console.error("❌ Database connection error:", err.message)
   }
-})
+});

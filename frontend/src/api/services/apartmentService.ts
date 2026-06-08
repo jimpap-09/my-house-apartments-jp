@@ -1,4 +1,4 @@
-import api from '../config/axios'
+import api from '../config/axios' // Φέρνουμε το έτοιμο instance
 import { APARTMENTS_ROUTES } from '../routes/apartmentRoutes'
 import type { Apartment, CreateApartmentInput, UpdateApartmentInput } from '../types/Apartment'
 import type { ApartmentImage } from '../types/ApartmentImage'
@@ -6,13 +6,11 @@ import type { Review } from '../types/Review'
 import type { Reservation } from '../types/Reservation'
 import type { DeleteResult } from '../types/common'
 
-export const getAllApartments = async (): Promise<Apartment[]> => {
-  console.log('GETTING ALL APARTMENTS...')
-  console.log('API ENDPOINT', APARTMENTS_ROUTES.GET_ALL_APARTMENTS)
-  const response = await api.get<Apartment[]>(APARTMENTS_ROUTES.GET_ALL_APARTMENTS)
-  console.log('RESPONSE', response)
-  return response.data
-}
+export const getAllApartments = async () => {
+  // Χρησιμοποιούμε το api.get και περνάμε μόνο το υπόλοιπο path
+  const response = await api.get('/api/apartments');
+  return response.data;
+};
 
 export const getApartmentById = async (id: number | string): Promise<Apartment> => {
   const response = await api.get<Apartment>(APARTMENTS_ROUTES.GET_APARTMENT_BY_ID(id))
