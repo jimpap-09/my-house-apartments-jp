@@ -1,14 +1,12 @@
 import { ArrowDown, MapPin } from 'lucide-react'
-import type { Apartment } from '@/api/types/apartment'
-import type { Dictionary } from '@/i18n/dictionaries'
+import type { Apartment } from '@/api/types/Apartment'
 
 type ApartmentHeroProps = {
   apartment: Apartment
-  imageUrl?: string
-  labels: Dictionary['app']
+  imageUrl: string
 }
 
-export function ApartmentHero({ apartment, imageUrl, labels }: ApartmentHeroProps) {
+export function ApartmentHero({ apartment, imageUrl }: ApartmentHeroProps) {
   const rating = 4.9
   const reviewCount = 28
 
@@ -34,7 +32,7 @@ export function ApartmentHero({ apartment, imageUrl, labels }: ApartmentHeroProp
         </div>
 
         <div className="grid gap-4 max-w-3xl">
-          <p className="text-sm uppercase tracking-[0.28em] text-primary-100">{labels.overview}</p>
+          <p className="text-sm uppercase tracking-[0.28em] text-primary-100">Overview</p>
           <h1 className="text-4xl font-serif font-semibold sm:text-5xl">{apartment.title}</h1>
           <p className="max-w-2xl text-base leading-7 text-white/80">{apartment.description}</p>
 
@@ -53,7 +51,7 @@ export function ApartmentHero({ apartment, imageUrl, labels }: ApartmentHeroProp
             href="#booking"
             className="inline-flex w-fit items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-primary/90"
           >
-            {labels.bookingCta}
+            {labels}
           </a>
         </div>
       </div>
@@ -68,3 +66,4 @@ export function ApartmentHero({ apartment, imageUrl, labels }: ApartmentHeroProp
     </section>
   )
 }
+
