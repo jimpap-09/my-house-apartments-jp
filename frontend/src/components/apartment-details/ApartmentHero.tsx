@@ -1,12 +1,21 @@
-import { ArrowDown, MapPin } from 'lucide-react'
 import type { Apartment } from '@/api/types/Apartment'
+import { ArrowDown, MapPin } from 'lucide-react'
 
 type ApartmentHeroProps = {
   apartment: Apartment
   imageUrl: string
 }
+type LabelsShape = {
+  booking?: string
+}
 
-export function ApartmentHero({ apartment, imageUrl }: ApartmentHeroProps) {
+type ApartmentHeroPropsExtended = ApartmentHeroProps & {
+  // optional labels from parent; provide safe defaults to avoid runtime crashes
+  labels?: LabelsShape
+  scrollDownText?: string
+}
+
+export function ApartmentHero({ apartment, imageUrl, labels = {}, scrollDownText = 'Scroll down' }: ApartmentHeroPropsExtended) {
   const rating = 4.9
   const reviewCount = 28
 
@@ -51,7 +60,7 @@ export function ApartmentHero({ apartment, imageUrl }: ApartmentHeroProps) {
             href="#booking"
             className="inline-flex w-fit items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-primary/90"
           >
-            {labels}
+            {labels.booking ?? 'Request booking'}
           </a>
         </div>
       </div>
@@ -60,7 +69,7 @@ export function ApartmentHero({ apartment, imageUrl }: ApartmentHeroProps) {
         href="#about"
         className="relative mx-auto mt-10 flex w-fit items-center gap-2 rounded-full border border-white/20 bg-black/30 px-4 py-2 text-xs uppercase tracking-[0.32em] text-white/80"
       >
-        <span>{labels.scrollDown}</span>
+        <span>{scrollDownText}</span>
         <ArrowDown size={14} />
       </a>
     </section>

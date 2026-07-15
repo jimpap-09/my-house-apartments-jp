@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://nkdjf5sn-5000.euw.devtunnels.ms', // Το backend devtunnel URL σου
-  withCredentials: true, 
+  // Use Vite proxy in dev: keep API calls relative to `/api`
+  baseURL: '',
+  withCredentials: true,
   headers: {
     'X-Tunnel-Skip-Anti-Phishing-Page': 'true' // 🔑 Ξεκλειδώνει το dev tunnel για όλα τα αρχεία!
   }

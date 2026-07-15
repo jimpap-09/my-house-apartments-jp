@@ -18,10 +18,30 @@ app.use(cors({
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Tunnel-Skip-Anti-Phishing-Page'],
-  credentials: true 
+  credentials: true
 }));
 
 app.use(express.json());
+
+// Fallback: ensure preflight requests are handled and CORS headers are always present.
+// This helps when a reverse-proxy/tunnel strips or modifies preflight behavior.
+app.use((req, res, next) => {
+  const origin = req.headers.origin || '*'
+  // Mirror origin when credentials are allowed
+  if (origin && origin !== 'null') {
+    res.setHeader('Access-Control-Allow-Origin', origin)
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+  }
+  res.setHeader('Access-Control-Allow-Credentials', 'true')
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Tunnel-Skip-Anti-Phishing-Page')
+
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204)
+  }
+  next()
+})
 
 // 3. Middleware για logging ΠΡΙΝ από τα routes για να πιάνει κάθε αίτημα
 app.use((req, res, next) => {
@@ -36,7 +56,7 @@ app.use('/api', routes)
 
 // 5. Error Handling Middleware για να τυπώνει τα 500 errors στο terminal
 app.use((err, req, res, next) => {
-  console.error("💥 [SERVER ERROR]:", err.stack); 
+  console.error("💥 [SERVER ERROR]:", err.stack);
   res.status(500).json({ success: false, error: err.message });
 });
 

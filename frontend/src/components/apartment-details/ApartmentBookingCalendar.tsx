@@ -8,6 +8,8 @@ type ApartmentBookingCalendarProps = ApartmentSectionProps & {
   checkOut: Date | null
   onSelectDate: (date: Date) => void
   onClearDates: () => void
+  maxGuests?: number
+  blockedDates?: string[]
 }
 
 function dateKey(date: Date) {
@@ -40,7 +42,7 @@ export function ApartmentBookingCalendar({
   onClearDates,
 }: ApartmentBookingCalendarProps) {
   const today = startOfDay(new Date())
-  const blockedDates = new Set(apartment.booking.blockedDates)
+  const blockedDates = new Set(blockedDates ?? apartment.booking.blockedDates)
   const [monthOffset, setMonthOffset] = useState(0)
   const months = [buildMonth(monthOffset, today), buildMonth(monthOffset + 1, today)]
 
@@ -87,9 +89,9 @@ export function ApartmentBookingCalendar({
 
                   const inRange = Boolean(
                     checkIn &&
-                      checkOut &&
-                      normalized > startOfDay(checkIn) &&
-                      normalized < startOfDay(checkOut),
+                    checkOut &&
+                    normalized > startOfDay(checkIn) &&
+                    normalized < startOfDay(checkOut),
                   )
 
                   return (

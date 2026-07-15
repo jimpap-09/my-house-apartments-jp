@@ -1,17 +1,14 @@
 import type { ApartmentSectionProps } from '@/data/apartment-details'
-import type { Dictionary } from '@/i18n/dictionaries'
 
-type ApartmentOverviewProps = ApartmentSectionProps & {
-  labels: Dictionary['app']
-}
+type ApartmentOverviewProps = ApartmentSectionProps
 
-export function ApartmentOverview({ apartment, labels }: ApartmentOverviewProps) {
+export function ApartmentOverview({ apartment }: ApartmentOverviewProps) {
   const highlights = ['Fast check-in', 'Flexible cancellation', 'Central location', 'Comfortable stay']
 
   return (
     <section className="grid gap-8 rounded-[28px] bg-white/90 p-8 shadow-soft">
       <div className="grid gap-3">
-        <p className="text-sm uppercase tracking-[0.24em] text-muted-foreground">{labels.overview}</p>
+        <p className="text-sm uppercase tracking-[0.24em] text-muted-foreground">Overview</p>
         <h2 className="text-3xl font-serif text-charcoal">{apartment.title}</h2>
         <p className="text-sm text-muted-foreground">{apartment.location}</p>
       </div>

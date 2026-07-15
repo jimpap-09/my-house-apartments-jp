@@ -1,6 +1,6 @@
+import { MapPin, Star } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { MapPin, Star } from 'lucide-react'
 
 import { getAllApartments } from '../api/services/apartmentService'
 
@@ -25,9 +25,7 @@ export function ApartmentsListPage() {
     fetchApartments()
   }, [])
 
-console.log('APARTMENTS', apartments)
-
-
+  console.log('APARTMENTS', apartments)
 
   return (
     <section className="grid gap-10 px-6 py-10">

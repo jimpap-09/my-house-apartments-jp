@@ -10,15 +10,17 @@ import { ApartmentLocation } from '@/components/apartment-details/ApartmentLocat
 import { ApartmentOverview } from '@/components/apartment-details/ApartmentOverview'
 import { ApartmentReviews } from '@/components/apartment-details/ApartmentReviews'
 import { ApartmentSubnav } from '@/components/apartment-details/ApartmentSubnav'
-import { ApartmentTrustStrip } from '@/components/apartment-details/ApartmentTrustStrip'
 import { ReservationCard } from '@/components/apartment-details/ReservationCard'
 
-import { getApartmentById } from '@/api/services/apartmentService'
 import { getAllApartmentImages } from '@/api/services/apartmentImageService'
+import { getApartmentById } from '@/api/services/apartmentService'
 
 import type { Apartment } from '@/api/types/Apartment'
 import type { ApartmentImage } from '@/api/types/ApartmentImage'
-import { apartmentSectionIds, labels, type ApartmentSectionId, type ApartmentSectionProps } from '@/data/apartment-details'
+
+import type { ApartmentSectionId } from '@/data/apartment-details'
+import { apartmentSectionIds } from '@/data/apartment-details'
+import { useI18n } from '@/i18n/LanguageContext'
 
 export function ApartmentDetailsPage() {
 
@@ -37,10 +39,7 @@ export function ApartmentDetailsPage() {
   const [checkOut, setCheckOut] = useState<Date | null>(null)
   const [guests, setGuests] = useState(1)
 
-  const apartmentSectionProps: ApartmentSectionProps = useMemo(() => ({
-    apartment: apartment as Apartment,
-    labels,
-  }), [apartment])
+  const { t } = useI18n()
 
   const isProgrammaticScroll = useRef(false)
   const activeThumbnailRef = useRef<HTMLButtonElement | null>(null)
@@ -238,31 +237,30 @@ export function ApartmentDetailsPage() {
     <article className="grid gap-10 bg-background text-foreground">
       <ApartmentSubnav
         activeSection={activeSection}
-        labels={apartmentSectionProps.labels}
+        labels={t.app}
         onSectionSelect={handleSectionSelect}
         reservationSummary={reservationSummary}
       />
 
-      <ApartmentHero apartment={apartment} imageUrl={photos[0]} />
+      <ApartmentHero apartment={apartment} imageUrl={photos[0]} labels={t.app} scrollDownText={t.app.scrollDown} />
 
       <ApartmentGallery
         photos={photos}
         previewPhotos={previewPhotos}
-        labels={apartmentSectionProps.labels}
         onOpenPhoto={setActivePhoto}
       />
 
       <div className="container-luxe grid gap-8 xl:grid-cols-[minmax(0,1fr)_360px]">
         <div className="grid gap-8">
-          <ApartmentOverview apartment={apartment} />
+          <ApartmentOverview apartment={apartment} labels={t.app} />
 
-          <ApartmentAbout apartment={apartment} photos={photos} />
+          <ApartmentAbout apartment={apartment} photos={photos} labels={t.app} />
 
-          <ApartmentAmenities apartment={apartment} />
+          <ApartmentAmenities apartment={apartment} labels={t.app} />
 
           <ApartmentBookingCalendar
             apartment={apartment}
-           
+            labels={t.app}
             checkIn={checkIn}
             checkOut={checkOut}
             onSelectDate={handleSelectDate}
@@ -275,7 +273,7 @@ export function ApartmentDetailsPage() {
         <div className="sticky top-[132px] self-start">
           <ReservationCard
             apartment={apartment}
-           
+            labels={t.app}
             checkIn={checkIn}
             checkOut={checkOut}
             guests={guests}
@@ -287,8 +285,8 @@ export function ApartmentDetailsPage() {
       </div>
 
       <div className="container-luxe grid gap-8">
-        <ApartmentReviews apartment={apartment} />
-        <ApartmentLocation apartment={apartment} />
+        <ApartmentReviews apartment={apartment} labels={t.app} />
+        <ApartmentLocation apartment={apartment} labels={t.app} />
       </div>
 
       {activePhoto !== null && (
@@ -302,7 +300,7 @@ export function ApartmentDetailsPage() {
             type="button"
             onClick={() => setActivePhoto(null)}
           >
-            {}
+            { }
           </button>
 
           <div className="grid gap-4 rounded-[28px] bg-slate-950 p-4 shadow-soft max-w-[1240px] w-full">
@@ -342,8 +340,8 @@ export function ApartmentDetailsPage() {
                 {photos.map((photo, index) => (
                   <button
                     className={`overflow-hidden rounded-2xl border p-0 transition ${index === activePhoto
-                        ? 'border-primary'
-                        : 'border-transparent hover:border-white/30'
+                      ? 'border-primary'
+                      : 'border-transparent hover:border-white/30'
                       }`}
                     type="button"
                     onClick={() => setActivePhoto(index)}

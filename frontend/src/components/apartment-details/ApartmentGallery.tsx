@@ -1,23 +1,20 @@
-import type { Dictionary } from '@/i18n/dictionaries'
 
 type ApartmentGalleryProps = {
   photos: string[]
   previewPhotos: { index: number; src: string }[]
-  labels: Dictionary['app']
   onOpenPhoto: (index: number) => void
 }
 
 export function ApartmentGallery({
   photos,
   previewPhotos,
-  labels,
   onOpenPhoto,
 }: ApartmentGalleryProps) {
   return (
     <section className="grid gap-6" id="gallery">
       <div className="grid gap-3 text-center">
-        <p className="eyebrow mx-auto">{labels.gallery}</p>
-        <h2 className="text-3xl font-serif text-charcoal">{labels.exploreApartment}</h2>
+        <p className="eyebrow mx-auto">gallery</p>
+        <h2 className="text-3xl font-serif text-charcoal">exploreApartment</h2>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-[2fr_1fr_1fr]">
@@ -43,7 +40,7 @@ export function ApartmentGallery({
             type="button"
             onClick={() => onOpenPhoto(0)}
           >
-            {labels.showAllPhotos}
+            Show All Photos
           </button>
         )}
       </div>

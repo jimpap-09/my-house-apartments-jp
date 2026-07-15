@@ -14,7 +14,8 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://nkdjf5sn-5000.euw.devtunnels.ms',
+        // Proxy API requests to local backend during development
+        target: 'http://localhost:5000',
         changeOrigin: true,
       },
       '/remult': {
@@ -23,4 +24,5 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/remult/, ''),
       },
     },
-  }})
+  }
+})
