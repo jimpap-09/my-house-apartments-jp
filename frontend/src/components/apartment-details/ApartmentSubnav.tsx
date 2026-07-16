@@ -3,14 +3,12 @@ import { apartmentSectionIds, type ApartmentSectionId } from '@/data/apartment-d
 
 type ApartmentSubnavProps = {
   activeSection: ApartmentSectionId
-  labels: { [key in ApartmentSectionId]: string }
   onSectionSelect: (sectionId: ApartmentSectionId) => void
   reservationSummary?: string
 }
 
 export function ApartmentSubnav({
   activeSection,
-  labels,
   onSectionSelect,
   reservationSummary,
 }: ApartmentSubnavProps) {
@@ -36,7 +34,7 @@ export function ApartmentSubnav({
                 onSectionSelect(id)
               }}
             >
-              {labels[id]}
+              {[id]}
             </a>
           )
         })}

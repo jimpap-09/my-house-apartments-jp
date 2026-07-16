@@ -1,9 +1,7 @@
 import type { ApartmentSectionProps } from '@/data/apartment-details'
-import type { Dictionary } from '@/i18n/dictionaries'
 import { useState } from 'react'
 
 type ApartmentBookingCalendarProps = ApartmentSectionProps & {
-  labels: Dictionary['app']
   checkIn: Date | null
   checkOut: Date | null
   onSelectDate: (date: Date) => void
@@ -34,7 +32,6 @@ function buildMonth(offset: number, today: Date) {
 }
 
 export function ApartmentBookingCalendar({
-  apartment,
   labels,
   checkIn,
   checkOut,
@@ -42,7 +39,6 @@ export function ApartmentBookingCalendar({
   onClearDates,
 }: ApartmentBookingCalendarProps) {
   const today = startOfDay(new Date())
-  const blockedDates = new Set(blockedDates ?? apartment.booking.blockedDates)
   const [monthOffset, setMonthOffset] = useState(0)
   const months = [buildMonth(monthOffset, today), buildMonth(monthOffset + 1, today)]
 
@@ -81,8 +77,8 @@ export function ApartmentBookingCalendar({
 
                   const disabled =
                     normalized < today ||
-                    blockedDates.has(dateKey(normalized))
-
+                    (checkIn && normalized < startOfDay(checkIn)) ||
+                    (checkOut && normalized > startOfDay(checkOut))
                   const selected =
                     (checkIn && dateKey(checkIn) === dateKey(normalized)) ||
                     (checkOut && dateKey(checkOut) === dateKey(normalized))
@@ -103,7 +99,6 @@ export function ApartmentBookingCalendar({
                         ${inRange ? 'in-range' : ''}
                       `}
                       type="button"
-                      disabled={disabled}
                       onClick={() => onSelectDate(normalized)}
                       key={dateKey(normalized)}
                     >
@@ -119,7 +114,7 @@ export function ApartmentBookingCalendar({
 
       <div className="apartment-booking-lower">
         <button className="booking-calendar-clear" type="button" onClick={onClearDates}>
-          {labels.clearDates}
+          btn
         </button>
 
         <div className="booking-calendar-navigation" aria-label="Calendar navigation">

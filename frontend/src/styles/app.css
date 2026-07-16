@@ -1073,8 +1073,9 @@
 
 .site-footer {
   margin-top: 24px;
-  color: rgba(255, 255, 255, 0.76);
-  background: var(--color-ink);
+  color: #f5f3ee !important;
+  background: #1f1f1f !important;
+  padding: 0 0 16px;
 }
 
 .site-footer-top,
@@ -1099,14 +1100,16 @@
 }
 
 .site-footer-brand strong {
-  color: var(--color-white);
+  color: #ffffff !important;
   font-family: var(--font-serif);
   font-size: 28px;
-  font-weight: 400;
+  font-weight: 600;
 }
 
 .site-footer-brand p {
   margin: 0;
+  color: #f7f3ea !important;
+  font-weight: 500;
 }
 
 .site-footer-main {
@@ -1125,14 +1128,16 @@
 
 .site-footer-column h2 {
   margin: 0 0 4px;
-  color: var(--color-white);
+  color: #ffffff !important;
   font-size: 16px;
+  font-weight: 700;
 }
 
 .site-footer-column a,
 .site-footer-column span {
-  color: rgba(255, 255, 255, 0.82);
+  color: #f8f6f1 !important;
   text-decoration: none;
+  font-weight: 600;
 }
 
 .site-footer-column a:hover {
@@ -1141,8 +1146,8 @@
 
 .site-footer-bottom {
   padding: 18px 0 28px;
-  color: rgba(255, 255, 255, 0.48);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f4ecd9 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .list-page,

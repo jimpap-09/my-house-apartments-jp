@@ -1,9 +1,4 @@
-import { Link } from 'react-router-dom'
-
-
 export function SiteFooter() {
-
-
   return (
     <footer className="site-footer">
       <div className="site-footer-top">
@@ -15,15 +10,9 @@ export function SiteFooter() {
 
       <div className="site-footer-main">
         <div className="site-footer-column">
-          <h2>My House</h2>
-          <a href="#about">About</a>
-          <Link to="/">Apartments</Link>
-        </div>
-
-        <div className="site-footer-column">
           <h2>Contact</h2>
-          <a href="mailto:johnpap26@gmail.com">johnpap26@gmail.com</a>
-          <a href="tel:+306983505842">698 350 5842</a>
+          <span>johnpap26@gmail.com</span>
+          <span>698 350 5842</span>
         </div>
 
         <div className="site-footer-column">

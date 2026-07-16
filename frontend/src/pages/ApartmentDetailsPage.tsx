@@ -20,7 +20,6 @@ import type { ApartmentImage } from '@/api/types/ApartmentImage'
 
 import type { ApartmentSectionId } from '@/data/apartment-details'
 import { apartmentSectionIds } from '@/data/apartment-details'
-import { useI18n } from '@/i18n/LanguageContext'
 
 export function ApartmentDetailsPage() {
 
@@ -38,8 +37,6 @@ export function ApartmentDetailsPage() {
   const [checkIn, setCheckIn] = useState<Date | null>(null)
   const [checkOut, setCheckOut] = useState<Date | null>(null)
   const [guests, setGuests] = useState(1)
-
-  const { t } = useI18n()
 
   const isProgrammaticScroll = useRef(false)
   const activeThumbnailRef = useRef<HTMLButtonElement | null>(null)
@@ -237,7 +234,6 @@ export function ApartmentDetailsPage() {
     <article className="grid gap-10 bg-background text-foreground">
       <ApartmentSubnav
         activeSection={activeSection}
-        labels={t.app}
         onSectionSelect={handleSectionSelect}
         reservationSummary={reservationSummary}
       />
@@ -260,7 +256,6 @@ export function ApartmentDetailsPage() {
 
           <ApartmentBookingCalendar
             apartment={apartment}
-            labels={t.app}
             checkIn={checkIn}
             checkOut={checkOut}
             onSelectDate={handleSelectDate}
@@ -273,7 +268,6 @@ export function ApartmentDetailsPage() {
         <div className="sticky top-[132px] self-start">
           <ReservationCard
             apartment={apartment}
-            labels={t.app}
             checkIn={checkIn}
             checkOut={checkOut}
             guests={guests}
@@ -285,8 +279,8 @@ export function ApartmentDetailsPage() {
       </div>
 
       <div className="container-luxe grid gap-8">
-        <ApartmentReviews apartment={apartment} labels={t.app} />
-        <ApartmentLocation apartment={apartment} labels={t.app} />
+        <ApartmentReviews apartment={apartment} />
+        <ApartmentLocation apartment={apartment} />
       </div>
 
       {activePhoto !== null && (

@@ -1,6 +1,6 @@
+import { useI18n } from '@/i18n/LanguageContext'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useI18n } from '@/i18n/LanguageContext'
 
 export function SiteHeader() {
   const { language, setLanguage, t } = useI18n()
@@ -23,7 +23,7 @@ export function SiteHeader() {
 
         <nav className="site-nav desktop-nav" aria-label="Main navigation">
           <Link to="/">{t.app.apartments}</Link>
-          <a href="mailto:johnpap26@gmail.com">{t.app.contact}</a>
+          <Link to="/contact">{t.app.contact}</Link>
         </nav>
 
         <div className="header-actions">
