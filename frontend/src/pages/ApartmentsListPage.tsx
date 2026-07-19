@@ -9,7 +9,7 @@ import type { Apartment } from '../api/types/Apartment'
 export function ApartmentsListPage() {
   const [apartments, setApartments] = useState<Apartment[]>([])
 
-
+ 
   useEffect(() => {
     const fetchApartments = async () => {
       try {
