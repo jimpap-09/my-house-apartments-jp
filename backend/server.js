@@ -1,78 +1,97 @@
 require('module-alias/register')
 
-// 1. ΠΡΩΤΑ ΑΠΟ ΟΛΑ: Φορτώνουμε το env αρχείο για να είναι διαθέσιμο παντού
+// Φορτώνουμε πρώτα τις environment variables
 require('./config/env')
 
-const express = require('express');
-const cors = require('cors');
-const app = express();
+const express = require('express')
+const cors = require('cors')
 
-// 2. CORS: Δυναμικό origin που επιτρέπει τα devtunnels μαζί με credentials
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || origin.indexOf('devtunnels.ms') !== -1 || origin.indexOf('localhost') !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Tunnel-Skip-Anti-Phishing-Page'],
-  credentials: true
-}));
+const app = express()
 
-app.use(express.json());
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'https://my-house-apartments-jp-nu.vercel.app',
+  process.env.FRONTEND_URL,
+].filter(Boolean)
 
-// Fallback: ensure preflight requests are handled and CORS headers are always present.
-// This helps when a reverse-proxy/tunnel strips or modifies preflight behavior.
+app.use(
+  cors({
+    origin(origin, callback) {
+      // Επιτρέπει requests χωρίς Origin, π.χ. άνοιγμα API στον browser ή Postman
+      if (!origin) {
+        return callback(null, true)
+      }
+
+      const isAllowed =
+        allowedOrigins.includes(origin) ||
+        origin.endsWith('.vercel.app') ||
+        origin.endsWith('.devtunnels.ms')
+
+      if (isAllowed) {
+        return callback(null, true)
+      }
+
+      console.error(`🚫 [CORS BLOCKED] ${origin}`)
+      return callback(new Error(`Not allowed by CORS: ${origin}`))
+    },
+
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'X-Tunnel-Skip-Anti-Phishing-Page',
+    ],
+
+    credentials: true,
+  }),
+)
+
+app.use(express.json())
+
+// Logging πριν από τα routes
 app.use((req, res, next) => {
-  const origin = req.headers.origin || '*'
-  // Mirror origin when credentials are allowed
-  if (origin && origin !== 'null') {
-    res.setHeader('Access-Control-Allow-Origin', origin)
-  } else {
-    res.setHeader('Access-Control-Allow-Origin', '*')
-  }
-  res.setHeader('Access-Control-Allow-Credentials', 'true')
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Tunnel-Skip-Anti-Phishing-Page')
-
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(204)
-  }
+  console.log(`📡 [BACKEND REQUEST] ${req.method} ${req.url}`)
+  console.log(`🌐 Origin: ${req.headers.origin || 'no-origin'}`)
   next()
 })
 
-// 3. Middleware για logging ΠΡΙΝ από τα routes για να πιάνει κάθε αίτημα
-app.use((req, res, next) => {
-  console.log(`📡 [BACKEND REQUEST] ${req.method} ${req.url}`)
-  next()
-});
-
-// 4. Φορτώνουμε τα routes
+// Routes
 const routes = require('./routes/index.js')
+
 console.log('🔗 API routes initialized')
+
 app.use('/api', routes)
 
-// 5. Error Handling Middleware για να τυπώνει τα 500 errors στο terminal
+// Error handler
 app.use((err, req, res, next) => {
-  console.error("💥 [SERVER ERROR]:", err.stack);
-  res.status(500).json({ success: false, error: err.message });
-});
+  console.error('💥 [SERVER ERROR]:', err.stack)
+
+  res.status(err.message?.includes('CORS') ? 403 : 500).json({
+    success: false,
+    error: err.message,
+  })
+})
 
 const PORT = process.env.PORT || 5000
-app.listen(PORT, async () => {
-  console.log(`Server running on http://localhost:${PORT}`)
 
-  // Database connection test
+app.listen(PORT, async () => {
+  console.log(`🚀 Server running on port ${PORT}`)
+
   const pool = require('./pool/index.js')
+
   try {
-    const res = await pool.query("SELECT NOW()")
-    console.log("✅ Database connected successfully! Server time:", res.rows[0].now)
+    const result = await pool.query('SELECT NOW()')
+
+    console.log(
+      '✅ Database connected successfully! Server time:',
+      result.rows[0].now,
+    )
     console.log(`🌍 Environment: ${process.env.NODE_ENV}`)
     console.log(`🔗 DB Host: ${process.env.DB_HOST}`)
     console.log(`🔗 DB Name: ${process.env.DB_NAME}`)
   } catch (err) {
-    console.error("❌ Database connection error:", err.message)
+    console.error('❌ Database connection error:', err.message)
   }
-});
+})
