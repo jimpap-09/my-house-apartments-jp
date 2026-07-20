@@ -9,25 +9,26 @@ const cors = require('cors')
 const app = express()
 
 const allowedOrigins = [
+  // Local development
   'http://localhost:3000',
+  'http://localhost:3001',
   'http://localhost:5173',
 
-  // Production frontend domains
+  // Production
   'https://myapartmentsjp.com',
   'https://www.myapartmentsjp.com',
 
-  // Vercel production domain
+  // Vercel preview / production
   'https://my-house-apartments-jp-nu.vercel.app',
 
-  // Προαιρετικό origin από environment variable
+  // Από .env (αν υπάρχει)
   process.env.FRONTEND_URL,
 ].filter(Boolean)
 
 app.use(
   cors({
     origin(origin, callback) {
-      // Requests χωρίς Origin:
-      // Postman, server-to-server requests ή απευθείας άνοιγμα API
+      // Επιτρέπει requests χωρίς Origin (Postman, browser address bar κτλ.)
       if (!origin) {
         return callback(null, true)
       }
@@ -57,9 +58,6 @@ app.use(
     credentials: true,
   }),
 )
-
-// Χειρισμός preflight OPTIONS requests
-app.options('*', cors())
 
 app.use(express.json())
 
@@ -95,7 +93,8 @@ const PORT = process.env.PORT || 5000
 
 app.listen(PORT, async () => {
   console.log(`🚀 Server running on port ${PORT}`)
-  console.log('✅ Allowed frontend origins:')
+
+  console.log('✅ Allowed origins:')
   allowedOrigins.forEach((origin) => console.log(`   - ${origin}`))
 
   const pool = require('./pool/index.js')
