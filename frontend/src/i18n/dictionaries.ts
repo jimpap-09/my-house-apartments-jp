@@ -1,6 +1,8 @@
 export type Dict = {
   app: {
     language: string
+    greek: string
+    english: string
     apartments: string
     availableStays: string
     introTitle: string
@@ -10,6 +12,9 @@ export type Dict = {
     notFoundTitle: string
     notFoundText: string
     backHome: string
+    backToList: string
+    loadingApartment: string
+    apartmentNotFound: string
     bookingCta: string
     closeGallery: string
     showAllPhotos: string
@@ -44,12 +49,28 @@ export type Dict = {
     noChargeYet: string
     guestsLabel: string
     clearDates: string
+    listTitle: string
+    listSubtitle: string
+    listIntro: string
+    apartmentLabel: string
+    idealLocation: string
+    priceLabel: string
+    statusLabel: string
+    readyForPreview: string
+    apartmentFields: string
+    pricePerNightLabel: string
+    contactTitle: string
+    contactIntro: string
+    phone: string
+    email: string
   }
 }
 
 const el: Dict = {
   app: {
     language: 'Γλώσσα',
+    greek: 'Ελληνικά',
+    english: 'Αγγλικά',
     apartments: 'Διαμερίσματα',
     availableStays: 'Διαθέσιμες διαμονές',
     introTitle: 'Διάλεξε διαμέρισμα',
@@ -60,6 +81,9 @@ const el: Dict = {
     notFoundTitle: 'Η σελίδα δεν βρέθηκε',
     notFoundText: 'Η σελίδα που άνοιξες δεν υπάρχει.',
     backHome: 'Πίσω στην αρχική',
+    backToList: 'Πίσω στη λίστα',
+    loadingApartment: 'Φόρτωση apartment...',
+    apartmentNotFound: 'Δεν βρέθηκε το apartment.',
     bookingCta: 'Αίτημα κράτησης',
     closeGallery: 'Κλείσιμο',
     showAllPhotos: 'Προβολή όλων των φωτογραφιών',
@@ -94,12 +118,28 @@ const el: Dict = {
     noChargeYet: 'Δεν θα χρεωθείτε ακόμα',
     guestsLabel: 'Επισκέπτες',
     clearDates: 'Καθαρισμός ημερομηνιών',
+    listTitle: 'Λίστα διαμερισμάτων',
+    listSubtitle: 'Διαλέξτε το καλύτερο διαμέρισμα για εσάς',
+    listIntro: 'Επιλέξτε το διαμέρισμα που ταιριάζει καλύτερα στη διαμονή σας.',
+    apartmentLabel: 'Διαμέρισμα',
+    idealLocation: 'Ιδανική τοποθεσία',
+    priceLabel: 'Τιμή',
+    statusLabel: 'Κατάσταση',
+    readyForPreview: 'Έτοιμο για preview',
+    apartmentFields: 'Πεδία διαμερίσματος',
+    pricePerNightLabel: 'Τιμή ανά νύχτα',
+    contactTitle: 'Επικοινωνήστε μαζί μας',
+    contactIntro: 'Μπορείτε να μας καλέσετε ή να μας στείλετε email για οποιαδήποτε απορία σχετικά με τα διαμερίσματα.',
+    phone: 'Τηλέφωνο',
+    email: 'Email',
   },
 }
 
 const en: Dict = {
   app: {
     language: 'Language',
+    greek: 'Greek',
+    english: 'English',
     apartments: 'Apartments',
     availableStays: 'Available stays',
     introTitle: 'Choose your apartment',
@@ -110,6 +150,9 @@ const en: Dict = {
     notFoundTitle: 'Page not found',
     notFoundText: 'The page you opened does not exist.',
     backHome: 'Back home',
+    backToList: 'Back to list',
+    loadingApartment: 'Loading apartment...',
+    apartmentNotFound: 'Apartment not found.',
     bookingCta: 'Request booking',
     closeGallery: 'Close',
     showAllPhotos: 'Show all photos',
@@ -144,6 +187,20 @@ const en: Dict = {
     noChargeYet: "You won't be charged yet",
     guestsLabel: 'Guests',
     clearDates: 'Clear dates',
+    listTitle: 'Apartment list',
+    listSubtitle: 'Pick the best apartment for you',
+    listIntro: 'Choose the apartment that fits your stay best.',
+    apartmentLabel: 'Apartment',
+    idealLocation: 'Ideal location',
+    priceLabel: 'Price',
+    statusLabel: 'Status',
+    readyForPreview: 'Ready for preview',
+    apartmentFields: 'Apartment fields',
+    pricePerNightLabel: 'Price per night',
+    contactTitle: 'Contact us',
+    contactIntro: 'You can call us or send an email if you have any questions about the apartments.',
+    phone: 'Phone',
+    email: 'Email',
   },
 }
 

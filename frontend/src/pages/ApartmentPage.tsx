@@ -5,11 +5,13 @@ import { Link, Navigate, useLocation, useParams } from 'react-router-dom'
 import { getApartmentById, getApartmentImages } from '../api/services/apartmentService'
 import type { Apartment } from '../api/types/Apartment'
 import type { ApartmentImage } from '../api/types/ApartmentImage'
+import { useI18n } from '../i18n/LanguageContext'
 
 export function ApartmentPage() {
     const { apartmentId } = useParams()
     const location = useLocation()
     const apartmentFromState = location.state?.apartment as Apartment | undefined
+    const { t } = useI18n()
 
     const [apartment, setApartment] = useState<Apartment | null>(apartmentFromState ?? null)
     const [images, setImages] = useState<ApartmentImage[]>([])
@@ -38,7 +40,7 @@ export function ApartmentPage() {
             } catch (err) {
                 console.error(err)
                 if (isMounted) {
-                    setError('Δεν βρέθηκε το apartment.')
+                    setError(t.app.apartmentNotFound)
                 }
             } finally {
                 if (isMounted) {
@@ -52,7 +54,7 @@ export function ApartmentPage() {
         return () => {
             isMounted = false
         }
-    }, [apartmentId, apartmentFromState])
+    }, [apartmentId, apartmentFromState, t.app.apartmentNotFound])
 
     useEffect(() => {
         if (!apartment?.id) {
@@ -112,7 +114,7 @@ export function ApartmentPage() {
         return (
             <section className="px-6 py-20">
                 <div className="mx-auto max-w-4xl rounded-3xl border border-border bg-card p-10 text-center shadow-soft">
-                    <p className="text-lg font-medium text-foreground">Φόρτωση apartment...</p>
+                    <p className="text-lg font-medium text-foreground">{t.app.loadingApartment}</p>
                 </div>
             </section>
         )
@@ -130,7 +132,7 @@ export function ApartmentPage() {
                     className="inline-flex w-fit items-center gap-2 text-sm font-medium text-primary transition hover:opacity-80"
                 >
                     <ArrowLeft size={16} />
-                    Πίσω στη λίστα
+                    {t.app.backToList}
                 </Link>
 
                 <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-soft">
@@ -153,7 +155,7 @@ export function ApartmentPage() {
                                 className="apartment-page-gallery-open"
                             >
                                 <Grid3X3 aria-hidden="true" size={18} />
-                                <span>Εμφάνιση όλων των φωτογραφιών</span>
+                                <span>{t.app.showAllPhotos}</span>
                             </button>
                         </div>
                     ) : (
@@ -166,38 +168,38 @@ export function ApartmentPage() {
                         <div className="grid gap-5">
                             <div className="flex flex-wrap items-center gap-3">
                                 <span className="rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
-                                    Apartment #{apartment.id}
+                                    {t.app.apartmentLabel} #{apartment.id}
                                 </span>
                                 <span className="rounded-full border border-border px-3 py-1 text-sm text-muted-foreground">
-                                    Temporary preview page
+                                    {t.app.readyForPreview}
                                 </span>
                             </div>
 
                             <div className="grid gap-3">
                                 <h1 className="text-3xl font-serif text-charcoal sm:text-4xl">{apartment.title}</h1>
                                 <p className="text-base leading-7 text-muted-foreground">
-                                    {apartment.description ?? 'Δεν υπάρχει περιγραφή για αυτό το apartment ακόμα.'}
+                                    {apartment.description ?? t.app.apartmentNotFound}
                                 </p>
                             </div>
 
                             <div className="grid gap-3 sm:grid-cols-3">
                                 <div className="rounded-2xl border border-border bg-background p-4">
-                                    <p className="text-sm text-muted-foreground">Τιμή</p>
-                                    <p className="mt-1 text-xl font-semibold text-charcoal">€{apartment.pricePerNight}</p>
+                                    <p className="text-sm text-muted-foreground">{t.app.priceLabel}</p>
+                                    <p className="mt-1 text-xl font-semibold text-charcoal">€60</p>
                                 </div>
                                 <div className="rounded-2xl border border-border bg-background p-4">
-                                    <p className="text-sm text-muted-foreground">Τοποθεσία</p>
+                                    <p className="text-sm text-muted-foreground">{t.app.location}</p>
                                     <p className="mt-1 text-lg font-semibold text-charcoal">{apartment.location}</p>
                                 </div>
                                 <div className="rounded-2xl border border-border bg-background p-4">
-                                    <p className="text-sm text-muted-foreground">Κατάσταση</p>
-                                    <p className="mt-1 text-lg font-semibold text-charcoal">Ετοιμο για preview</p>
+                                    <p className="text-sm text-muted-foreground">{t.app.statusLabel}</p>
+                                    <p className="mt-1 text-lg font-semibold text-charcoal">{t.app.readyForPreview}</p>
                                 </div>
                             </div>
                         </div>
 
                         <div className="rounded-2xl border border-border bg-background p-5">
-                            <h2 className="text-lg font-semibold text-charcoal">Apartment fields</h2>
+                            <h2 className="text-lg font-semibold text-charcoal">{t.app.apartmentFields}</h2>
                             <dl className="mt-4 grid gap-3 text-sm">
                                 <div className="flex items-center justify-between gap-3 border-b border-border pb-2">
                                     <dt className="flex items-center gap-2 text-muted-foreground">
@@ -207,19 +209,19 @@ export function ApartmentPage() {
                                 </div>
                                 <div className="flex items-center justify-between gap-3 border-b border-border pb-2">
                                     <dt className="flex items-center gap-2 text-muted-foreground">
-                                        <Home size={14} /> Title
+                                        <Home size={14} /> {t.app.apartmentLabel}
                                     </dt>
                                     <dd className="font-medium text-charcoal">{apartment.title}</dd>
                                 </div>
                                 <div className="flex items-center justify-between gap-3 border-b border-border pb-2">
                                     <dt className="flex items-center gap-2 text-muted-foreground">
-                                        <MapPin size={14} /> Location
+                                        <MapPin size={14} /> {t.app.location}
                                     </dt>
                                     <dd className="font-medium text-charcoal">{apartment.location}</dd>
                                 </div>
                                 <div className="flex items-center justify-between gap-3">
-                                    <dt className="text-muted-foreground">Price per night</dt>
-                                    <dd className="font-medium text-charcoal">€{apartment.pricePerNight}</dd>
+                                    <dt className="text-muted-foreground">{t.app.pricePerNightLabel}</dt>
+                                    <dd className="font-medium text-charcoal">€60</dd>
                                 </div>
                             </dl>
                         </div>
@@ -237,7 +239,7 @@ export function ApartmentPage() {
                         aria-label="Close gallery"
                     >
                         <X aria-hidden="true" size={22} />
-                        <span>Κλείσιμο</span>
+                        <span>{t.app.closeGallery}</span>
                     </button>
 
                     <span className="apartment-page-gallery-counter">

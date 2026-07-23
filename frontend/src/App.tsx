@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 
 import { LanguageProvider } from "./i18n/LanguageContext.tsx";
 import { PageLayout } from "./layouts/PageLayout.tsx";
@@ -12,11 +13,22 @@ import NotFound from "./pages/NotFoundPage.tsx";
 import { LogoPreviewPage } from "./previews/LogoPreviewPage.tsx";
 import "./styles/app.css";
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [pathname]);
+
+  return null;
+}
+
 const App = () => (
   <LanguageProvider>
     <TooltipProvider>
       <Toaster />
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route element={<PageLayout />}>
             <Route path="/" element={<ApartmentsListPage />} />

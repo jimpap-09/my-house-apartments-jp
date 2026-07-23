@@ -32,15 +32,17 @@ export function SiteHeader() {
               type="button"
               className={language === 'el' ? 'active' : ''}
               onClick={() => setLanguage('el')}
+              aria-pressed={language === 'el'}
             >
-              EL
+              {t.app.greek}
             </button>
             <button
               type="button"
               className={language === 'en' ? 'active' : ''}
               onClick={() => setLanguage('en')}
+              aria-pressed={language === 'en'}
             >
-              EN
+              {t.app.english}
             </button>
           </div>
         </div>

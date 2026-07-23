@@ -3,20 +3,19 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { getAllApartments } from '../api/services/apartmentService'
+import { useI18n } from '../i18n/LanguageContext'
 
 import type { Apartment } from '../api/types/Apartment'
 
 export function ApartmentsListPage() {
+  const { t } = useI18n()
   const [apartments, setApartments] = useState<Apartment[]>([])
 
- 
   useEffect(() => {
     const fetchApartments = async () => {
       try {
-        console.log('FETCHING APARTMENTS...')
         const data = await getAllApartments()
         setApartments(data)
-        console.log('APARTMENTS', data)
       } catch (err) {
         console.error(err)
       }
@@ -25,14 +24,12 @@ export function ApartmentsListPage() {
     fetchApartments()
   }, [])
 
-  console.log('APARTMENTS', apartments)
-
   return (
     <section className="grid gap-10 px-6 py-10">
       <div className="mx-auto grid w-full max-w-[760px] gap-3 text-center">
-        <p className="eyebrow">List of My House Apartments</p>
+        <p className="eyebrow">{t.app.listTitle}</p>
         <h2 className="text-4xl font-serif text-charcoal sm:text-5xl">My House Apartments JP</h2>
-        <p className="text-muted-foreground">Choose the best apartment for you.</p>
+        <p className="text-muted-foreground">{t.app.listIntro}</p>
       </div>
 
       <div className="mx-auto grid w-full max-w-5xl gap-6">
@@ -46,7 +43,7 @@ export function ApartmentsListPage() {
             <div className="grid gap-5 p-6 sm:p-8">
               <div className="flex items-start justify-between gap-5">
                 <div className="grid gap-2">
-                  <p className="eyebrow">Apartment</p>
+                  <p className="eyebrow">{t.app.apartmentLabel}</p>
                   <h2 className="text-2xl font-serif text-charcoal sm:text-3xl">{apartment.title}</h2>
                   <p className="max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">{apartment.description}</p>
                 </div>
@@ -59,10 +56,10 @@ export function ApartmentsListPage() {
               </div>
               <div className="flex items-center gap-2 text-sm font-medium text-charcoal">
                 <MapPin size={18} />
-                <p>Ideal Location</p>
+                <p>{t.app.idealLocation}</p>
               </div>
               <div className="flex items-end justify-between gap-4 border-t border-border pt-5">
-                <span className="text-muted-foreground"><strong className="text-xl font-semibold text-charcoal">€{apartment.pricePerNight}</strong></span>
+                <span className="text-muted-foreground"><strong className="text-xl font-semibold text-charcoal">€60</strong></span>
                 <div className="flex items-center gap-2 font-semibold text-charcoal">
                   <Star size={18} className="fill-current" />
                   <strong>5.0</strong>
