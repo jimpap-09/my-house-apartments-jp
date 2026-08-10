@@ -61,7 +61,7 @@ export function StaticApartmentsListPage() {
               <div className="flex items-end justify-between gap-4 border-t border-border pt-5">
                 <span className="text-muted-foreground">
                   <strong className="text-xl font-semibold text-charcoal">
-                    €60
+                    {apartment.pricePerNight}€
                   </strong>
                 </span>
 

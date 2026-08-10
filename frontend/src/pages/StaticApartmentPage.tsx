@@ -111,7 +111,7 @@ export function StaticApartmentPage() {
                 className="apartment-page-gallery-open"
               >
                 <Images size={18} />
-                <span>Εμφάνιση όλων των φωτογραφιών</span>
+                <span>{t.app.showAllPhotos}</span>
               </button>
 
             </div>
@@ -141,7 +141,7 @@ export function StaticApartmentPage() {
 
                 <div className="rounded-2xl border border-border bg-background p-4">
                   <p className="text-sm text-muted-foreground">
-                    Τιμή
+                    {t.app.priceLabel}
                   </p>
 
                   <p className="mt-1 text-xl font-semibold text-charcoal">
@@ -151,7 +151,7 @@ export function StaticApartmentPage() {
 
                 <div className="rounded-2xl border border-border bg-background p-4">
                   <p className="text-sm text-muted-foreground">
-                    Τοποθεσία
+                    {t.app.location}
                   </p>
 
                   <p className="mt-1 text-lg font-semibold text-charcoal">
@@ -165,7 +165,7 @@ export function StaticApartmentPage() {
 
             <div className="rounded-2xl border border-border bg-background p-5">
               <h2 className="text-lg font-semibold text-charcoal">
-                Apartment
+                {t.app.apartmentLabel}
               </h2>
 
               <div className="mt-4 grid gap-3 text-sm">
@@ -194,7 +194,7 @@ export function StaticApartmentPage() {
             aria-label="Close gallery"
           >
             <X size={22} />
-            <span>Κλείσιμο</span>
+            <span>{t.app.closeGallery}</span>
           </button>
 
           <span className="apartment-page-gallery-counter">

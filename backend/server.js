@@ -1,7 +1,7 @@
 require('module-alias/register')
 
 // Φορτώνουμε πρώτα τις environment variables
-require('./config/env')
+require('dotenv').config()
 
 const express = require('express')
 const cors = require('cors')
