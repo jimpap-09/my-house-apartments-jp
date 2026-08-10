@@ -1,0 +1,87 @@
+import { MapPin, Star } from 'lucide-react'
+import { Link } from 'react-router-dom'
+
+import { apartments } from '../data/apartments'
+import { useI18n } from '../i18n/LanguageContext'
+
+export function StaticApartmentsListPage() {
+  const { t } = useI18n()
+
+  return (
+    <section className="grid gap-10 px-6 py-10">
+      <div className="mx-auto grid w-full max-w-[760px] gap-3 text-center">
+        <p className="eyebrow">{t.app.listTitle}</p>
+
+        <h1 className="text-4xl font-serif text-charcoal sm:text-5xl">
+          My House Apartments JP
+        </h1>
+
+        <p className="text-muted-foreground">
+          {t.app.listIntro}
+        </p>
+      </div>
+
+      <div className="mx-auto grid w-full max-w-5xl gap-6">
+        {apartments.map((apartment) => (
+          <Link
+            key={apartment.id}
+            to={`/apartments/${apartment.id}`}
+            state={{ apartment }}
+            className="group grid overflow-hidden rounded-2xl border border-border bg-card text-card-foreground no-underline shadow-soft transition duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-elegant md:grid-cols-[280px_1fr]"
+          >
+            <div className="grid gap-5 p-6 sm:p-8">
+              <div className="flex items-start justify-between gap-5">
+                <div className="grid gap-2">
+                  <p className="eyebrow">
+                    {t.app.apartmentLabel}
+                  </p>
+
+                  <h2 className="text-2xl font-serif text-charcoal sm:text-3xl">
+                    {apartment.title}
+                  </h2>
+
+                  <p className="max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
+                    {apartment.description}
+                  </p>
+                </div>
+
+                <span
+                  className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border bg-white text-2xl text-charcoal transition group-hover:scale-110 group-hover:border-primary/40"
+                  aria-hidden="true"
+                >
+                  ♡
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2 text-sm font-medium text-charcoal">
+                <MapPin size={18} />
+                <p>{t.app.idealLocation}</p>
+              </div>
+
+              <div className="flex items-end justify-between gap-4 border-t border-border pt-5">
+                <span className="text-muted-foreground">
+                  <strong className="text-xl font-semibold text-charcoal">
+                    €60
+                  </strong>
+                </span>
+
+                <div className="flex items-center gap-2 font-semibold text-charcoal">
+                  <Star size={18} className="fill-current" />
+                  <strong>5.0</strong>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex h-full w-full overflow-hidden">
+              <img
+                src={apartment.urlCover}
+                alt={apartment.title}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+  )
+}
