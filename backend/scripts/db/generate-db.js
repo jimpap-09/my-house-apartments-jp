@@ -1,3 +1,11 @@
+/* this file creates the database schema based on the db-schema.json file.
+ * It generates Sequelize models and migrations for each model defined in the schema.
+ * It also creates a migration to add foreign key constraints based on the relationships defined in the schema.
+ * A migration is generated for each model, and the migrations are timestamped to ensure they are applied in the correct order.
+ * The generated files are placed in the appropriate directories within the backend folder.
+ * The script also generates a config.js file for Sequelize and a .sequelizerc file to configure Sequelize CLI.
+ * A migration is a query that modifies the database schema and it can be run using the Sequelize CLI to apply the changes to the database.
+ */
 const fs = require('fs')
 const path = require('path')
 
@@ -54,53 +62,24 @@ const ensureDirs = () => {
 }
 
 const writeConfig = () => {
-  const content = `require('./env')
+  const content = `const path = require('path')
+const dotenv = require('dotenv')
 
-const useSSL =
-  process.env.NODE_ENV === 'development' ||
-  process.env.NODE_ENV === 'production'
-
-const sslOptions = {
-  ssl: {
-    require: true,
-    rejectUnauthorized: false,
-  },
-}
-
-const baseConfig = {
-  username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT || 5432),
-  dialect: process.env.DB_DIALECT || 'postgres',
-}
+dotenv.config({
+  path: path.resolve(__dirname, '../.env'),
+})
 
 module.exports = {
-  local: {
-    ...baseConfig,
-    dialectOptions: {
-      ssl: false,
-    },
-  },
-
   development: {
-    ...baseConfig,
     use_env_variable: 'DATABASE_URL',
-    dialectOptions: sslOptions,
-  },
+    dialect: 'postgres',
 
-  test: {
-    ...baseConfig,
     dialectOptions: {
-      ssl: false,
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
     },
-  },
-
-  production: {
-    ...baseConfig,
-    use_env_variable: 'DATABASE_URL',
-    dialectOptions: sslOptions,
   },
 }
 `
@@ -130,7 +109,9 @@ const path = require('path')
 const Sequelize = require('sequelize')
 const process = require('process')
 
-require('../config/env')
+require('dotenv').config({
+  path: path.resolve(__dirname, '../.env'),
+})
 
 const basename = path.basename(__filename)
 const env = process.env.NODE_ENV || 'development'
@@ -189,12 +170,15 @@ const buildColumn = (name, attr) => {
 
   if (attr.primaryKey) lines.push('        primaryKey: true,')
   if (attr.autoIncrement) lines.push('        autoIncrement: true,')
+
   if (attr.allowNull !== undefined) {
     lines.push(`        allowNull: ${attr.allowNull},`)
   }
+
   if (attr.defaultValue !== undefined) {
     lines.push(`        defaultValue: ${jsValue(attr.defaultValue)},`)
   }
+
   if (attr.unique) lines.push('        unique: true,')
 
   lines.push('      },')
@@ -238,7 +222,10 @@ ${fields}
 }
 `
 
-  fs.writeFileSync(path.join(modelsDir, `${modelFileName(model.name)}.js`), content)
+  fs.writeFileSync(
+    path.join(modelsDir, `${modelFileName(model.name)}.js`),
+    content
+  )
 }
 
 const buildUniqueConstraints = (model) => {
@@ -246,7 +233,8 @@ const buildUniqueConstraints = (model) => {
 
   return (model.uniqueConstraints || [])
     .map((fields) => {
-      const constraintName = `unique_${fileName(table)}_${fields.join('_')}`
+      const constraintName =
+        `unique_${fileName(table)}_${fields.join('_')}`
 
       return `    await queryInterface.addConstraint('${table}', {
       fields: ${JSON.stringify(fields)},
@@ -263,7 +251,8 @@ const buildIndexes = (model) => {
   return (model.indexes || [])
     .map((fields) => {
       const normalizedFields = Array.isArray(fields) ? fields : [fields]
-      const indexName = `idx_${fileName(table)}_${normalizedFields.join('_')}`
+      const indexName =
+        `idx_${fileName(table)}_${normalizedFields.join('_')}`
 
       return `    await queryInterface.addIndex('${table}', ${JSON.stringify(
         normalizedFields
@@ -281,7 +270,10 @@ const writeCreateMigration = (model, index) => {
     .map(([name, attr]) => buildColumn(name, attr))
     .join('\n')
 
-  const extraUp = [buildUniqueConstraints(model), buildIndexes(model)]
+  const extraUp = [
+    buildUniqueConstraints(model),
+    buildIndexes(model),
+  ]
     .filter(Boolean)
     .join('\n\n')
 
@@ -310,8 +302,13 @@ ${extraUp || ''}
 }
 `
 
-  const migrationName = `${timestamp(index)}-create-${fileName(table)}.js`
-  fs.writeFileSync(path.join(migrationsDir, migrationName), content)
+  const migrationName =
+    `${timestamp(index)}-create-${fileName(table)}.js`
+
+  fs.writeFileSync(
+    path.join(migrationsDir, migrationName),
+    content
+  )
 }
 
 const writeRelationsMigration = () => {
@@ -325,7 +322,8 @@ const writeRelationsMigration = () => {
       if (!attr.references) continue
 
       const targetTable = tableName(attr.references.model)
-      const constraintName = `fkey_${fileName(table)}_${fieldName}`
+      const constraintName =
+        `fkey_${fileName(table)}_${fieldName}`
 
       constraints.push(`    await queryInterface.addConstraint('${table}', {
       fields: ['${fieldName}'],
@@ -359,13 +357,17 @@ ${removals.join('\n')}
 `
 
   fs.writeFileSync(
-    path.join(migrationsDir, `${timestamp(99)}-add-database-relations.js`),
+    path.join(
+      migrationsDir,
+      `${timestamp(99)}-add-database-relations.js`
+    ),
     content
   )
 }
 
 const main = () => {
   ensureDirs()
+
   writeConfig()
   writeSequelizerc()
   writeModelsIndex()

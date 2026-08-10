@@ -44,6 +44,7 @@ cd backend
   ```bash
   npx sequelize-cli db:seed --seed FILE_NAME.js
   ```
+
 ### Searching methods
 grep -R "dotenv" backend --exclude-dir=node_modules
 
@@ -136,3 +137,28 @@ CLOUDINARY_API_KEY=xxxxx
 CLOUDINARY_API_SECRET=xxxxx
 cld uploader upload ./photo.jpg
 cld uploader upload ./photo.jpg --folder apartments/jp-1
+
+### File Management
+// tree without node_modules
+tree . -I node_modules
+
+### Script Management
+we first reset public schema
+To do that we delete public schema (all tables and all data from db)
+and create empty new one
+Then we generate models and migrations for each model
+A migration is a query that creates a table in db
+//delete db public schema
+//deletes all tables from that schema and creates new schema
+//so it resets whole schema
+drop-schema.js
+
+//generate models, migrations based on the models and a config file for seq cli
+//generate-db.sh runs node generate.js
+generate-db.js
+generate-db.sh 
+//after creating db tables and relations and constrains, we create the seeds (data)
+generate-seeders.js
+
+//lastly we setup db so we migrate and and seed through seq CLI
+setup-db.sh
