@@ -27,6 +27,7 @@
     "generate:erd": "node backend/scripts/db/generate-erd.js",
     "generate:db": " bash backend/scripts/db/generate-db.sh",
     "generate:seeders": "node backend/scripts/db/generate-seeders.js",
+    "generate:data": "node backend/scripts/data/generate-frontend-data.js",
     "test:api": "node backend/scripts/api-test.js",
     "test:env": "node -e \"console.log(process.env.NODE_ENV)\"",
     "db:shell": "bash backend/scripts/shell-db.sh",
