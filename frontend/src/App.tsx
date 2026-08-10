@@ -13,6 +13,7 @@ import NotFound from "./pages/NotFoundPage.tsx";
 import { LogoPreviewPage } from "./previews/LogoPreviewPage.tsx";
 import "./styles/app.css";
 import { StaticApartmentsListPage } from "./pages/StaticApartmentListPage.tsx";
+import { StaticApartmentPage } from "./pages/StaticApartmentPage.tsx";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -32,14 +33,10 @@ const App = () => (
         <ScrollToTop />
         <Routes>
           <Route element={<PageLayout />}>
-            {/* <Route path="/" element={<ApartmentsListPage />} /> */}
-            {/* <Route path="/apartments" element={<ApartmentsListPage />} /> */}
             <Route path="/" element={<StaticApartmentsListPage />} />
             <Route path="/apartments" element={<StaticApartmentsListPage />} />
+            <Route path="/apartments/:apartmentId" element={<StaticApartmentPage />} />
             <Route path="/contact" element={<ContactPage />} />
-            <Route path="/apartments/:apartmentId" element={<StaticApartmentsListPage />} />
-            {/* <Route path="/apartments/:apartmentId" element={<ApartmentDetailsPage />} /> */}
-            {/* <Route path="/apartments/:apartmentId" element={<ApartmentPage />} /> */}
             <Route path="/not-found" element={<NotFound />} />
           </Route>
           <Route path="/preview/logos" element={<LogoPreviewPage />} />
