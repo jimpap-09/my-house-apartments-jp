@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const seeds = require('../seed/seed-schema.json')
+const seeds = require('../db/seed-schema.json')
 const images = require('../cloudinary/cloudinary-images.json')
 
 const SCRIPT_DIR = __dirname
