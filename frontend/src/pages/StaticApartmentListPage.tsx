@@ -55,7 +55,7 @@ export function StaticApartmentsListPage() {
 
               <div className="flex items-center gap-2 text-sm font-medium text-charcoal">
                 <MapPin size={18} />
-                <p>{t.app.idealLocation}</p>
+                <p>{t.app.idealLocation}, {t.app.apartmentlocationSpot}</p>
               </div>
 
               <div className="flex items-end justify-between gap-4 border-t border-border pt-5">

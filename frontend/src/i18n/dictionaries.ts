@@ -1,5 +1,11 @@
 export type Dict = {
   app: {
+
+    apartmentlocationSpot: string
+    footerLocationSpot: string
+    footerLocation: string
+    footerContact: string
+    footerEyebrow: string
     language: string
     greek: string
     english: string
@@ -8,7 +14,7 @@ export type Dict = {
     introTitle: string
     introText: string
     contact: string
-    footerLocation: string
+
     notFoundTitle: string
     notFoundText: string
     backHome: string
@@ -68,6 +74,11 @@ export type Dict = {
 
 const el: Dict = {
   app: {
+    apartmentlocationSpot: 'Βατοπεδίου 11',
+    footerLocation: 'Τοποθεσία',
+    footerLocationSpot: 'Βατοπεδίου 11',
+    footerContact: 'Επικοινωνία',
+    footerEyebrow: 'Αμπελόκηποι, Αθήνα, Ελλάδα',
     language: 'Γλώσσα',
     greek: 'Ελληνικά',
     english: 'Αγγλικά',
@@ -77,7 +88,7 @@ const el: Dict = {
     introText:
       'Διάλεξε το διαμέρισμα που ταιριάζει καλύτερα στη διαμονή σου και άνοιξέ το για φωτογραφίες, παροχές και λεπτομέρειες.',
     contact: 'Επικοινωνία',
-    footerLocation: 'Αμπελόκηποι, Ελλάδα',
+
     notFoundTitle: 'Η σελίδα δεν βρέθηκε',
     notFoundText: 'Η σελίδα που άνοιξες δεν υπάρχει.',
     backHome: 'Πίσω στην αρχική',
@@ -137,6 +148,11 @@ const el: Dict = {
 
 const en: Dict = {
   app: {
+    apartmentlocationSpot: 'Vatopediou 11',
+    footerLocation: 'Location',
+    footerLocationSpot: 'Vatopediou 11',
+    footerEyebrow: 'Ampelokipoi, Athens, Greece',
+    footerContact: 'Contact',
     language: 'Language',
     greek: 'Greek',
     english: 'English',
@@ -146,7 +162,7 @@ const en: Dict = {
     introText:
       'Choose the apartment that fits your stay best, then open it for photos, amenities, and practical details.',
     contact: 'Contact',
-    footerLocation: 'Ampelokipoi, Greece',
+
     notFoundTitle: 'Page not found',
     notFoundText: 'The page you opened does not exist.',
     backHome: 'Back home',
