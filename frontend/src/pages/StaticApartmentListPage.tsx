@@ -53,12 +53,20 @@ export function StaticApartmentsListPage() {
                 </span>
               </div>
 
-              <div>
-                <div className="flex items-center gap-2 text-sm font-medium text-charcoal">
-                  <MapPin size={18} />
-                  <p>{t.app.idealLocation}, {t.app.idealLocationSpot}</p>
+              <div className="grid gap-2">
+                <div className="flex items-center gap-2">
+                  <MapPin size={18} className="shrink-0 text-primary" />
+
+                  <p className="text-sm font-semibold text-charcoal">
+                    {t.app.idealLocation}
+                  </p>
                 </div>
-                <p className="text-sm text-muted-foreground">
+
+                <p className="pl-6 text-sm font-medium text-charcoal">
+                  {t.app.idealLocationSpot}
+                </p>
+
+                <p className="pl-6 text-sm leading-5 text-muted-foreground">
                   {t.app.idealLocationDescription}
                 </p>
               </div>

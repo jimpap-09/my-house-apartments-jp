@@ -185,7 +185,7 @@ export function ApartmentPage() {
                             <div className="grid gap-3 sm:grid-cols-3">
                                 <div className="rounded-2xl border border-border bg-background p-4">
                                     <p className="text-sm text-muted-foreground">{t.app.priceLabel}</p>
-                                    <p className="mt-1 text-xl font-semibold text-charcoal">€60</p>
+                                    <p className="mt-1 text-xl font-semibold text-charcoal">{apartment.pricePerNight}</p>
                                 </div>
                                 <div className="rounded-2xl border border-border bg-background p-4">
                                     <p className="text-sm text-muted-foreground">{t.app.location}</p>
@@ -221,7 +221,7 @@ export function ApartmentPage() {
                                 </div>
                                 <div className="flex items-center justify-between gap-3">
                                     <dt className="text-muted-foreground">{t.app.pricePerNightLabel}</dt>
-                                    <dd className="font-medium text-charcoal">€60</dd>
+                                    <dd className="font-medium text-charcoal">€{apartment.pricePerNight.toFixed(2)}</dd>
                                 </div>
                             </dl>
                         </div>

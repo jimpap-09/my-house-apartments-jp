@@ -117,7 +117,7 @@ export function StaticApartmentPage() {
             </div>
           )}
 
-          <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1.3fr_0.7fr]">
+          <div className="p-6 sm:p-8">
 
             <div className="grid gap-5">
 
@@ -137,9 +137,9 @@ export function StaticApartmentPage() {
                 </p>
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid gap-3 sm:grid-cols-[0.7fr_1.3fr]">
 
-                <div className="rounded-2xl border border-border bg-background p-4">
+                <div className="rounded-2xl border border-border bg-background p-5">
                   <p className="text-sm text-muted-foreground">
                     {t.app.priceLabel}
                   </p>
@@ -149,31 +149,27 @@ export function StaticApartmentPage() {
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-border bg-background p-4">
-                  <p className="text-sm text-muted-foreground">
-                    {t.app.location}
+                <div className="rounded-2xl border border-border bg-background p-5">
+
+                  <div className="flex items-center gap-2">
+                    <MapPin
+                      size={18}
+                      className="shrink-0 text-primary"
+                    />
+
+                    <p className="text-sm font-medium text-muted-foreground">
+                      {t.app.location}
+                    </p>
+                  </div>
+
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                    {t.app.idealLocationDescription}
                   </p>
 
-                  <p className="mt-1 text-lg font-semibold text-charcoal">
-                    {apartment.location}
-                  </p>
                 </div>
 
               </div>
 
-            </div>
-
-            <div className="rounded-2xl border border-border bg-background p-5">
-              <h2 className="text-lg font-semibold text-charcoal">
-                {t.app.apartmentLabel}
-              </h2>
-
-              <div className="mt-4 grid gap-3 text-sm">
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <MapPin size={16} />
-                  <span>{apartment.location}</span>
-                </div>
-              </div>
             </div>
 
           </div>
