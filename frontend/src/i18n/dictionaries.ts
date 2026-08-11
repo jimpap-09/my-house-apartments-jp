@@ -1,6 +1,7 @@
 export type Dict = {
   app: {
-
+    idealLocationDescription: string
+    idealLocationSpot: string
     apartmentlocationSpot: string
     footerLocationSpot: string
     footerLocation: string
@@ -74,6 +75,8 @@ export type Dict = {
 
 const el: Dict = {
   app: {
+    idealLocationSpot: 'Αθήνα, Αμπελόκηποι, Βατοπεδίου 11, ΤΚ: 115 22',
+    idealLocationDescription: 'Το διαμέρισμα βρίσκεται πολύ κοντά στον σταθμό μετρό Αμπελοκήπων.',
     apartmentlocationSpot: 'Βατοπεδίου 11',
     footerLocation: 'Τοποθεσία',
     footerLocationSpot: 'Βατοπεδίου 11',
@@ -148,6 +151,8 @@ const el: Dict = {
 
 const en: Dict = {
   app: {
+    idealLocationSpot: 'Athens, Ampelokipoi, Vatopediou 11, PC: 115 22',
+    idealLocationDescription: 'The apartment is located very close to Metro station of Ampelokipoi.',
     apartmentlocationSpot: 'Vatopediou 11',
     footerLocation: 'Location',
     footerLocationSpot: 'Vatopediou 11',
