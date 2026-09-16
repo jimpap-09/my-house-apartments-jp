@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=development node scripts/api-test.js",
-    "start": "cross-env NODE_ENV=production nodemon server.js",
-    "dev": "cross-env NODE_ENV=development nodemon server.js",
-    "node": "cross-env NODE_ENV=development nodemon server.js"
+    "test": "node scripts/api-test.js",
+    "start": "nodemon server.js",
+    "dev": "nodemon server.js",
+    "node": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
